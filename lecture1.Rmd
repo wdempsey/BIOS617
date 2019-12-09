@@ -1,0 +1,64 @@
+---
+title: "BIOS 617 - Lecture 1"
+author: "Walter Dempsey"
+date: "1/8/2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## BIOS 617 slides in R Markdown
+
+All course slides will be written as R Markdown presentations. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. This lets me share slides and code all in one document making all lecture content reproducible!
+
+PDF copies are available on **canvas** while the RMD files and data will be available at <https://github.com/wdempsey/BIOS617>.
+
+## Probability sampling?
+
+- Statisticians receive data to analyze
+  - How is it collected?
+  - Common assumptions
+- Historical strategies involved non-probability sampling
+  - Purposive samples:
+    - Choose both average and extreme elements to cover range of distribution
+    - Useful strategy for h
+- No guarantee that any of these are *representative*
+
+## Example 1: Brexit data
+```{r brexit, echo = FALSE, include = FALSE}
+# load libraries
+library(dslabs)
+library(tidyverse)
+library(ggrepel)
+library(matrixStats)
+
+# set colorblind-friendly color palette
+colorblind_palette <- c("black", "#E69F00", "#56B4E9", "#009E73",
+                        "#CC79A7", "#F0E442", "#0072B2", "#D55E00")
+data(brexit_polls)
+```
+
+```{r cars, echo = FALSE, fig.align='center'}
+# plot of Brexit referendum polling spread between "Remain" and "Leave" over time
+brexit_polls %>%
+  ggplot(aes(enddate, spread, color = poll_type)) +
+  geom_hline(aes(yintercept = -.038, color = "Actual spread")) +
+  geom_smooth(method = "loess", span = 0.4) +
+  geom_point() +
+  scale_color_manual(values = colorblind_palette[1:3]) +
+  xlab("Poll end date (2016)") +
+  ylab("Spread (Proportion Remain - Proportion Leave)") +
+  labs(color = "Poll type") +
+  ggtitle("Spread of Brexit referendum online and telephone polls")
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
