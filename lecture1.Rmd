@@ -19,19 +19,64 @@ When you click the **Knit** button a document will be generated that includes bo
 
 PDF copies are available on **canvas** while the RMD files and data will be available at <https://github.com/wdempsey/BIOS617>.
 
-## Probability sampling?
+## Historical perspective: Probability sampling?
 
-- Statisticians receive data to analyze
-  - How is it collected?
-  - Common assumptions
-- Historical strategies involved non-probability sampling
-  - Purposive samples:
-    - Choose both average and extreme elements to cover range of distribution
-    - Useful strategy for h
-- No guarantee that any of these are *representative*
+* Statisticians receive data to analyze
+    + How is it collected?
+    + Common assumptions
+* Historical strategies involved non-probability sampling
+    + Purposive samples:
+        + Choose both average and extreme elements to cover range of distribution
+        + Useful strategy for h
+* No guarantee that any of these are *representative*
 
-## Example 1: Brexit data
+## Step 1: A stated objective
+
+- A lucid statement of the objectives is most helpful
+- Even when stated forthright, it is easy to forget
+- Many design decisions lead to complex surveys with muddled objectives
+- **Brexit survey**: 
+    + ``Assess public opinion on Remain/Leave debate'' 
+- **Pew 2008 US election**:
+    + ``Assess public opinion on the national election candidates''
+- **National survey for family growth** (NSFG)
+    + ``Gathers information on US family life, marriage and divorce, pregnancy, infertility, use of contraception, and general and reproductive health''
+
+## Population definition
+
+- *Population* denotes the aggregate from which the sample is chosen
+  + US adults 18+
+  + Family practice physicians licensed in Michigan
+  + All currently Ann Arbor residents
+- **Superpopulation** denotes hypothetical infinite population from which the population is drawn
+- *Sampled* population should coincide with the *target* population
+
+## Sampling frame
+
+- Divide the *population* into indivisible parts
+- **Sampling units** (or **units**) cover population and are non-overlapping
+- List of sampling units is called a **sampling frame**
+    + Can be a major practical problem (incomplete or duplication)
+- Units may be have higher-level grouping structure
+    + Households, schools 
+- Used to obtain sample from the (finite) population of interest
+
+## Probability sampling definition
+
+- Given sampling protocol, theoretically define **all possible samples** that can be obtained
+- Each sample has a probability of selection
+- Chosen sample is selected via the **randomized** sampling protocol
+- Every element in the population has a non-zero probability of selection
+    + Estimate population quantities of interest accurately ``on average'' (little or no bias)
+    + Estimate uncertainty in population quantity estimates (accurate nominal coverage of confidence intervals)
+
 ```{r brexit, echo = FALSE, include = FALSE}
+# install packages
+if(!require('dslabs')){install.packages('dslabs')}
+if(!require('tidyverse')){install.packages('tidyverse')}
+if(!require('ggrepel')){install.packages('ggrepel')}
+if(!require('matrixStats')){install.packages('matrixStats')}
+
 # load libraries
 library(dslabs)
 library(tidyverse)
@@ -44,6 +89,26 @@ colorblind_palette <- c("black", "#E69F00", "#56B4E9", "#009E73",
 data(brexit_polls)
 ```
 
+## Example 1: Pew 2008 opinion poll 
+
+```{r pew, echo = FALSE}
+library(foreign)
+data <- read.dta("pew_research_center_june_elect_wknd_data.dta")
+data <- data[!is.na(data$ideo ),]
+data <- data[!is.element(data$ideo, c("missing/not asked", "dk/refused")),]
+data$ideo_numeric = (data$ideo == 'very conservative')*2 + (data$ideo == 'conservative')*1 + (data$ideo == 'moderate')*0 + (data$ideo == 'liberal')*(-1) + (data$ideo == 'very liberal')*(-2)
+
+data %>%  ggplot(aes(ideo_numeric)) +
+  geom_bar(aes(y = (..count..)/sum(..count..)), data=subset(data,survey == 'sept08forpoli'), fill = "blue", alpha = 0.2) +
+  geom_bar(aes(y = (..count..)/sum(..count..)), data=subset(data,survey == 'electwkend08'), fill = "red", alpha = 0.2) +
+  geom_bar(aes(y = (..count..)/sum(..count..)), data=subset(data,survey == 'june08voter'), fill = "green", alpha = 0.2) +
+  xlab("Ideological buckets") +
+  ylab("Frequency") +
+  labs(color = "Ideology type") +
+  ggtitle("Ideology response from 3 Pew 2008 surveys")
+```
+
+## Example 2: Brexit data
 ```{r cars, echo = FALSE, fig.align='center'}
 # plot of Brexit referendum polling spread between "Remain" and "Leave" over time
 brexit_polls %>%
@@ -58,16 +123,11 @@ brexit_polls %>%
   ggtitle("Spread of Brexit referendum online and telephone polls")
 ```
 
-## Slide with Plot
+## Discussion
 
-```{r pressure}
-plot(pressure)
-```
-
-
-## Sampling frame
-
-- Used to obtain sample from the (finite) population of interest
+- What is the population for the Brexit survey? 
+- What is the sampling frame?
+- What are potential practical issues with defining the frame?
 
 
 ## Review of expectations
@@ -88,21 +148,51 @@ $$
 $$ 
 \begin{align*} 
 E[ X + Y ] &= \int x \left[ \int f_{xy} (x,y) dy \right] dx + \int y \left[ \int f_{xy} (x,y) dy \right] dx \\
-&= \int x f_{x} (x) dx + \int y f_{y} (y) dy \\
-&= E[X] + E[Y].
+&= \int x f_{x} (x) dx + \int y f_{y} (y) dy = E[X] + E[Y].
 \end{align*}
 $$
-- If $X$ and $Y$ independent, then
+So $E \left[ \sum_j a_j X_j \right] = \sum_j a_j E \left[ X_j \right]$.
+* If $X$ and $Y$ independent, then
 $$\small 
 \begin{align*} 
-E[X \cdot Y ] &= \int \int x y f_{xy} (x,y) dy dx = \int x f_x (x)  \left[ \int y f_y (y) dy \right] dx \\
+E[X \cdot Y ] &= \int \int x y f_{xy} (x,y) dy dx \\
+&= \int x f_x (x)  \left[ \int y f_y (y) dy \right] dx \\
 &= E[Y] \int x f_x (x) dx = E[X] \cdot E[Y].
 \end{align*}
 $$
 
 ## Review of variances
-* For $X$ and $Y$, the variance is $$\small Cov(X.Y) = E [ (X-\mu_x ) (Y - \mu_y) ]$$ and $V(X) = Cov(X,X)$.
-* For random variables~$\{ X_j \}_{j=1}^k$, 
+* For $X$ and $Y$, the variance is 
+$$ {\text Cov} (X, Y) = E [ (X-\mu_x ) (Y - \mu_y) ] = {\text Cov} (Y,X)$$ and $V(X) = Cov(X,X)$.
+* For random variables $\{ X_j \}_{j=1}^k$, 
 $$
-V(\sum_j a_j X_j ) = \sum_j a_j^2 V(X_j) + 
+V \left(\sum_j a_j X_j \right) = \sum_j a_j^2 V(X_j) + 2 \sum_j \sum_{i < j} a_i a_j \text{Cov}(X_i, X_j) 
 $$
+* Corollary: If $\{ X_j \}$ are independent, then 
+$$ V \left(\sum_j a_j X_j \right) = \sum_j a_j^2 V(X_j) $$
+
+## Review of variances (derivation)
+
+A quick derivation:
+
+$$\small 
+\begin{align*} 
+V \left(\sum_j a_j X_j \right) &= E \left[ \left( \sum_j a_j (X_j - \mu_j) \right)^2\right] \\
+&= E \left[ \sum_{i,j=1}^n a_j a_i (X_j - \mu_j) (X_i - \mu_i) \right] \\
+&= E \left[ \sum_{j} a_j^2 (X_j - \mu_j)^2 \right] + E \left[ \sum_{i=1} \sum_{i ^n a_j a_i (X_j - \mu_j) (X_i - \mu_i) \right]
+&= \sum_j 
+\end{align*}
+$$
+
+## Your first JITT 
+
+- Read Pew poll data into R using the ```library(foreign)```
+- What is the population, sampling frame of the Pew poll?
+- Name at least 2 objectives of the Pew opinion poll?
+- Take ideology and code (-2= very liberal, -1 = liberal, 0 = moderate, 1 = conservative, 2 = very conservative)
+- Fit linear regression of ideology ```lm()``` given sex, age, and marital status
+- Use ```display()``` function to display the results
+- Write a short paragraph to describe the results
+
+
+
