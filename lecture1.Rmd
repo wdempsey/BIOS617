@@ -19,18 +19,7 @@ When you click the **Knit** button a document will be generated that includes bo
 
 PDF copies are available on **canvas** while the RMD files and data will be available at <https://github.com/wdempsey/BIOS617>.
 
-## Historical perspective: Probability sampling?
-
-* Statisticians receive data to analyze
-    + How is it collected?
-    + Common assumptions
-* Historical strategies involved non-probability sampling
-    + Purposive samples:
-        + Choose both average and extreme elements to cover range of distribution
-        + Useful strategy for h
-* No guarantee that any of these are *representative*
-
-## Step 1: A stated objective
+## Why surveys: A stated objective
 
 - A lucid statement of the objectives is most helpful
 - Even when stated forthright, it is easy to forget
@@ -41,9 +30,23 @@ PDF copies are available on **canvas** while the RMD files and data will be avai
     + ``Assess public opinion on the national election candidates''
 - **National survey for family growth** (NSFG)
     + ``Gathers information on US family life, marriage and divorce, pregnancy, infertility, use of contraception, and general and reproductive health''
+    
+## Historical perspective: Why probability sampling?
+
+* Statisticians receive data to analyze
+    + How is it collected?
+    + Independence is a common assumption that makes likelihood easy to compute, but is it reasonable?
+    + All sampled elements equally likely to be sampled?
+* Historical strategies involved non-probability sampling
+    + Purposive samples: Choose both average and extreme elements to cover range of distribution
+    + Judgement samples: Experts sample based on judgement of representativeness
+    + Convenience samples: Volunteers, street/mall intercepts
+* No guarantee that any of these are *representative*
 
 ## Population definition
 
+- *Representative* is an ill-defined concept
+- We typically mean sample is representative **of a population**
 - *Population* denotes the aggregate from which the sample is chosen
   + US adults 18+
   + Family practice physicians licensed in Michigan
@@ -129,6 +132,67 @@ brexit_polls %>%
 - What is the sampling frame?
 - What are potential practical issues with defining the frame?
 
+## Survey sampling notation: population
+
+- Number of elements: $N$
+- Values of variable: $Y_1, \ldots, Y_n$
+- Population total: $Y = \sum_{i=1}^N Y_i$
+- Population mean: $\bar Y = Y/N$
+- Population variance: $S^2 = (N-1)^{-1} \sum_{i=1}^N (Y_i - \bar Y)^2$
+- Sampling indicator: $I_1, \ldots, I_n$
+
+
+## Survey sampling notation: population
+
+- Number of elements: $n$
+- Values of variable: $y_1, \ldots, y_n$
+- Population total: $y = \sum_{i=1}^N y_i$
+- Population mean: $\bar y = y/N$
+- Population variance: $s^2 = (n-1)^{-1} \sum_{i=1}^N (y_i - \bar y)^2$
+- Sampling fraction: $f = n/N$
+- When $n = N$ , sample = population
+
+## Design-based inference
+
+Also known as **randomization-based** inference.
+
+- *Model-based*: assume a model for the distribution of the data in the population
+- *Design-based*: condition on the values $Y_1, \ldots, Y_n$. 
+    + Inference is with respect to the distribution of $\{ I_j \}_{j=1}^n$
+    + Over all possible samples $s = 1,\ldots, S$   under a given probability sampling design.
+    
+
+## Design-based inference: Simple example
+
+```{r heights, echo = FALSE, fig.align='center'}
+set.seed(1)
+heights = rnorm(n = 35, mean = 65, sd = 5)
+heights = data.frame(heights)
+heights %>%
+  ggplot(aes(heights)) + geom_histogram(binwidth = 1) +  
+  xlab("Student height (in inches)") +
+  ylab("Count") +
+  ggtitle("Simulated height of students in BIOS617")
+```
+
+## Design-based inference: Simple example
+```{r sampled, echo = FALSE}
+set.seed(179)
+swor = sample(1:35, size = 10, replace = FALSE)
+swor_result = mean(heights$heights[swor])
+swr = sample(1:35, size = 10, replace = TRUE)
+swr_result = mean(heights$heights[swr])
+```
+
+* Population's average height is `r round(mean(heights$heights),4)`
+* Sampling procedures: sample 10 individual's with/without replacement
+* Estimate of mean from given sample? $\sum_j I_j Y_j / 10$
+* Example sample w/o replacement: `r swor`
+* Corresponding estimate: `r round(swor_result,4)`
+* Example sample w replacement: `r swr`
+* Corresponding estimate: `r round(swr_result,4)`
+* Are these good estimators?  Are they the same?
+* Intuitively, which is a better procedure? Why?
 
 ## Review of expectations
 * Continuous variable $X$ then $\mu_x = E[X]=\int x f_x(x) dx$. 
@@ -153,7 +217,7 @@ E[ X + Y ] &= \int x \left[ \int f_{xy} (x,y) dy \right] dx + \int y \left[ \int
 $$
 So $E \left[ \sum_j a_j X_j \right] = \sum_j a_j E \left[ X_j \right]$.
 * If $X$ and $Y$ independent, then
-$$\small 
+$$ \small
 \begin{align*} 
 E[X \cdot Y ] &= \int \int x y f_{xy} (x,y) dy dx \\
 &= \int x f_x (x)  \left[ \int y f_y (y) dy \right] dx \\
@@ -163,36 +227,93 @@ $$
 
 ## Review of variances
 * For $X$ and $Y$, the variance is 
-$$ {\text Cov} (X, Y) = E [ (X-\mu_x ) (Y - \mu_y) ] = {\text Cov} (Y,X)$$ and $V(X) = Cov(X,X)$.
+$$ \small {\text Cov} (X, Y) = E [ (X-\mu_x ) (Y - \mu_y) ] = {\text Cov} (Y,X)$$ and $V(X) = Cov(X,X)$.
 * For random variables $\{ X_j \}_{j=1}^k$, 
-$$
+$$ \small
 V \left(\sum_j a_j X_j \right) = \sum_j a_j^2 V(X_j) + 2 \sum_j \sum_{i < j} a_i a_j \text{Cov}(X_i, X_j) 
 $$
 * Corollary: If $\{ X_j \}$ are independent, then 
-$$ V \left(\sum_j a_j X_j \right) = \sum_j a_j^2 V(X_j) $$
+$$ \small V \left(\sum_j a_j X_j \right) = \sum_j a_j^2 V(X_j) $$
 
 ## Review of variances (derivation)
 
-A quick derivation:
+A quick derivation: $V \left(\sum_j a_j X_j \right)=$
 
-$$\small 
+$$
+\small 
 \begin{align*} 
-V \left(\sum_j a_j X_j \right) &= E \left[ \left( \sum_j a_j (X_j - \mu_j) \right)^2\right] \\
+ &= E \left[ \left( \sum_j a_j (X_j - \mu_j) \right)^2\right] \\
 &= E \left[ \sum_{i,j=1}^n a_j a_i (X_j - \mu_j) (X_i - \mu_i) \right] \\
-&= E \left[ \sum_{j} a_j^2 (X_j - \mu_j)^2 \right] + E \left[ \sum_{i=1} \sum_{i ^n a_j a_i (X_j - \mu_j) (X_i - \mu_i) \right]
-&= \sum_j 
+&= E \left[ \sum_{j} a_j^2 (X_j - \mu_j)^2 \right] + E \left[ \sum_j \sum_{i \neq j} a_i a_j (X_j - \mu_j) (X_i - \mu_i) \right] \\
+&= \sum_{j} a_j^2 E \left[ (X_j - \mu_j)^2 \right] + \sum_j \sum_{i \neq j} a_i a_j E \left[ (X_j - \mu_j) (X_i - \mu_i) \right]\\
+&= \sum_{j} a_j^2 V(X_j) + \sum_j \sum_{i \neq j} a_i a_j \text{Cov}(X_i, X_j)
 \end{align*}
+$$
+
+## Iterated expectation and variance
+
+Consider a set of mutually exclusive and exhaustive conditions $C_j$. For simplicity, assume $X$ is discrete. Then
+$$
+P(X = x_k) = \sum_j P(X_k \cap C_j) = \sum_j P(X_k \, | \, C_j) P(C_j)
+$$
+Then
+$$
+\small
+\begin{align*}
+E[X] &= \sum_k x_k P(X = x_k) \\
+&= \sum_k \left[\sum_j x_k P(X = x_k \, | \, C_j) \right] P(C_j) \\
+&= \sum_k E_{x} \left[ X \, | \, C \right] P(C_j) \\
+&= E_{C} \left[ E_{X} \left[ X \, | \, C \right] \right]
+\end{align*}
+$$
+
+## Iterated expecation and variance
+
+$$
+\small \begin{align*}
+V(X) &= E \left[ (X-\mu)^2 \right] = E_{C} \left[ E_{X} \left[ (X-\mu)^2 \, | \, C \right] \right] \\
+&= E_{C} \left[ E_{X} \left[ (X- E[X \, | \, C] + E[X \, | \, C] - \mu)^2 \, | \, C \right] \right] \\
+&= E_{C} \left[ E_{X} \left[ (X- E[X \, | \, C])^2 \, | \, C \right] \right] \\
+&+ 2 \cdot E_{C} \left[ E_{X} \left[ (X- E[X \, | \, C]) \times (E[X \, | \, C] - \mu) \, | \, C \right] \right] \\
+&+ E_{C} \left[ E_{X} \left[ (E[X \, | \, C] - \mu)^2 \, | \, C \right] \right] \\
+&= E_{C} \left[ V_{X \, | \, C} (X) \right] + V_{C} ( E_{X \, | \, C} (X) )
+\end{align*}
+$$
+
+## Expectation and variance in design-based inference
+
+For a given sample $s$:
+
+* $t_s$ : statistic of interest computed from sample values
+* $P_s$ : probability of sample $s$ being selected
+* $T$ : population parameter of interest
+
+We hope that $E[ t_s ] = \sum_s P_s \times t_s = T$ 
+
+We also hope variance is small: $V(t_s) = E[ (t_s - E[t_s])^2]$ is small.
+
+## Height example
+
+We had $t_s = \sum_j I_j Y_j / n$ where $s$ is any set of size $n$.
+
+If we sample without replacement, the probability of a given sample is
+$$ P_s = \frac{1}{{N \choose n}} = \frac{(N-n)! n!}{N!} $$
+
+The probability that $I_j = 1$ can be shown equal to $n/N$. Then
+$$
+E[t_s] = \sum_s P_s t_s = (1/n) \times \sum_j \frac{n}{N} Y_j = \bar Y
 $$
 
 ## Your first JITT 
 
+- Download the Pew poll data from Canvas
 - Read Pew poll data into R using the ```library(foreign)```
 - What is the population, sampling frame of the Pew poll?
-- Name at least 2 objectives of the Pew opinion poll?
-- Take ideology and code (-2= very liberal, -1 = liberal, 0 = moderate, 1 = conservative, 2 = very conservative)
-- Fit linear regression of ideology ```lm()``` given sex, age, and marital status
-- Use ```display()``` function to display the results
-- Write a short paragraph to describe the results
+- Name at least 2 objectives of such an opinion poll?
+- Take ideology and code (-2= very liberal, -1 = liberal, 0 = moderate, 1 = conservative, 2 = very conservative).
+- Fit linear regression of ideology ```lm()``` given sex, age, and marital status.
+- Use ```display()``` function to display the results.
+- Write a short paragraph to describe the results.
 
 
 

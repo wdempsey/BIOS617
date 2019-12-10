@@ -31,7 +31,8 @@ code.r{ /* Code block */
 pre { /* Code block - determines code spacing between lines */
     font-size: small;
 }
+/*
 .math {
     font-size: 22px;
-}
+}/*
 </style>
