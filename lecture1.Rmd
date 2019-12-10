@@ -2,7 +2,9 @@
 title: "BIOS 617 - Lecture 1"
 author: "Walter Dempsey"
 date: "1/8/2019"
-output: ioslides_presentation
+output: 
+  ioslides_presentation:
+    css: styles.css
 ---
 
 ```{r setup, include=FALSE}
@@ -62,3 +64,45 @@ brexit_polls %>%
 plot(pressure)
 ```
 
+
+## Sampling frame
+
+- Used to obtain sample from the (finite) population of interest
+
+
+## Review of expectations
+* Continuous variable $X$ then $\mu_x = E[X]=\int x f_x(x) dx$. 
+* Linearity of expectations,
+$$ E [ a X ] = \int a x f_x (x) dx = a \int x f_x (x) dx = a E[ X ] $$
+* Two continuous variables $X$ and $Y$, then
+$$ 
+\begin{align*} 
+E[ X + Y ] &= \int \int (x+y) f_{xy} (x,y) dx dy \\
+&= \int \int x f_{xy} (x,y) dx dy + \int \int y f_{xy} (x,y) dx dy \\
+&= \int x \left[ \int f_{xy} (x,y) dy \right] dx + \int y \left[ \int f_{xy} (x,y) dy \right] dx
+\end{align*}
+$$
+
+## Review of expectations
+* Two continuous variables $X$ and $Y$, then
+$$ 
+\begin{align*} 
+E[ X + Y ] &= \int x \left[ \int f_{xy} (x,y) dy \right] dx + \int y \left[ \int f_{xy} (x,y) dy \right] dx \\
+&= \int x f_{x} (x) dx + \int y f_{y} (y) dy \\
+&= E[X] + E[Y].
+\end{align*}
+$$
+- If $X$ and $Y$ independent, then
+$$\small 
+\begin{align*} 
+E[X \cdot Y ] &= \int \int x y f_{xy} (x,y) dy dx = \int x f_x (x)  \left[ \int y f_y (y) dy \right] dx \\
+&= E[Y] \int x f_x (x) dx = E[X] \cdot E[Y].
+\end{align*}
+$$
+
+## Review of variances
+* For $X$ and $Y$, the variance is $$\small Cov(X.Y) = E [ (X-\mu_x ) (Y - \mu_y) ]$$ and $V(X) = Cov(X,X)$.
+* For random variables~$\{ X_j \}_{j=1}^k$, 
+$$
+V(\sum_j a_j X_j ) = \sum_j a_j^2 V(X_j) + 
+$$
