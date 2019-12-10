@@ -1,0 +1,37 @@
+---
+title: "BIOS 617 - Lecture 2"
+author: "Walter Dempsey"
+date: "1/8/2019"
+output: 
+  ioslides_presentation:
+    css: styles.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Simple random sampling (SRS) without replacement
+
+- Generate sample by sampling without replacement
+- Given we selected $j$ *unique* units, the next unit is sampled uniformly at random with probability $1/(N-j)$.
+- There are ${N \choose n} = N! / (n! (N-n)!)$ possible samples
+- Sample mean under SRS is unbiased, with variance $(1-f) \frac{S^2}{n}$ 
+
+## Unbiasedness of SRS sample mean
+
+- What is the probability of sampling individual $j$?
+$$\small
+\begin{align*}
+P(I_j = 1) &= 1 - P(I_j \neq 1) = 1 - \frac{N-1}{N} \times \frac{N-2}{N-1} \times \cdots \times \frac{N-n}{N-(n-1)}\\
+&= 1 - \frac{N-n}{N} = \frac{n}{N}
+\end{align*}
+$$
+-Then by linearity of expectations
+$$\small
+E [ \bar y ] = E [ \frac{1}{n} \sum_j I_j Y_j ] = \frac{1}{n} E [ \sum_j I_j  ]
+$$ 
+
+## Your second JITT 
+
+- What is the probability of sampling 
