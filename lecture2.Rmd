@@ -11,6 +11,8 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## JITT Review/Discussion 
+
 ## Simple random sampling (SRS) without replacement
 
 - Generate sample by sampling without replacement
@@ -20,18 +22,145 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Unbiasedness of SRS sample mean
 
-- What is the probability of sampling individual $j$?
+* What is the probability of sampling individual $j$?
 $$\small
 \begin{align*}
-P(I_j = 1) &= 1 - P(I_j \neq 1) = 1 - \frac{N-1}{N} \times \frac{N-2}{N-1} \times \cdots \times \frac{N-n}{N-(n-1)}\\
+P(I_j = 1) &= 1 - P(I_j \neq 1) \\
+&= 1 - \frac{N-1}{N} \times \frac{N-2}{N-1} \times \cdots \times \frac{N-n}{N-(n-1)} \\
 &= 1 - \frac{N-n}{N} = \frac{n}{N}
 \end{align*}
 $$
--Then by linearity of expectations
+* Then by linearity of expectations
 $$\small
-E [ \bar y ] = E [ \frac{1}{n} \sum_j I_j Y_j ] = \frac{1}{n} E [ \sum_j I_j  ]
+E [ \bar y ] = E \left[ \frac{1}{n} \sum_j I_j Y_j \right] = \frac{1}{n} \sum_j E [ I_j  ] Y_j = \bar Y
 $$ 
+
+## A slightly more cumbersome proof
+
+We can use the the sampling design directly instead. The number of samples $S = {N \choose n}$.
+Then
+
+$$\small
+\begin{align*}
+E[ \bar y ] &= \sum_{s=1}^S P_s \bar y_s = \sum_{s=1}^S {N \choose n}^{(-1)} \frac{1}{n} \sum_{j=1}^N I^{(s)}_j Y_j \\
+ &= \frac{(N-n)!n!}{n \cdot N!} \sum_{j=1}^N Q_j Y_j = \frac{(N-n)!n!}{n \cdot N!} \sum_{j=1}^N {N-1 \choose n-1} Y_j \\
+ &= \frac{(N-n)!n!}{n \cdot N!} \frac{(N-1)!}{(n-1)! (N-n)!} \sum_{j=1}^N Y_j \\
+ &= \frac{1}{N} \sum_{j=1}^N Y_j \\
+\end{align*}
+$$
+
+## Variance of $\bar y$
+
+$$ \small
+\begin{align*}
+&E \left[ \left( \bar y - \bar Y \right)^2  \right] \\
+= &E \left[ \left( n^{-1} \sum_{j=1}^N I_j^{(s)} (Y_i - \bar Y) \right)^2  \right] \\
+= &\frac{1}{n^2} \left(  \sum_{i,j=1}^N E \left[I_i^{(s)} I_j^{(s)} \right] (Y_i - \bar Y) (Y_j - \bar Y)  \right) \\
+= &\frac{1}{n^2}  \left( \sum_{i}^N \frac{n}{N} (Y_i - \bar Y)^2  + 
+\sum_{i \neq j} \frac{n}{N} \cdot \frac{n-1}{N-1} (Y_i - \bar Y) (Y_j - \bar Y)  \right) \\
+= &\frac{1}{n \cdot N}  \left( \left(1 - \frac{n-1}{N-1} \right) \sum_{i}^N (Y_i - \bar Y)^2  + 
+\frac{n-1}{N-1}\left[ \sum_{i=1}^N  (Y_i - \bar Y) \right]^2  \right) \\
+= &\frac{N-n}{N} \frac{S^2}{n} + 0 = (1-f)\frac{S^2}{n}
+\end{align*}
+$$
+
+
+## Method 2: Symmetry arguments
+
+Let's use prior class results on variance directly 
+$$ \small
+\begin{align*}
+V(\bar y) = &V \left( n{-1} \sum_{i=1}^n y_i \right) = \frac{1}{n^2} V \left( \sum_{i=1}^n y_i \right) \\
+&= \frac{1}{n^2} \left[ n \cdot V(y_i) + n \cdot (n-1) \cdot \text{Cov} (y_i, y_j) \right] \\ 
+&= \frac{1}{n^2} \left[ n \cdot \frac{N-1}{N} S^2 + n \cdot (n-1) \left( E[y_i y_j] - \bar Y^2 \right) \right] 
+\end{align*}
+$$
+
+## Method 2: Computing moments
+$$ \small
+\begin{align*}
+E[y_i y_j ] &= E \left[ \frac{y_j}{N-1} \sum_{i=1, i \neq j}^N Y_i \right] = E \left[ \frac{y_j}{N-1} (N \bar Y - y_j) \right]\\
+&= \frac{1}{N-1} \left( N \bar Y^2 - E [ y_j^2 ] \right) = \frac{1}{N-1} \left( N \bar Y^2 - \bar Y^2 - \frac{N-1}{N} S^2   \right) \\
+&= \bar Y^2 - \frac{S^2}{N}
+\end{align*}
+$$
+So the $\text{Cov} (y_i, y_j) = - \frac{S^2}{N}$ and
+$$
+ V(\bar y) = \frac{1}{n} \left[ (N-1)\frac{S^2}{N} - (n-1) \frac{S^2}{N}  \right] = \frac{S^2}{n} (1-f).
+$$
+
+## Simulation study (ctd.)
+
+```{r packages, echo = FALSE, include = FALSE}
+# load libraries
+library(dslabs)
+library(tidyverse)
+library(ggrepel)
+library(matrixStats)
+```
+
+
+```{r heights, echo = FALSE, fig.align='center'}
+set.seed(1)
+N = 100
+heights = rnorm(n = N, mean = 65, sd = 5)
+heights = data.frame(heights)
+heights %>%
+  ggplot(aes(heights)) + geom_histogram(binwidth = 1) +  
+  xlab("Student height (in inches)") +
+  ylab("Count") +
+  ggtitle("Simulated height of students in BIOS617")
+```
+
+## Design-based inference: Simple example
+```{r sampled, echo = FALSE}
+set.seed(179)
+n = 10
+swor = sample(1:35, size = n, replace = FALSE)
+swor_result = mean(heights$heights[swor])
+S = var(heights$heights)
+f = 1-n/N
+variance = (1-f)*S/n
+```
+
+* Population's average height is `r round(mean(heights$heights),4)`
+* Population's $S$ is `r round(S,4)`
+* Example sample w/o replacement: `r swor`
+* Corresponding estimate: `r round(swor_result,4)`
+* Variance is `r round(variance,4)`
+
+## Design-based inference: Simulation tests
+```{r sampled, echo = FALSE}
+set.seed(179)
+n = 10; num.iters = 10000
+swor_results = vector(length = num.iters)
+for (i in 1:num.iters) {
+  swor = sample(1:35, size = n, replace = FALSE)
+  swor_results[i] = mean(heights$heights[swor])
+}
+mean((swor_results - mean(heights$heights))^2)
+
+```
+
+* Population's average height is `r round(mean(heights$heights),4)`
+* Population's $S$ is `r round(S,4)`
+* Example sample w/o replacement: `r swor`
+* Corresponding estimate: `r round(swor_result,4)`
+* Variance $(1-f)*S^2/n$ is `r round(variance,4)`
+
+
+## Sampling with replacement
+
 
 ## Your second JITT 
 
-- What is the probability of sampling 
+- 3rd alternative proof of variance
+- We know $V (\bar y) = V\left( \frac{1}{n} \sum_{i=1}^n I_i Y_i \right)$ 
+- You can use hints; feel free to prove if you want!
+- Hint 1: $V(I_i) = f (1-f)$ and $\text{Cov}(I_i, I_j) = f \left( \frac{n-1}{N-1} - f \right)$
+- Step 1: Use hint 1 to show the variance is equivalent to
+$$
+x
+$$
+- Hint 2:
+- Step 2: Combine hint 2 
