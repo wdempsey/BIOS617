@@ -130,7 +130,7 @@ variance = (1-f)*S/n
 * Variance is `r round(variance,4)`
 
 ## Design-based inference: Simulation tests
-```{r sampled, echo = FALSE}
+```{r sampled2, echo = FALSE}
 set.seed(179)
 n = 10; num.iters = 10000
 swor_results = vector(length = num.iters)
