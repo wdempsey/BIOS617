@@ -1,0 +1,61 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage[margin=1.0in]{geometry}
+
+\def\given{\, | \,}
+
+\begin{document}
+
+\title{Homework \# 1}
+\author{BIOS 617}
+
+\maketitle
+
+\begin{enumerate}
+\item Exercise in relationship between marginal and conditional means and variances.
+
+Consider worker income $X$ from four departments: $C_1, C_2, C_3$, and $C_4$ with $3, 2, 4$, and $3$ employees respectively:
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{ c c c c}
+$C_1$ & $C_2$ & $C_3$ & $C_4$ \\ \hline
+50 & 90 & 18 & 32 \\
+60 & 105 & 23 & 10 \\
+70 & - & 22 & 60 \\
+- & - & 25 & - \\ \hline
+\end{tabular}
+\end{table}
+
+	\begin{enumerate}
+		\item Find the mean $E(X)$ and variance $V(X)$ of a {\bf single} individual's income sampled at random. {\bf [10 pt]}
+		\item Fill in the following table:
+		\begin{table}[!th]
+		\centering
+		\begin{tabular}{c | c c c c}
+		& $C_1$ & $C_2$ & $C_3$ & $C_4$ \\ \hline
+		$E(X \given C)$ & - & - & - & - \\
+		$V(X \given C)$ & - & - & - & - \\
+		$P(C)$ & - & - & - & - \\
+		\end{tabular}
+		\end{table}
+
+		where $E ( X \given C )$ is the mean income in each department, $V ( X \given C )$ is the variance of the income in each department, and $P ( C )$ is the probability that an individual selected at random from the population will belong to that department. {\bf [9 pt]}
+
+		\item Show that $E (X) = E(E(X \given C) )$ and $V(X) = V(E(X \given C)) + E(V(X \given C))$ {\bf [10 pt]}
+
+		\end{enumerate}
+
+\item Suppose a population has mean~$\bar Y = 3$.  Let's assume the
+Consider two subpopulations with means~$\bar Y_1 = 1.5$ and~$\bar Y_2 = 4$ respectively.  Suppose the joint population has mean~$x$
+
+\item Consider a small population of $N = 8$ students with
+
+\item Returning to the population in \# 3, consider a stratified sampling in which the population is stratified into low score ($<= 75$) and high score ($> 75$) strata.
+	\begin{enumerate}
+		\item Identify all possible random samples of size 4 obtained by selecting $n_h = 2$ from each stratum and make a historgram of the resulting means. {\bf [10 pt] }
+		\item Compute the sampling variance of the sample means in (a) directly, and compare this to the sampling variance given by $\sum_{h=1}^2 P_h^2 \frac{1-f_h}{n_h} S_h^2$. {\bf [5 pt] }
+	\end{enumerate}
+
+\end{enumerate}
+\end{document}
