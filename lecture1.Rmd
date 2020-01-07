@@ -2,7 +2,8 @@
 title: "BIOS 617 - Lecture 1"
 author: "Walter Dempsey"
 date: "1/8/2019"
-output: 
+output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
 ---
@@ -17,9 +18,9 @@ All course slides will be written as R Markdown presentations. Markdown is a sim
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. This lets me share slides and code all in one document making all lecture content reproducible!
 
-PDF copies are available on **canvas** while the RMD files and data will be available at <https://github.com/wdempsey/BIOS617>.
+PDF copies are available on **[canvas](https://umich.instructure.com/courses/340115)** while the RMD files and data will be available at <https://github.com/wdempsey/BIOS617>.
 
-## Why surveys: A stated objective
+## Why surveys? 
 
 - A lucid statement of the objectives is most helpful
 - Even when stated forthright, it is easy to forget
@@ -76,7 +77,7 @@ PDF copies are available on **canvas** while the RMD files and data will be avai
 ```{r brexit, echo = FALSE, include = FALSE}
 # install packages
 if(!require('dslabs')){install.packages('dslabs')}
-if(!require('tidyverse')){install.packages('tidyverse')}
+if(!require('tidyverse')){install.packages('tidyverse', dependencies = TRUE)}
 if(!require('ggrepel')){install.packages('ggrepel')}
 if(!require('matrixStats')){install.packages('matrixStats')}
 
@@ -197,43 +198,49 @@ swr_result = mean(heights$heights[swr])
 ## Review of expectations
 * Continuous variable $X$ then $\mu_x = E[X]=\int x f_x(x) dx$. 
 * Linearity of expectations,
-$$ E [ a X ] = \int a x f_x (x) dx = a \int x f_x (x) dx = a E[ X ] $$
+$$ 
+E [ a X ] = \int a x f_x (x) dx = a \int x f_x (x) dx = a E[ X ] 
+$$
 * Two continuous variables $X$ and $Y$, then
 $$ 
-\begin{align*} 
+\begin{aligned}
 E[ X + Y ] &= \int \int (x+y) f_{xy} (x,y) dx dy \\
 &= \int \int x f_{xy} (x,y) dx dy + \int \int y f_{xy} (x,y) dx dy \\
 &= \int x \left[ \int f_{xy} (x,y) dy \right] dx + \int y \left[ \int f_{xy} (x,y) dy \right] dx
-\end{align*}
+\end{aligned}
 $$
 
 ## Review of expectations
 * Two continuous variables $X$ and $Y$, then
 $$ 
-\begin{align*} 
-E[ X + Y ] &= \int x \left[ \int f_{xy} (x,y) dy \right] dx + \int y \left[ \int f_{xy} (x,y) dy \right] dx \\
-&= \int x f_{x} (x) dx + \int y f_{y} (y) dy = E[X] + E[Y].
-\end{align*}
+\small \begin{aligned}
+E[ X + Y ] &= \int x f_{x} (x) dx + \int y f_{y} (y) dy = E[X] + E[Y].
+\end{aligned}
 $$
-So $E \left[ \sum_j a_j X_j \right] = \sum_j a_j E \left[ X_j \right]$.
+So $\small E \left[ \sum_j a_j X_j \right] = \sum_j a_j E \left[ X_j \right]$.
 * If $X$ and $Y$ independent, then
-$$ \small
-\begin{align*} 
+$$ 
+\small \begin{aligned}
 E[X \cdot Y ] &= \int \int x y f_{xy} (x,y) dy dx \\
 &= \int x f_x (x)  \left[ \int y f_y (y) dy \right] dx \\
 &= E[Y] \int x f_x (x) dx = E[X] \cdot E[Y].
-\end{align*}
+\end{aligned}
 $$
 
 ## Review of variances
 * For $X$ and $Y$, the variance is 
-$$ \small {\text Cov} (X, Y) = E [ (X-\mu_x ) (Y - \mu_y) ] = {\text Cov} (Y,X)$$ and $V(X) = Cov(X,X)$.
+$$ 
+\small {\text Cov} (X, Y) = E [ (X-\mu_x ) (Y - \mu_y) ] = {\text Cov} (Y,X)
+$$ and $V(X) = Cov(X,X)$.
 * For random variables $\{ X_j \}_{j=1}^k$, 
+
 $$ \small
 V \left(\sum_j a_j X_j \right) = \sum_j a_j^2 V(X_j) + 2 \sum_j \sum_{i < j} a_i a_j \text{Cov}(X_i, X_j) 
 $$
 * Corollary: If $\{ X_j \}$ are independent, then 
-$$ \small V \left(\sum_j a_j X_j \right) = \sum_j a_j^2 V(X_j) $$
+$$ 
+\small V \left(\sum_j a_j X_j \right) = \sum_j a_j^2 V(X_j) 
+$$
 
 ## Review of variances (derivation)
 
@@ -241,13 +248,13 @@ A quick derivation: $V \left(\sum_j a_j X_j \right)=$
 
 $$
 \small 
-\begin{align*} 
+\begin{aligned} 
  &= E \left[ \left( \sum_j a_j (X_j - \mu_j) \right)^2\right] \\
 &= E \left[ \sum_{i,j=1}^n a_j a_i (X_j - \mu_j) (X_i - \mu_i) \right] \\
 &= E \left[ \sum_{j} a_j^2 (X_j - \mu_j)^2 \right] + E \left[ \sum_j \sum_{i \neq j} a_i a_j (X_j - \mu_j) (X_i - \mu_i) \right] \\
 &= \sum_{j} a_j^2 E \left[ (X_j - \mu_j)^2 \right] + \sum_j \sum_{i \neq j} a_i a_j E \left[ (X_j - \mu_j) (X_i - \mu_i) \right]\\
 &= \sum_{j} a_j^2 V(X_j) + \sum_j \sum_{i \neq j} a_i a_j \text{Cov}(X_i, X_j)
-\end{align*}
+\end{aligned}
 $$
 
 ## Iterated expectation and variance
@@ -259,30 +266,30 @@ $$
 Then
 $$
 \small
-\begin{align*}
+\begin{aligned}
 E[X] &= \sum_k x_k P(X = x_k) \\
 &= \sum_k \left[\sum_j x_k P(X = x_k \, | \, C_j) \right] P(C_j) \\
 &= \sum_k E_{x} \left[ X \, | \, C \right] P(C_j) \\
 &= E_{C} \left[ E_{X} \left[ X \, | \, C \right] \right]
-\end{align*}
+\end{aligned}
 $$
 
 ## Iterated expecation and variance
 
 $$
-\small \begin{align*}
+\small \begin{aligned}
 V(X) &= E \left[ (X-\mu)^2 \right] = E_{C} \left[ E_{X} \left[ (X-\mu)^2 \, | \, C \right] \right] \\
 &= E_{C} \left[ E_{X} \left[ (X- E[X \, | \, C] + E[X \, | \, C] - \mu)^2 \, | \, C \right] \right] \\
 &= E_{C} \left[ E_{X} \left[ (X- E[X \, | \, C])^2 \, | \, C \right] \right] \\
 &+ 2 \cdot E_{C} \left[ E_{X} \left[ (X- E[X \, | \, C]) \times (E[X \, | \, C] - \mu) \, | \, C \right] \right] \\
 &+ E_{C} \left[ E_{X} \left[ (E[X \, | \, C] - \mu)^2 \, | \, C \right] \right] \\
 &= E_{C} \left[ V_{X \, | \, C} (X) \right] + V_{C} ( E_{X \, | \, C} (X) )
-\end{align*}
+\end{aligned}
 $$
 
 ## Expectation and variance in design-based inference
 
-For a given sample $s$:
+For a given sample $s$ :
 
 * $t_s$ : statistic of interest computed from sample values
 * $P_s$ : probability of sample $s$ being selected
@@ -290,7 +297,7 @@ For a given sample $s$:
 
 We hope that $E[ t_s ] = \sum_s P_s \times t_s = T$ 
 
-We also hope variance is small: $V(t_s) = E[ (t_s - E[t_s])^2]$ is small.
+We also hope variance is small: $V(t_s) = E[ (t_s - E[t_s])^2]$
 
 ## Height example
 
