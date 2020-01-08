@@ -6,19 +6,24 @@
 
 \begin{document}
 
-\title{Homework \# 1}
+\title{Homework \# 1, Due January 27, 2020}
 \author{BIOS 617}
+\date{Assigned on: January 13, 2020}
 
 \maketitle
 
 \begin{enumerate}
+\setlength{\itemsep}{15pt}%
+\setlength{\parskip}{15pt}%
+
 \item Exercise in relationship between marginal and conditional means and variances.
 
 Consider worker income $X$ from four departments: $C_1, C_2, C_3$, and $C_4$ with $3, 2, 4$, and $3$ employees respectively:
 
 \begin{table}[!th]
 \centering
-\begin{tabular}{ c c c c}
+\begin{tabular}{| c c c c |}
+\hline
 $C_1$ & $C_2$ & $C_3$ & $C_4$ \\ \hline
 50 & 90 & 18 & 32 \\
 60 & 105 & 23 & 10 \\
@@ -28,33 +33,52 @@ $C_1$ & $C_2$ & $C_3$ & $C_4$ \\ \hline
 \end{table}
 
 	\begin{enumerate}
+		\setlength{\itemsep}{15pt}%
+		\setlength{\parskip}{15pt}%
+
 		\item Find the mean $E(X)$ and variance $V(X)$ of a {\bf single} individual's income sampled at random. {\bf [10 pt]}
 		\item Fill in the following table:
 		\begin{table}[!th]
 		\centering
-		\begin{tabular}{c | c c c c}
+		\begin{tabular}{| c | c c c c |} \hline
 		& $C_1$ & $C_2$ & $C_3$ & $C_4$ \\ \hline
 		$E(X \given C)$ & - & - & - & - \\
 		$V(X \given C)$ & - & - & - & - \\
-		$P(C)$ & - & - & - & - \\
+		$P(C)$ & - & - & - & - \\ \hline
 		\end{tabular}
 		\end{table}
 
-		where $E ( X \given C )$ is the mean income in each department, $V ( X \given C )$ is the variance of the income in each department, and $P ( C )$ is the probability that an individual selected at random from the population will belong to that department. {\bf [9 pt]}
+		where $E ( X \given C )$ is the mean income in each department, $V ( X \given C )$ is the variance of the income in each department, and $P ( C )$ is the probability that an individual selected at random from the population will belong to that department. {\bf [10 pt]}
 
 		\item Show that $E (X) = E(E(X \given C) )$ and $V(X) = V(E(X \given C)) + E(V(X \given C))$ {\bf [10 pt]}
 
 		\end{enumerate}
 
-\item Suppose a population has mean~$\bar Y = 3$.  Let's assume the
-Consider two subpopulations with means~$\bar Y_1 = 1.5$ and~$\bar Y_2 = 4$ respectively.  Suppose the joint population has mean~$x$
+\item Suppose a population has mean~$\bar Y = 3$. Suppose two samples are acquired via simple random sampling with means~$\bar Y_1 = 1.5$ and~$\bar Y_2 = 4$ respectively.  Suppose we can select units from sample 1 or sample 2 only.  With probability $p_1$, we select a unit from sample 1.  With probability~$p_2$ we select a unit from sample 2.
 
-\item Consider a small population of $N = 8$ students with
+	\begin{enumerate}
+		\item Conditional on $\bar Y_1$, $\bar Y_2$ and $\bar Y$, determine the selection probability $p_1$ associated with the first sample and the selection probability $p_2 = 1-p_1$ associated with the second sample required to obtain an unbiased estimate of $\bar Y$ using the sample mean~$\bar y$.
+		\item Determine the variance of $\bar y$ for the sample design given by (a). {\bf [10 pts]}
+	\end{enumerate}
+
+\item Consider a small population of $N = 8$ students with the following exam grades: $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$.
+
+	\begin{enumerate}
+		\setlength{\itemsep}{15pt}%
+		\setlength{\parskip}{15pt}%
+
+		\item Compute the population mean $\bar Y$ and variance $S^2$. {\bf [5 pt]}
+		\item Identify all simple random samples of size $n=2$, compute their mean $(y_1 + y_2)/2$. {\bf [5 pt]}
+		\item For the samples obtained in (b), show that the sample variances of $\bar y$ are given by $\frac{3}{16} (y_1 - y_2)^2$, and make a histogram of them. {\bf [5 pt]}
+		\item Using the results of b) and c), show numerically that $E(\bar y) = \bar Y$ and $E (s^2) = S^2$. {\bf [10 pt]}
+		\item Determine numerically whether $s$ is an unbiased estimator of $S$. {\bf [5 pt]}
+	\end{enumerate}
 
 \item Returning to the population in \# 3, consider a stratified sampling in which the population is stratified into low score ($<= 75$) and high score ($> 75$) strata.
 	\begin{enumerate}
 		\item Identify all possible random samples of size 4 obtained by selecting $n_h = 2$ from each stratum and make a historgram of the resulting means. {\bf [10 pt] }
 		\item Compute the sampling variance of the sample means in (a) directly, and compare this to the sampling variance given by $\sum_{h=1}^2 P_h^2 \frac{1-f_h}{n_h} S_h^2$. {\bf [5 pt] }
+		\item Compute the design effect of this sample design. {\bf [5 pt]}
 	\end{enumerate}
 
 \end{enumerate}
