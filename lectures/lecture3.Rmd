@@ -33,41 +33,23 @@ $$
 * What is the probability of both individual $j$ and $i$ being sampled?
 $$\small
 \begin{aligned}
-P(I_k = 1 \& I_j = 1) &=  \\
-&= \frac{n}{N} \times P() \\
-&= \frac{n}{N} \times P() \\
+P(I_k = 1 \text{ and }  I_j = 1) &= P(I_k = 1) \times P(I_j = 1 \, | \, I_k = 1) = \frac{n}{N} \times \frac{n-1}{N-1} \\
 \end{aligned}
+$$
+* What is the probability of $k < n$ specific individuals sampled?
+$$
+\prod_{j=0}^{k-1} \frac{n-j}{N-j}
 $$
 
 ## Review of unbiasedness
 * Then by linearity of expectations
-$$\small
-E [ \bar y ] = E \left[ \frac{1}{n} \sum_j I_j Y_j \right] = \frac{1}{n} \sum_j E [ I_j  ] Y_j = \bar Y
-$$ 
-
-## A slightly more cumbersome proof
-
-We can use the the sampling design directly instead. The number of samples $S = {N \choose n}$.
-Then
-
-$$\small
+$$\small 
 \begin{aligned}
-E[ \bar y ] &= \sum_{s=1}^S P_s \bar y_s = \sum_{s=1}^S {N \choose n}^{(-1)} \frac{1}{n} \sum_{j=1}^N I^{(s)}_j Y_j \\
- &= \frac{(N-n)!n!}{n \cdot N!} \sum_{j=1}^N Q_j Y_j = \frac{(N-n)!n!}{n \cdot N!} \sum_{j=1}^N {N-1 \choose n-1} Y_j \\
- &= \frac{(N-n)!n!}{n \cdot N!} \frac{(N-1)!}{(n-1)! (N-n)!} \sum_{j=1}^N Y_j \\
- &= \frac{1}{N} \sum_{j=1}^N Y_j \\
+E [ \bar y ] &= E \left[ \frac{1}{n} \sum_j I_j Y_j \right] \\
+&= \frac{1}{n} \sum_j E [ I_j  ] Y_j \\
+&= \frac{1}{n} \sum_j \frac{n}{N} Y_j \\
+&= \bar Y
 \end{aligned}
-$$
-
-## Practice makes perfect
-* Suppose $(Y_i, X_i)$ is the set of data on each participant in the population
-* Suppose a selected individual can decide to not response. Let $r_i$
-* Suppose we know the probability of non-response and it depends on the covariates: $\pi (X_i)$
-* Estimator: $\frac{1}{n} \sum_{}$
-* Unbiasedness:
-
-$$\small
-E [ \bar y ] = E \left[ \frac{1}{n} \sum_j I_j Y_j \right] = \frac{1}{n} \sum_j E [ I_j  ] Y_j = \bar Y
 $$ 
 
 ## Variance calculation
@@ -152,8 +134,8 @@ $$ \small
 S^2 &= (N-1)^{-1} \sum_{h=1}^H \sum_{i=1}^{N_h} (Y_{ih} - \bar Y)^2 \\ 
   &= (N-1)^{-1} \sum_{h=1}^H \sum_{i=1}^{N_h} (Y_{ih} - \bar Y_h + \bar Y_h  - \bar Y)^2 \\
   &= (N-1)^{-1} \sum_{h=1}^H \sum_{i=1}^{N_h} \left[ (Y_{ih} - \bar Y_h)^2 + 2 (Y_{ih} - \bar Y_h) (\bar Y_h  - \bar Y) + (\bar Y_h  - \bar Y)^2  \right] \\
-  &= \sum_{h=1}^H \frac{N_h -1}{N-1} \frac{1}{N_h-1}\sum_{i=1}^{N_h} (Y_{ih} - \bar Y_h)^2 + \frac{N_h}{N-1} \sum_{h=1}^H (\bar Y_h  - \bar Y)^2  \\
-  &= \sum_{h=1}^H \frac{N_h -1}{N-1} S_h^2 + \frac{N_h}{N-1} \sum_{h=1}^H (\bar Y_h  - \bar Y)^2  \\
+  &= \sum_{h=1}^H \frac{N_h -1}{N-1} \frac{1}{N_h-1}\sum_{i=1}^{N_h} (Y_{ih} - \bar Y_h)^2 +  \sum_{h=1}^H \frac{N_h}{N-1} (\bar Y_h  - \bar Y)^2  \\
+  &= \sum_{h=1}^H \frac{N_h -1}{N-1} S_h^2 + \sum_{h=1}^H \frac{N_h}{N-1} (\bar Y_h  - \bar Y)^2  \\
   &\approx \sum_{h=1}^H P_h \left(S_h^2 + (\bar Y_h  - \bar Y)^2 \right)  \\
 \end{aligned}
 $$
@@ -228,14 +210,67 @@ $$
 
 ## Design effects
 
-For large $N_h$, we can show that the deff of proportionate stratified sample is always less than or equal to $1$:
-- 
+For large $N_h$, we can show that the deff of proportionate stratified sample is always less than or equal to $1$. Recall,
+
+- $V(\bar y_{st}) = (1-f) \sum_h P_h S_h^2 / n$
+- $V(\bar y) = (1-f) S^2 / n$ 
+- $S^2 \dot = \sum_h P_h [ S_h^2 + (\bar Y_h - \bar Y)^2 ]$
+$$ \small
+\text{deff} = \frac{V(\bar y_{st})}{V(\bar y)} \dot = \frac{\sum_h P_h S_h^2}{\sum_h P_h S_h^2 + \sum_h P_h (\bar Y_h - \bar Y)^2 ]}
+$$
+- Thus
+$$
+\text{deff} = \left( 1 + \frac{\sum_h P_h (\bar Y_h - \bar Y)^2 ]}{\sum_h P_h S_h^2}\right)^{-1} \leq 1
+$$
+- What factors increase the efficiency of proportionate allocation?
 
 ## Design effects
 
+If population sizes are small, the increased efficiency is **not** guaranteed:
+$$ \small
+\begin{aligned}
+& V(\bar y_{st}) - V(\bar y) \\
+=& \frac{(1-f)}{n} \sum_h P_h S_h^2 - \frac{(1-f)}{(N-1) \cdot n} \left( \sum_{h=1}^H (N_h -1) S_h^2 + \sum_{h=1}^H N_h (\bar Y_h  - \bar Y)^2 \right) \\
+=& \frac{(1-f)}{n} \left( \sum_h P_h S_h^2 - \frac{N}{(N-1)}\sum_{h=1}^H P_h S_h^2 - \frac{1}{N-1} \sum_h  \left( N_h (\bar Y_h  - \bar Y)^2 - S_h^2 \right) \right) \\
+=& \frac{(1-f)}{n} \left( -\frac{1}{N-1} \sum_h P_h S_h^2 - \frac{1}{N-1} \sum_h  \left( N_h (\bar Y_h  - \bar Y)^2 - S_h^2 \right) \right) \\
+=& \frac{(1-f)}{n (N-1)} \left( \sum_h (1-P_h) S_h^2 - \sum_h N_h (\bar Y_h  - \bar Y)^2 \right) < 0
+\end{aligned}
+$$
+
 ## Design effects
+
+- Stratified sampling more efficient when
+$$
+\sum_h (1-P_h) S_h^2 < \sum_h N_h (\bar Y_h  - \bar Y)^2
+$$
+- Suppose variances are equal across strata ($S_h \equiv S^2$)
+- SRS is more efficient than proportionate allocation when
+$$ \small
+S^2 \sum_h (1-P_h) > \sum_h N_h (\bar Y_h - \bar Y)^2 
+$$
+$$ \small
+\Rightarrow S^2 > (H-1)^{-1} \sum_h N_h (\bar Y_h - \bar Y)^2 
+$$
+
+## Design effects
+- This is equivalent to the F-statistic for the test of the
+homogeneity of mean being less that 1:
+$$ 
+\begin{aligned}
+F &= \frac{\text{between-stratum variability}}{\text{within-stratum variability}} \\ 
+&= \frac{(H-1)^{-1} \sum_h N_h (\bar Y_h - \bar Y)^2 }{S^2} < 1
+\end{aligned}
+$$
+
+- This is not a true “test statistic” because these quantities are population
+values, not random variables. But it does give intuition that stratified
+sampling for efficiency requires differential stratum means that reduce
+overall sampling variance to a meaningful degree.
 
 ## JITT #3
 
-- Prove population estimate $\bar y_{st}$ is unbiased.
+- Show $\bar y_{h}$ under SRS from the strata is unbiased 
+- Show population estimate $\bar y_{st}$ is unbiased
+- What is the difference between stratification sampling and subdomain estimation?
+
 
