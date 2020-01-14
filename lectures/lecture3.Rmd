@@ -1,8 +1,9 @@
 ---
-title: "BIOS 617 - Lecture 2"
+title: "BIOS 617 - Lecture 3"
 author: "Walter Dempsey"
-date: "1/13/2019"
-output: 
+date: "1/15/2019"
+output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
 ---
@@ -11,9 +12,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## JITT Review/Discussion 
-
-## Simple random sampling (SRS) without replacement
+## SRS without replacement
 
 - Generate sample of size $n$ from $N$ by sampling without replacement
 - Given $j$ *unique* selected units, the next unit is sampled uniformly at random from remaining $N-j$ units each with probability $1/(N-j)$.
@@ -21,16 +20,26 @@ knitr::opts_chunk$set(echo = FALSE)
 - **Show**: sample mean under SRS is unbiased
 - **Show**: sample variance is $(1-f) \frac{S^2}{n}$ 
 
-## Unbiasedness of SRS sample mean
+## Review of unbiasedness
 
 * What is the probability of sampling individual $j$?
 $$\small
-\begin{align*}
+\begin{aligned}
 P(I_j = 1) &= 1 - P(I_j \neq 1) \\
 &= 1 - \frac{N-1}{N} \times \frac{N-2}{N-1} \times \cdots \times \frac{N-n}{N-(n-1)} \\
 &= 1 - \frac{N-n}{N} = \frac{n}{N}
-\end{align*}
+\end{aligned}
 $$
+* What is the probability of both individual $j$ and $i$ being sampled?
+$$\small
+\begin{aligned}
+P(I_k = 1 \& I_j = 1) &=  \\
+&= \frac{n}{N} \times P() \\
+&= \frac{n}{N} \times P() \\
+\end{aligned}
+$$
+
+## Review of unbiasedness
 * Then by linearity of expectations
 $$\small
 E [ \bar y ] = E \left[ \frac{1}{n} \sum_j I_j Y_j \right] = \frac{1}{n} \sum_j E [ I_j  ] Y_j = \bar Y
@@ -42,237 +51,50 @@ We can use the the sampling design directly instead. The number of samples $S = 
 Then
 
 $$\small
-\begin{align*}
+\begin{aligned}
 E[ \bar y ] &= \sum_{s=1}^S P_s \bar y_s = \sum_{s=1}^S {N \choose n}^{(-1)} \frac{1}{n} \sum_{j=1}^N I^{(s)}_j Y_j \\
  &= \frac{(N-n)!n!}{n \cdot N!} \sum_{j=1}^N Q_j Y_j = \frac{(N-n)!n!}{n \cdot N!} \sum_{j=1}^N {N-1 \choose n-1} Y_j \\
  &= \frac{(N-n)!n!}{n \cdot N!} \frac{(N-1)!}{(n-1)! (N-n)!} \sum_{j=1}^N Y_j \\
  &= \frac{1}{N} \sum_{j=1}^N Y_j \\
-\end{align*}
+\end{aligned}
 $$
 
-## Variance of $\bar y$
+## Practice makes perfect
+* Suppose $(Y_i, X_i)$ is the set of data on each participant in the population
+* Suppose a selected individual can decide to not response. Let $r_i$
+* Suppose we know the probability of non-response and it depends on the covariates: $\pi (X_i)$
+* Estimator: $\frac{1}{n} \sum_{}$
+* Unbiasedness:
 
-$$ \small
-\begin{align*}
-&E \left[ \left( \bar y - \bar Y \right)^2  \right] \\
-= &E \left[ \left( n^{-1} \sum_{j=1}^N I_j^{(s)} (Y_i - \bar Y) \right)^2  \right] \\
-= &\frac{1}{n^2} \left(  \sum_{i,j=1}^N E \left[I_i^{(s)} I_j^{(s)} \right] (Y_i - \bar Y) (Y_j - \bar Y)  \right) \\
-= &\frac{1}{n^2}  \left( \sum_{i}^N \frac{n}{N} (Y_i - \bar Y)^2  + 
-\sum_{i \neq j} \frac{n}{N} \cdot \frac{n-1}{N-1} (Y_i - \bar Y) (Y_j - \bar Y)  \right) \\
-= &\frac{1}{n \cdot N}  \left( \left(1 - \frac{n-1}{N-1} \right) \sum_{i}^N (Y_i - \bar Y)^2  + 
-\frac{n-1}{N-1}\left[ \sum_{i=1}^N  (Y_i - \bar Y) \right]^2  \right) \\
-= &\frac{N-n}{N} \frac{S^2}{n} + 0 = (1-f)\frac{S^2}{n}
-\end{align*}
-$$
+$$\small
+E [ \bar y ] = E \left[ \frac{1}{n} \sum_j I_j Y_j \right] = \frac{1}{n} \sum_j E [ I_j  ] Y_j = \bar Y
+$$ 
 
-
-## Method 2: Symmetry arguments
+## Variance calculation
 
 Let's use prior class results on variance directly 
 $$ \small
-\begin{align*}
+\begin{aligned}
 V(\bar y) = &V \left( n{-1} \sum_{i=1}^n y_i \right) = \frac{1}{n^2} V \left( \sum_{i=1}^n y_i \right) \\
 &= \frac{1}{n^2} \left[ n \cdot V(y_i) + n \cdot (n-1) \cdot \text{Cov} (y_i, y_j) \right] \\ 
 &= \frac{1}{n^2} \left[ n \cdot \frac{N-1}{N} S^2 + n \cdot (n-1) \left( E[y_i y_j] - \bar Y^2 \right) \right] 
-\end{align*}
+\end{aligned}
 $$
 
 ## Method 2: Computing moments
 $$ \small
-\begin{align*}
+\begin{aligned}
 E[y_i y_j ] &= E \left[ \frac{y_j}{N-1} \sum_{i=1, i \neq j}^N Y_i \right] = E \left[ \frac{y_j}{N-1} (N \bar Y - y_j) \right]\\
 &= \frac{1}{N-1} \left( N \bar Y^2 - E [ y_j^2 ] \right) = \frac{1}{N-1} \left( N \bar Y^2 - \bar Y^2 - \frac{N-1}{N} S^2   \right) \\
 &= \bar Y^2 - \frac{S^2}{N}
-\end{align*}
+\end{aligned}
 $$
 So the $\text{Cov} (y_i, y_j) = - \frac{S^2}{N}$ and
 $$
  V(\bar y) = \frac{1}{n} \left[ (N-1)\frac{S^2}{N} - (n-1) \frac{S^2}{N}  \right] = \frac{S^2}{n} (1-f).
 $$
 
-## Simulation study (ctd.)
-
-```{r packages, echo = FALSE, include = FALSE}
-# load libraries
-library(dslabs)
-library(tidyverse)
-library(ggrepel)
-library(matrixStats)
-```
-
-
-```{r heights, echo = FALSE, fig.align='center'}
-set.seed(1)
-N = 100
-heights = rnorm(n = N, mean = 65, sd = 5)
-heights = data.frame(heights)
-heights %>%
-  ggplot(aes(heights)) + geom_histogram(binwidth = 1) +  
-  xlab("Student height (in inches)") +
-  ylab("Count") +
-  ggtitle("Simulated height of students in BIOS617")
-```
-
-## Design-based inference: Simple example
-```{r sampled, echo = FALSE}
-set.seed(179)
-n = 10
-swor = sample(1:35, size = n, replace = FALSE)
-Y = heights$heights
-y = heights$heights[swor]
-swor_result = mean(y)
-S = var(Y)
-f = n/N
-variance = (1-f)*S/n
-est_variance = (1-f)*var(y)/n
-```
-
-* Population's average height is `r round(mean(heights$heights),4)`
-* Population's $S^2$ is `r round(S,4)`
-* Example sample w/o replacement: `r swor`
-* Corresponding estimate: `r round(swor_result,4)`
-* Variance is `r round(variance,4)`
-* Estimated variance is `r round(est_variance,4)`
-
-## Design-based inference: Simulation tests
-```{r sampled2, echo = FALSE, include = FALSE}
-set.seed(1651891)
-n = 10; num.iters = 10000
-swor_results = vector(length = num.iters)
-var_swor_results = vector(length = num.iters)
-for (i in 1:num.iters) {
-  swor = sample(1:35, size = n, replace = FALSE)
-  swor_results[i] = mean(heights$heights[swor])
-  var_swor_results[i] = var(heights$heights[swor])
-}
-mean((swor_results - mean(swor_results))^2)
-variance
-
-```
-
-* Population's average height is `r round(mean(heights$heights),4)`
-* Population's $S$ is `r round(S,4)`
-* Simulate 10,000 simple random samples
-* Calculate $\bar y^{(k)}$ for the $k$th simulation ($k=1,\ldots, 10,000$)
-* Compute empirical variance `r round(var(swor_results), 4)`
-* Compare with $(1-f)*S^2/n$ is `r round(variance,4)`
-
-
-
-## Sampling with replacement
-
-- In practice, we almost never sample with replacement
-- Often, variance estimators are easier to compute
-- Usually only estimator with analytic solution 
-
-## Unbiased estimation of $S^2$
-
-- Variance $(1-f) \frac{S^2}{n}$ depends on unknown quantity $S^2$
-- **Idea**: Use the sample variance as an estimator
-- **Question**: Is this an unbiased estimator of $S^2$?
-$$ \small
-\begin{align*}
-E \left( s^2 \right) &= E \left( \frac{1}{n-1} \sum_{i=1}^n (y_i - \bar y)^2 \right) \\
-&= E \left( \frac{1}{n-1} \sum_{i=1}^n ( (y_i - \bar Y) - (\bar y - \bar Y))^2 \right) \\
-\end{align*}
-$$
-- The cross-term is zero because
-$$ \small
-\sum_{i=1}^n (y_i - \bar y) (\bar y - \bar Y) =  (\bar y - \bar Y) \sum_{i=1}^n (y_i - \bar y) = 0
-$$
-
-## Unbiased estimation of $S^2$
-
-$$ \small
-\begin{align*}
-&E \left( \frac{1}{n-1} \sum_{i=1}^n ( (y_i - \bar Y)^2 - (\bar y - \bar Y)^2 \right) \\
-=& \frac{n}{n-1} \times \frac{N-1}{N} S^2 - \frac{n}{n-1} \frac{1}{n} S^2 (1-f) \\
-=& \frac{S^2}{n-1} \left( n \frac{N-1}{N} - \left(1-\frac{n}{N} \right) \right) \\
-=& \frac{S^2}{n-1} \left( \frac{n \cdot(N-1)-(N-n)}{N} \right) \\
-=& \frac{S^2}{n-1} \left( \frac{N(n-1)}{N} \right) = S^2.
-\end{align*}
-$$
-
-## Standard errors and confidence limits
-
-Typically standard errors and confidence intervals are computed using a normal approximation:
-$$ \small
-\frac{\bar y_n - \bar Y_N}{\sqrt{\text{Var}(\bar y_n)}} \to N(0,1)
-$$
-in distribution as $n \to \infty$, $N \to \infty$, and $n/N \to 0$.
-
-The proof for this is beyond the scope of this course; it is a more complex version of the standard central limit theorem (which assumes infinite populations). A key assumption is a variant on the existence of variance (Lindeberg condition [independence, not IID] extended to finite population sampling):
-
-## Estimating proportions under SRS
-
-* Let $Y_i = 1$ is element $i$ has a given attribute, and $0$ otherwise.
-* $\bar Y = M/N=P$ where 
-  + $M$ is the number of elements in the population with that attribute
-  + $P$ is the proportion of the population with the attribute
-- The variance is
-$$ \small
-\begin{align*}
-S^2 &= \frac{\sum_{i=1}^N (Y_i - \bar Y)}{N-1} = \frac{\sum_{i=1}^N Y_i^2 - N\bar Y)}{N-1} \\
-&= \frac{NP - NP^2}{N-1} = \frac{N \cdot P \cdot (1-P)}{N-1}
-\end{align*}
-$$
-
-## Estimating proportions under SRS
-
-* Sample proportion $p = n^{-1} \sum_{i=1}^n y_i$ unbiased for $P$
-* Sample variance $\frac{n p (1-p)}{n-1}$ is unbiased for $S^2$
-* $v(p) = (1-f) \frac{p (1-p)}{n-1}$ 
-* As $N$ gets large $f \to 0$ and so, for large~$n$, 
-  + $v(p) \to \frac{p(1-p)}{n}$ 
-  + "Standard" variance for binomial variable under normal approximation
-
-## Design-based inference: Simulation tests
-* Suppose we want to know number of students taller than 62 inches
-* The sample has `r sum(y > 62)` out of the `r n` individuals
-* Population has `r mean(Y > 62)` fraction of individuals
-* Sample variance is `r round(n * mean(y > 62) *(1-mean(y > 62))/(n-1),3)` 
-* True variance is `r round(N * mean(Y > 62) *(1-mean(Y > 62))/(N-1),3)` 
-
-## Subdomain estimation
-
-- In some cases, we are interested in inference for a particular subdomain (say females, households with incomes below $30K/year, businesses of a certain size, etc.)
-
-- Here the distinction is that we often cannot ascertain whether an
-element in the population is a member of the subdomain until we
-sample it.
-
-- Let $j$ index the subdomain of interest, and $D_{ij}$ be an indicator that the $i$th element belongs to subdomain $j$. 
-
-- Then sample estimator $\bar y_j = n_j^{-1} \sum_{i=1}^n D_{ij} y_i$ with $n_{j} = \sum_{i=1}^n D_{ij}$
-is unbiased for the population subdomain $\bar Y_j = N_j^{-1} \sum_{i=1}^N D_{ij} Y_i$ for $N_j = \sum_{i=1}^N D_{ij}$
-
-## Subdomain estimation
-
-* The term $n_j$ is a random variable
-* Variance of $\bar y_j$ dpeends on $n_j$, which is a random variable
-* If we condition on $n_j$, then we have the obvious extensions:
-$$ \small
-V(\bar y_j) = (1-f) \frac{S_j^2}{n_j}, \text{ where } S_j^2 = (N_j - 1)^{-1} \sum_{i=1}^N D_{ij} (Y_i - \bar Y_j)^2
-$$
-* And
-$$ \small
-v(\bar y_j) = (1-f) \frac{s_j^2}{n_j}, \text{ where } s_j^2 = (n_j - 1)^{-1} \sum_{i=1}^n D_{ij} (y_i - \bar y_j)^2
-$$
-* If $N_j$ is known, then $f = n/N$ can be replaced by $f_j = n_j / N_j$
-
-## Subdomain totals
-
-* Unbiased estimator of the subdomain total $Y_j = \sum_{i=1}^N D_{ij} Y_i$ is 
-$$\small 
-y_j = \frac{N}{n} \sum_{i=1}^n D_{ij} y_i
-$$
-* Also, $v(y_j) = \frac{N^2}{n} \tilde s^2 (1-f)$ for 
-$$\small
-\tilde s^2 = (n-1)^{-1} \sum_{i=1}^n D_{ij} (y_i - \bar{\tilde y}_j)^2
-$$
-where $\bar{\tilde y}_j = n^{-1} \sum_{i=1}^n D_{ij} y_i$
-
-## Your second JITT:  3rd proof of variance
+## JITT Review/Discussion 
 - We know $V (\bar y) = V\left( \frac{1}{n} \sum_{i=1}^n I_i Y_i \right)$ 
 - Hint 1: $V(I_i) = f (1-f)$ and $\text{Cov}(I_i, I_j) = f \left( \frac{n-1}{N-1} - f \right)$
 - Step 1: Use hint 1 to show the variance is equivalent to
@@ -285,3 +107,30 @@ $$ \small
 $$
 
 - Step 2: Combine hint and variance formula to show result
+
+
+## Stratified sampling designs
+
+In many settings, there is information about the population available in the sampling frame that can be used to develop strata.
+
+- Examples
+  + Address-based samples: geographic region
+  + Telephone numbers: telephone exchanges (region, cell vs. landline)
+
+Basic idea: divide sampling frame into strata, and then sample **within** each stratum
+
+- Why do we do this?
+  + Improve efficiency (homogeneity within strata, equalize sample sizes for
+subgroups we want to compare).
+  + Separate study domains.
+  + Implement different sampling strategies within different strata.
+  + Administrative convenience.
+
+## Stratified sampling designs: Notation
+
+- Index strata by $h=1,\ldots, H$
+- Population size within stratum $h$: $N_h$; $N = \sum_{h=1}^H N_h$.
+- Proportion in stratum $h$: $P_h = N_h / N$
+- Observation $i \in h$: $Y_{ih}, i = 1,\ldots, N_h$
+- Population mean in stratum $h$: $\bar Y_h = N_h^{-1} \sum_{i=1}^{N_h} Y_{ih}$
+- Population variance in stratum $h$: $S_h^2 = (N_h-1)^{-1} \sum_{i=1}^{N_h} (Y_{ih}-\bar Y_{h})^2$
