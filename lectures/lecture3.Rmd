@@ -206,11 +206,30 @@ $$
 
 ## Proportionate allocation vs. SRS
 
-
+- Like SRS, proportionate allocation is an \emph{equal probability selection method}, or \emph{epsem}, design.
+- Thus resulting unbiased estimator of the proportionally stratified mean is equal to the SRS estimator of the mean:
+$$
+\begin{aligned}
+\bar y_{st} &= \sum_h P_h \bar y_h = \sum_h \frac{N_h}{N} \left[ \frac{1}{n_h} \sum_{i} y_{hi} \right] \\
+&= \sum_h \frac{n_h}{n} \left[ \frac{1}{n_h} \sum_i y_{hi} \right] = \frac{n_h}{n} \sum_h \sum_i y_{hi} = \bar y
+\end{aligned}
+$$
 
 ## Design effects
 
+- Even though the proportionally stratified mean estimator is equal to the SRS mean estimator, its variance is **NOT** the same:
+$$ \small
+\begin{aligned}
+V(\bar y_{st}) &= \sum_h P_h^2 (1-f_h) S_h^2 / n_h = (1-f) \sum_h \left( \frac{N_h}{N} \right)^2 S^2_h / n_h \\
+&= (1-f) \sum_h \left( \frac{N_h}{N} \right) \frac{n_h}{n} S^2_h / n_h  = (1-f) \sum_h P_h S_h^2 / n.
+\end{aligned}
+$$
+- The ratio $V(z)/ V(z_0)$, where $V(z)$ is the variance of a sample statistic $z$ under the true sample design, and $V(z_0)$ is the variance of the sample statistic for a SRS of the same total sample size, is called the _design effect_ (a.k.a. _deff_, $D^2(z)$, or $D^2$)
+
 ## Design effects
+
+For large $N_h$, we can show that the deff of proportionate stratified sample is always less than or equal to $1$:
+- 
 
 ## Design effects
 
