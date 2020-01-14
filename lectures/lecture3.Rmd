@@ -57,39 +57,74 @@ $$
 Let's use prior class results on variance directly 
 $$ \small
 \begin{aligned}
-V(\bar y) = &V \left( n{-1} \sum_{i=1}^n y_i \right) = \frac{1}{n^2} V \left( \sum_{i=1}^n y_i \right) \\
-&= \frac{1}{n^2} \left[ n \cdot V(y_i) + n \cdot (n-1) \cdot \text{Cov} (y_i, y_j) \right] \\ 
-&= \frac{1}{n^2} \left[ n \cdot \frac{N-1}{N} S^2 + n \cdot (n-1) \left( E[y_i y_j] - \bar Y^2 \right) \right] 
+V(\bar y) &= V \left( n^{-1} \sum_{i=1}^n y_i \right) = \frac{1}{n^2} V \left( \sum_{i=1}^n y_i \right) \\
+&= \frac{1}{n^2} \left[ \sum_{i,j=1}^n \text{Cov} (y_i, y_j) \right] \\
+&= \frac{1}{n^2} \left[ \sum_{i=1}^n V(y_i) + \sum_{i=1}^n \sum_{j \neq i} \text{Cov} (y_i, y_j) \right] \\
+\end{aligned}
+$$
+We need to better understand $V(y_i)$ and $\text{Cov}(y_i, y_j)$
+
+## Calculate $V(y_i)$
+
+$$
+\begin{aligned}
+V(y_i) := E[(y_i - \bar Y)^2] &= \sum_{j=1}^N P(\text{select unit $i$}) (Y_i - \bar Y)^2 \\
+&= \sum_{j=1}^N \frac{1}{N} (Y_i - \bar Y)^2 \\
+&= \frac{N-1}{N} \cdot \frac{1}{N-1} \sum_{j=1}^N (Y_i - \bar Y)^2 \\
+&= \frac{N-1}{N} S^2 \\
 \end{aligned}
 $$
 
+## Covariance manipulations
+
+- For two random variables $X$ and $Z$,
+$$
+Cov(X, Z ) = E[X \cdot Z] - E[X] E[Z]$$
+- Therefore
+$$
+\frac{N-1}{N} S^2 = V(y_i) = E[y_i^2] - E[y_i]^2 = E[y_i^2] - \bar Y^2
+$$
+which implies $E[y_i^2] = \bar Y^2 + \frac{N-1}{N} S^2$
+- Moreover,
+$$
+\text{Cov}(y_i, y_j) := E[y_i y_j] - \bar Y^2
+$$
+- So computation of covariance comes down to computing second moments
+
 ## Method 2: Computing moments
+
+$$ 
+\begin{aligned}
+E[ y_j \, | \, y_i ] &= \sum_{j \neq i} P(j \text{ selected} \, | \, y_i) Y_j \\
+&= \sum_{j \neq i} \frac{1}{N-1} Y_j \\
+&= \frac{1}{N-1} \left[ \sum_{j=1}^N Y_j - y_i \right] \\
+&= \frac{1}{N-1} \left[ N \bar Y - y_i \right]
+\end{aligned}
+$$
+
+## Other 
 $$ \small
 \begin{aligned}
-E[y_i y_j ] &= E \left[ \frac{y_j}{N-1} \sum_{i=1, i \neq j}^N Y_i \right] = E \left[ \frac{y_j}{N-1} (N \bar Y - y_j) \right]\\
-&= \frac{1}{N-1} \left( N \bar Y^2 - E [ y_j^2 ] \right) = \frac{1}{N-1} \left( N \bar Y^2 - \bar Y^2 - \frac{N-1}{N} S^2   \right) \\
+E[y_i y_j ] &= E \left[ y_i E [ y_j \, | \, y_i] \right] \\
+&= E \left[ \frac{y_i}{N-1} \left( N \bar Y - y_i \right) \right] \\
+&= \frac{N \bar Y}{N-1} E \left[ y_i \right] - \frac{1}{N-1} E[ y_i^2 ] \\
+&= \frac{1}{N-1} \left( N \bar Y^2 - \bar Y^2 - \frac{N-1}{N} S^2   \right) \\
 &= \bar Y^2 - \frac{S^2}{N}
 \end{aligned}
 $$
-So the $\text{Cov} (y_i, y_j) = - \frac{S^2}{N}$ and
-$$
- V(\bar y) = \frac{1}{n} \left[ (N-1)\frac{S^2}{N} - (n-1) \frac{S^2}{N}  \right] = \frac{S^2}{n} (1-f).
-$$
+So the $\text{Cov} (y_i, y_j) = \bar Y^2 - \frac{S^2}{N} - \bar Y^2 = -\frac{S^2}{N}$
 
-## JITT Review/Discussion 
-- We know $V (\bar y) = V\left( \frac{1}{n} \sum_{i=1}^n I_i Y_i \right)$ 
-- Hint 1: $V(I_i) = f (1-f)$ and $\text{Cov}(I_i, I_j) = f \left( \frac{n-1}{N-1} - f \right)$
-- Step 1: Use hint 1 to show the variance is equivalent to
+## Put is all together
+
 $$ \small
-\frac{f (1-f)}{n^2} \left[ \sum_{i=1}^N Y_i^2 - \frac{1}{N-1} \sum_{j=1}^N \sum_{i\neq j} Y_i Y_j\right]
+\begin{aligned}
+V(\bar y) &= \frac{1}{n^2} \left[ \sum_{i=1}^n V(y_i) + \sum_{i=1}^n \sum_{j \neq i} \text{Cov} (y_i, y_j) \right] \\
+&= \frac{1}{n^2} \left[ \sum_{i=1}^n \frac{N-1}{N} S^2 + \sum_{i=1}^n \sum_{j \neq i} -\frac{S^2}{N} \right] \\
+&=\frac{1}{n^2} \left[ n \frac{N-1}{N} S^2 - n \cdot (n-1) \frac{S^2}{N} \right] \\
+&=\frac{S^2}{n} \left[ \frac{N-1}{N} - \frac{n-1}{N} \right]\\
+&=\frac{S^2}{n} \left[ \frac{N-n}{N} \right] = \frac{S^2}{n} (1-f)
+\end{aligned}
 $$
-- Hint 2:
-$$ \small
-\sum_{j=1}^N \sum_{i=1}^N Y_i Y_j = \left( \sum_{i=1}^N Y_i \right)^2 - \sum_{i=1}^N Y_i^2
-$$
-
-- Step 2: Combine hint and variance formula to show result
-
 
 ## Stratified sampling designs
 
