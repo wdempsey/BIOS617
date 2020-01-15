@@ -201,7 +201,7 @@ $$ \small
   = \frac{1}{N} \sum_h  \sum_{i=1}^{n_h} w_{hi} y_{hi}
 $$
 
-- Variance estiate $v(\bar y_h) = (1-f_h) s_h^2 / n_h$ is unbiased for $V(\bar y_h)$, so
+- Variance estimate $v(\bar y_h) = (1-f_h) s_h^2 / n_h$ is unbiased for $V(\bar y_h)$, so
 $$ \small
 v(\bar y_{st}) = \sum_h P_h \left(1-\frac{n_h}{N_h} \right) \frac{s_h^2}{n_h}
 $$
@@ -209,10 +209,10 @@ is an unbiased for $V(\bar y_{st})$.
 
 ## Proportionate allocation
 
-- Allocation refers to sample sizes $n_1, \ldots, n_h$ with each of the strata
-- Porportionate allocation sets $n_1, \ldots, n_h$ so that
+- Allocation refers to sample sizes $n_1, \ldots, n_H$ with each of the strata
+- Porportionate allocation sets $n_1, \ldots, n_H$ so that
 $$
-\frac{n_1}{N_1} = \frac{n_1}{N_1} = \ldots \frac{n_1}{N_1} = \frac{n}{N}
+\frac{n_1}{N_1} = \frac{n_2}{N_2} = \ldots \frac{n_H}{N_H} = \frac{n}{N}
 $$
 which is equivalent to $f_h = f$ for all $h=1,\ldots, H$.
 - Proportionate allocation thus chooses $n_h = \frac{n}{N} N_h = f N_h$ and thus 
