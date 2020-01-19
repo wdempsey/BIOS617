@@ -18,7 +18,7 @@
 
 \item Exercise in relationship between marginal and conditional means and variances.
 
-Consider worker income $X$ from four departments: $C_1, C_2, C_3$, and $C_4$ with $3, 2, 4$, and $3$ employees respectively:
+Consider worker income from four departments: $C_1, C_2, C_3$, and $C_4$ with $3, 2, 4$, and $3$ employees respectively:
 
 \begin{table}[!th]
 \centering
@@ -36,7 +36,7 @@ $C_1$ & $C_2$ & $C_3$ & $C_4$ \\ \hline
 		\setlength{\itemsep}{15pt}%
 		\setlength{\parskip}{15pt}%
 
-		\item Find the mean $E(X)$ and variance $V(X)$ of a {\bf single} individual's income sampled at random. {\bf [10 pt]}
+		\item Find the mean $E(y)$ and variance $V(y)$ where $y$ is a {\bf single} individual's income sampled at random. {\bf [10 pt]}
 		\item Fill in the following table:
 		\begin{table}[!th]
 		\centering
@@ -50,15 +50,17 @@ $C_1$ & $C_2$ & $C_3$ & $C_4$ \\ \hline
 
 		where $E ( X \given C )$ is the mean income in each department, $V ( X \given C )$ is the variance of the income in each department, and $P ( C )$ is the probability that an individual selected at random from the population will belong to that department. {\bf [10 pt]}
 
-		\item Show that $E (X) = E(E(X \given C) )$ and $V(X) = V(E(X \given C)) + E(V(X \given C))$ {\bf [10 pt]}
+		\item Show numerically using the above example that $E (X) = E(E(X \given C) )$ and $V(X) = V(E(X \given C)) + E(V(X \given C))$ {\bf [10 pt]}
 
 		\end{enumerate}
 
-\item Suppose a population has mean~$\bar Y = 3$. Suppose two samples are acquired via simple random sampling with means~$\bar Y_1 = 1.5$ and~$\bar Y_2 = 4$ respectively.  Suppose we can select units from sample 1 or sample 2 only.  With probability $p_1$, we select a unit from sample 1.  With probability~$p_2$ we select a unit from sample 2.
+\item Suppose a population has mean~$\bar Y = 3$. Suppose two samples are acquired via simple random sampling with means~$\bar Y_1 = 1.5$ and~$\bar Y_2 = 4$ respectively.  Suppose we can only select a {\bf single unit} from either sample 1 or sample 2.  With probability $p_1$, we select a unit {\bf at random} from sample 1.  With probability~$p_2$ we select a unit {\bf at random} from sample 2.
 
 	\begin{enumerate}
-		\item Conditional on $\bar Y_1$, $\bar Y_2$ and $\bar Y$, determine the selection probability $p_1$ associated with the first sample and the selection probability $p_2 = 1-p_1$ associated with the second sample required to obtain an unbiased estimate of $\bar Y$ using the sample mean~$\bar y$.
-		\item Determine the variance of $\bar y$ for the sample design given by (a). {\bf [10 pts]}
+		\item Conditional on $\bar Y_i = \sum_{j=1}^{N_i} Y_j^{(i)}$ for $i=1,2$ and $\bar Y$, determine the selection probability $p_1$ associated with the first sample and the selection probability $p_2 = 1-p_1$ associated with the second sample required to so that the randomly chosen unit is an unbiased estimate of $\bar Y$.
+		\item Suppose $N_1, N_2$ is the size of samples $1$ and $2$ respectively.  Define the variance for each sample
+			$$S_i^2= \frac{1}{N_i-1} \sum_{j=1}^{N_1} (Y_j^{(i)} - \bar Y_i)^2 $$
+		Determine the variance of $y$ for the sample design given by (a) in terms of $\bar Y_i, S_i^2, N_i$ for $i=1,2$ and $\bar Y$. Let $N_1 = N_2 = 100$ and $S_1 = S_2 = 2$.  Plug in to the derived formula to estimate the variance of $y$. {\bf [10 pts]}
 	\end{enumerate}
 
 \item Consider a small population of $N = 8$ students with the following exam grades: $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$, $Y_1 = 47$.
