@@ -59,7 +59,7 @@ $C_1$ & $C_2$ & $C_3$ & $C_4$ \\ \hline
 	\begin{enumerate}
 		\item Conditional on $\bar Y_i = \sum_{j=1}^{N_i} Y_j^{(i)}$ for $i=1,2$ and $\bar Y$, determine the selection probability $p_1$ associated with the first sample and the selection probability $p_2 = 1-p_1$ associated with the second sample required to so that the randomly chosen unit is an unbiased estimate of $\bar Y$.
 		\item Suppose $N_1, N_2$ is the size of samples $1$ and $2$ respectively.  Define the variance for each sample
-			$$S_i^2= \frac{1}{N_i-1} \sum_{j=1}^{N_1} (Y_j^{(i)} - \bar Y_i)^2 $$
+			$$S_i^2= \frac{1}{N_i-1} \sum_{j=1}^{N_i} (Y_j^{(i)} - \bar Y_i)^2 $$
 		Determine the variance of $y$ for the sample design given by (a) in terms of $\bar Y_i, S_i^2, N_i$ for $i=1,2$ and $\bar Y$. Let $N_1 = N_2 = 100$ and $S_1 = S_2 = 2$.  Plug in to the derived formula to estimate the variance of $y$. {\bf [10 pts]}
 	\end{enumerate}
 
@@ -70,7 +70,7 @@ $C_1$ & $C_2$ & $C_3$ & $C_4$ \\ \hline
 		\setlength{\parskip}{15pt}%
 
 		\item Compute the population mean $\bar Y$ and variance $S^2$. {\bf [5 pt]}
-		\item Identify all simple random samples of size $n=2$, compute their mean $(y_1 + y_2)/2$. {\bf [5 pt]}
+		\item Identify all simple random samples (sampling without replacement) of size $n=2$, compute their mean $(y_1 + y_2)/2$. {\bf [5 pt]}
 		\item For the samples obtained in (b), show that the sample variances of $\bar y$ are given by $\frac{3}{16} (y_1 - y_2)^2$, and make a histogram of them. {\bf [5 pt]}
 		\item Using the results of b) and c), show numerically that $E(\bar y) = \bar Y$ and $E (s^2) = S^2$. {\bf [10 pt]}
 		\item Determine numerically whether $s$ is an unbiased estimator of $S$. {\bf [5 pt]}
@@ -78,7 +78,7 @@ $C_1$ & $C_2$ & $C_3$ & $C_4$ \\ \hline
 
 \item Returning to the population in \# 3, consider a stratified sampling in which the population is stratified into low score ($<= 75$) and high score ($> 75$) strata.
 	\begin{enumerate}
-		\item Identify all possible random samples of size 4 obtained by selecting $n_h = 2$ from each stratum and make a historgram of the resulting means. {\bf [10 pt] }
+		\item Identify all possible random samples of size 4 obtained by selecting $n_h = 2$ (without replacement) from each stratum and make a histogram of the resulting means. {\bf [10 pt] }
 		\item Compute the sampling variance of the sample means in (a) directly, and compare this to the sampling variance given by $\sum_{h=1}^2 P_h^2 \frac{1-f_h}{n_h} S_h^2$. {\bf [5 pt] }
 		\item Compute the design effect of this sample design. {\bf [5 pt]}
 	\end{enumerate}
