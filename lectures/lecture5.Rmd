@@ -1,0 +1,138 @@
+---
+title: "BIOS 617 - Lecture 5"
+author: "Walter Dempsey"
+date: "1/27/2019"
+output:
+  beamer_presentation: default
+---
+
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Recap on sampling designs
+
+* Simple random sampling
+  + Subdomain estimation ($n_j$ random!)
+* Stratified sampling ($(n_1,\ldots, n_H)$ fixed)
+  + SRS within strata
+  + Proportional allocation
+  + Optimal allocation
+  + Neyman allocation (Optimal with equal costs)
+
+## Neyman vs proportionate allocation
+
+* However, in setting where an binary outcome is rare, stratification can results in substantial gains, if strata can be found where the outcome is more common.
+* Ex: (simplified version of a collaboration that used this sort of analysis for the design):
+  * To assess prevalence and predictors of injury risk, a study is planned of children aged 1-8 in passenger vehicle crashes using an insurance company claims database of 100,000 children in crashes.
+  * Will sample from reported claims with children in vehicle, then contact for further information about crash, including determination of presence or absence of serious injury at the time of crash.
+  * At the time of sampling, the only information available is the age of the child and whether or not s/he was transported to an emergency room.
+  
+## Example
+
+Preliminary data is available from the National Automotive
+Sampling System - Crashworthiness Data System (NASS-CDS), a
+survey of towaway passenger vehicle crashes in the US. (This
+study has relatively few children in its sample, with limited
+covariates available for modeling injury risk. The goal is to design
+a study that will provide much larger sample sizes and a richer set
+of outcomes and covariates though the survey data collection, but
+for the purposes of design it will do.)
+
+## Example (ctd)
+
+* The overall rate of serious injury for children 1-8 is p=2.3%.
+* Preliminary analysis suggests that children aged 1 vs. 2 and older have significant differences in injury risk, children admitted to the ER have significant differences in injury risk, and that there is an interaction between these two factors. This suggests four strata (name, $h$, $P_h$, $p_h$, $S_h$:
+```{r, out.width = "250px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l4_table1.pdf")
+```
+
+  
+## Example (ctd)
+
+* To complete the design, we need a target variance
+* Assume the goal is to reduce the standard error of the estimator of the mean by a factor of $2$ over NASS-CDS
+* Our preliminary analysis shows the SE of the overall estimate is $3.272 \times 10^{-3}$; hence we want a target variance of $0.003272^2/4 = 2.6765 \times 10^{-6}$
+
+## Proposed sample design
+
+```{r, out.width = "250px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l4_table2.png")
+```
+* An SRS sample would require a sample of size of $pq/(2.6765 \times 10^{-6}) = 8791$, so use of stratified sampling with optimal allocation decreased the number of interviewers need by almost $40\%$ relative to SRS
+* Proportionate sampling yields a sample size of $\sum_h P_h S_h^2 / (2.6765 \times 10^{-6}) = 7805$, so optimal allocation decreased the number of interviewers need by more than $30\%$ relative proportionate allocation
+
+## Optimal allocation for contrasts
+
+Consider two strata with means $\bar y_1$ and $\bar y_2$. The variance of the contrast $\bar y_1 - \bar y_2$ is
+$$
+V(\bar y_1 - \bar y_2) = V(\bar y_1) + V(\bar y_2) = \frac{S_1^2}{n_1^2} + \frac{S_1^2}{n_1^2}
+$$
+Above, we ignore FPC because it will be irrelevant in the optimizing equation again.
+
+Our optimizing equation is now
+$$
+\phi (n_h) = \sum_{h=1}^2 S_h^2/n_h + \lambda \left( \sum_{h=1}^2 c_h n_h - C \right)
+$$
+where again $C = c_1 n_1 + c_2 n_2$ is the marginal cost of the interviews in the two strata.
+
+## Optimal allocation for contrasts
+
+$$
+\frac{\partial \phi}{n_h} = - \frac{S_h^2}{n_h^2} + \lambda c_h \Rightarrow n_h = \frac{S_h}{\sqrt{\lambda c_h}}
+$$
+
+* If $c_1 = c_2$ then $n_h \propto S_h$.  If $S_1=S_2$ as well, then $n_1 = n_2$.
+* This result motivates, at least informally, designs in which unequal probability of selection is used to under/oversample larger/small groups to yield more equally sized groups for analysis.
+  + If $P_1 \gg P_2$ or vice-versa, this leads to conflict between optimizing estimation $\bar Y$ and $\bar Y_1 - \bar Y_2$
+  + Typically a compromise is made
+  
+## Optimal allocation for contrasts
+
+* If there are 3 or more strata with contrasts of interest, it becomes necessary to specify the precision required for different comparisons. One approach is to minimize the average variance of the differences:
+$$
+\bar V = \frac{2}{H} \sum_h \frac{S_h^2}{n_h}
+$$
+* Optimization yields $n_h \propto S_h / \sqrt{c_h}$
+
+## Poststratification
+
+- Often, there may be available information about certain characteristics in a population that cannot be accessed in a sampling frame.
+  + A sampling frame of telephone numbers may not have information about the age and gender of the respondents, but age and gender distribution in the population is available from the Census.
+* Or there may be some variables that are known in the frame, but set aside as less important for stratification.
+* Similar to proportional allocation in estimation, except now the sample size $n_h$ in each poststratum is no longer fixed, but random.
+
+## Poststratification
+
+$$
+y_{ps}  = \sum_{h=1}^H P_h \bar y = N^{-1} \sum_{h=1}^H N_h \bar y_h 
+\quad \text{ for } \quad
+\bar y_h = n_h^{-1} \sum_{i=1}^{n_h} y_{hi}
+$$
+
+* Example: We have a sample of 70 women and 30 men obtained from a survey of 50 households (we’ll ignore the clustering for the moment). Of the women, 5 indicated they did not have health insurance, versus 6 of the men.
+* The Census indicated that 52% of the adult population is female. 
+* Thus $\bar y_{ps} = .52 \times (5 / 70) + .48 \times (6 / 30) = .133$, versus $\bar y = .110$.
+
+## Unbiasedness and variance
+
+$$
+\begin{aligned}
+E[\bar y_{ps}] &= E [ E [ \bar y_{ps} \, | \, (n_1, \ldots, n_H) ] ] \\
+&= E \left[ \sum_h P_h E \left [ \bar y_{h} \, | \, (n_1, \ldots, n_H) \right] \right] \\
+&= E \left [ \sum_h P_h \bar Y_{h} \right] = E[\bar Y] = \bar Y
+\end{aligned}
+$$
+
+## JITT #4 and next class
+
+- Next class we will study the variance of PS and use it for subclass/domain estimation
+- Then we will move onto equal size cluster sampling
+- JITT: Do your HW
+- Next week JITTs will return to data and think about model-based alternatives.
