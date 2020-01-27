@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Recap on sampling designs
 
 * Simple random sampling
-  + Subdomain estimation ($n_j$ random!)
+  + Subdomain estimation ($n_j = \sum_{i=1}^n D_{ij}$ is random)
 * Stratified sampling ($(n_1,\ldots, n_H)$ fixed)
   + SRS within strata
   + Proportional allocation
@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Neyman vs proportionate allocation
 
-* However, in setting where an binary outcome is rare, stratification can results in substantial gains, if strata can be found where the outcome is more common.
+* In setting where an binary outcome is rare, stratification can results in substantial gains, if strata can be found where the outcome is more common.
 * Ex: (simplified version of a collaboration that used this sort of analysis for the design):
   * To assess prevalence and predictors of injury risk, a study is planned of children aged 1-8 in passenger vehicle crashes using an insurance company claims database of 100,000 children in crashes.
   * Will sample from reported claims with children in vehicle, then contact for further information about crash, including determination of presence or absence of serious injury at the time of crash.
@@ -130,9 +130,108 @@ E[\bar y_{ps}] &= E [ E [ \bar y_{ps} \, | \, (n_1, \ldots, n_H) ] ] \\
 \end{aligned}
 $$
 
-## JITT #4 and next class
+## Variance
 
-- Next class we will study the variance of PS and use it for subclass/domain estimation
-- Then we will move onto equal size cluster sampling
-- JITT: Do your HW
-- Next week JITTs will return to data and think about model-based alternatives.
+$$
+\begin{aligned}
+V(\bar y_{ps}) &= E ( V( \bar y_{ps} \, | \, (n_1, \ldots, n_H) ) ) + V( E ( \bar y_{ps} \mid (n_1,\ldots, n_H) )) \\
+&= E \left[ \sum_h P_h^2 (1-f_h) \frac{S_h^2}{n_h} \right] + V(\bar Y) \\
+&= E \left[ \sum_h P_h^2 \frac{S_h^2}{n_h} \right] - E \left[ \sum_h P_h \frac{S_h^2}{N} \right] \\
+&= E \left[ \sum_h P_h^2 \frac{S_h^2}{n_h} \right] - E \left[ \sum_h P_h \frac{S_h^2}{N} \right] 
+\end{aligned}
+$$
+
+* For large $n_h$, 
+
+$$
+\begin{aligned}
+E \left( \frac{1}{n_h} \right) &\approx \frac{1}{n_h} \\
+\Rightarrow V( \bar y_{ps} ) &\approx \sum_h P_h \frac{S_h^2}{n_h} - \sum_h P_h \frac{S_h^2}{N} = V(\bar y_{st})
+\end{aligned}
+$$
+
+## More accurate variance approximation
+
+* Taylor series approximations:
+
+$$
+\begin{aligned}
+E [ f(X) ] &= E \left[ f(\mu) + f^\prime (\mu) (X-\mu) + \frac{f^{(2)}(\mu)}{2!} (X-\mu)^2 + \ldots \right] \\
+&= f(\mu) + \sum_{k=2}^\infty \frac{f^{(k)}(\mu)}{k!} E[ (X - \mu)^k ]  \\
+&\approx
+f(\mu) + \frac{f^{(2)} (\mu)}{2!} V(X)
+\end{aligned}
+$$
+
+
+## Application of Taylor series to current problem
+Then for $f(x) = 1/x$ we have 
+
+$$
+\begin{aligned}
+E [ \frac{1}{n_h} ] &\approx \frac{1}{n P_h} + \frac{1}{2!} \times \frac{2}{(nP_h)^3} \times (1-f) \times n P_h (1-P_h) \\
+&= \frac{1}{nP_h} \left[ 1 +\frac{(1-f)(1-P_h)}{nP_h} \right]
+\end{aligned}
+$$
+
+which implies
+
+$$ \begin{aligned}
+V(\bar y_{ps} ) &\approx \sum_h \frac{P_h^2 S_h^2}{nP_h} \left[ 1 +\frac{(1-f)(1-P_h)}{nP_h} \right] - \sum_h P_h S_h^2 / N \\
+&= V(\bar y_{st}) + (1-f) \sum_h \frac{S_h^2(1-P_h)}{n^2} 
+\end{aligned}
+$$
+
+
+## Proportionate versus Poststratification
+
+* We have $V(\bar y_{ps}) > V(\bar y_{st})$ if the strata are available in the sampling frame for proportionate allocatoin, but $V (\bar y_{ps}) \leq V(\bar y)$ asymptotically for SRS
+  +  Poststratification is also used for non-response adjustments,
+under the assumption that non-response within the strata is
+random.
+  + Suppose in example we had approached 100 women and 100 men, and 70 women and 30 men had agreed to participate.
+  + Since women appear to have a higher rate of insurance coverage than men, male non-response downwardly biases the SRS of the uninsured proportion.
+  + Will discuss more later...
+* Note that, unlike stratification, post-stratification adjustment is “optional”. Hence different measures can be used for poststratification adjustment for different variables.
+
+## Subdomain estimation 
+
+* Again, we might be interested in a subdomain analysis using a stratified sample.
+* If $M_h$, the number of subdomain elements in stratum $h$, is known, this is equivalent to poststratification if proportionately allocated.
+* Otherwise, if $M_h$ is unknown, we need to estimate
+
+$$
+\bar Y = M^{-1} \sum_h M_h \bar Y_h \quad \text{ using } \quad \frac{\sum_h \hat M_h \bar y_h}{\sum_h \hat M_h}
+$$
+
+## How to estimate $M_h$?
+
+* Within a stratum, $E \left[ \frac{M_h}{m_h} \right] = \frac{N_h}{n_h}$ if SRS within stratum. So
+
+$$
+\bar y = \frac{ \sum_h (N_h/n_h) m_h \bar y_h}{\sum_h (N_h / n_h) m_h }
+= \frac{ \sum_h (N_h/n_h) \sum_{i=1}^{m_h} y_{hi}}{\sum_h (N_h / n_h) m_h }
+$$
+is an unbiased estimator of $\bar Y$.
+
+* If design is proportionate, then $n_h / N_h \equiv f$, and 
+
+$$
+\bar y_s = \frac{f^{-1}\sum_h \sum_i y_{hi} }{f^{-1} \sum_h m_h } = \frac{1}{m} \sum_h \sum_i y_{hi}
+$$
+the simple subdomain mean.
+
+## What is the variance?
+
+* Let $z_{hi} = \delta_{hi} (y_{hi} - \bar Y)$ where $\delta_{hi}$ is 1 if the ith element is in the subdomain and $0$ otherwise
+* Then
+
+$$
+\bar y_s - \bar Y = \frac{1}{m} \sum_{h} \sum_i z_hi
+$$
+
+* Replace $m$ with its expectation $n M / N$ yields
+
+$$
+\bar y_s - \bar Y = \frac{N}{nM} \sum_h \sum_i
+$$
