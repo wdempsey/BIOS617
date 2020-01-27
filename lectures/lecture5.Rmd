@@ -236,19 +236,23 @@ $$
 \bar y_s - \bar Y = \frac{N}{nM} \sum_h \sum_i z_{hi} = \frac{N \bar z}{M}
 $$
 
-## Variance calculation continued
+## Variance calculation (ctd)
 
 * Subtracting constant makes computation simple:
 $$
 \begin{aligned}
-V(\bar y_s) &= V(\bar y_s - \bar Y) = 
+V(\bar y_s) &= V(\bar y_s - \bar Y) = \frac{N^2}{M^2} \sum_h P_h S_{h(z)}^2 / n
 \end{aligned}
 $$
 where
 $$
-S_{h(z)}^2 = \left( \right) \approx N_h^{-1} \left( \sum_i Z_{hi}^2 - \left( \sum_i Z_{hi} \right)^2 / N_h \right)
+\begin{aligned}
+S_{h(z)}^2 &= \left( \sum_{i} Z_{hi}^2 - \left( \sum_i Z_{hi} \right)^2 / N_h \right) / (N_h - 1) \\
+&\approx N_h^{-1} \left( \sum_i Z_{hi}^2 - \left( \sum_i Z_{hi} \right)^2 / N_h \right)
+\end{aligned}
 $$
-so
+
+## Variance calculation (ctd)
 
 $$
 \begin{aligned}
@@ -257,7 +261,6 @@ V(\bar y_s) &\approx \frac{N^2}{nM^2} (1-f) \sum_h \frac{N_h}{N} \frac{1}{N_h} \
 \end{aligned}
 $$
 
-## Variance calculation continued
 
 $$
 \begin{aligned}
@@ -267,26 +270,44 @@ $$
 \end{aligned}
 $$
 
-and 
+## Variance calculation (ctd)
 
 $$
-\sum_h \left( \right)^2 / N_h = \sum_h \left( \right)^2 / N_h = \sum_h \left( \right)^2 / N_h
+\begin{aligned}
+V(\bar y_s) &= \frac{N}{nM^2} \frac{N-n}{N} \bigg ( \sum_h \sum_i (Y_{hi} - \bar Y_h)^2 \\
+&+ \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) ( \bar Y_h - \bar Y )^2 \bigg) \\
+&= \frac{1}{M^2} \left[ \frac{N}{n} - 1 \right] \bigg( \sum_h \sum_i (Y_{hi} - \bar Y_h)^2 \\
+&+ \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) ( \bar Y_h - \bar Y )^2 \bigg) 
+\end{aligned}
 $$
 
 
-## Variance calculation (continued)
+## Variance under proportionate allocation
+
+Under proportionate allocation, $\frac{m}{M} \approx \frac{n}{N}$ and 
+
+$$
+\begin{aligned}
+V(\bar y_s ) &\approx \frac{1}{M^2} \left[ \frac{M}{m} - 1 \right] \bigg( \sum_h \sum_i (Y_{hi} - \bar Y_h)^2 \\
+&+ \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) ( \bar Y_h - \bar Y )^2 \bigg) \\
+&\approx (1-f) \frac{1}{mM} \bigg( \sum_h \sum_i (Y_{hi} - \bar Y_h)^2 \\
+&+ \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) ( \bar Y_h - \bar Y )^2 \bigg) 
+\end{aligned}
+$$
+
 
 
 ## Discussion of variance
 
-* The first term is approximately the variance of a proportionate stratified design with $m_h$ elements sampled from the $M_h$ elements in stratum $h$
+* The first term is approximately the variance of a proportionate stratified design with $m_h$ elements sampled
 * The second term is the loss from the subclass analysis
-* If $M_h/N_h \to 1$ (nearly all elements belong to the subdomain), the second term approaches $0$ so the variance approximates that of proportionate stratification
+* If $M_h/N_h \to 1$ the second term approaches $0$ so the variance approximates that of proportionate stratification
 * If $M_h/N_h \to 0$ then 
 
 $$
 \begin{aligned}
-&\sum_h \sum_i (Y_{hi} - \bar Y)^2 + \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) (\bar Y_h - \bar Y)^2 \to
+&\sum_h \sum_i (Y_{hi} - \bar Y)^2 + \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) (\bar Y_h - \bar Y)^2 \\
+&\to
 \sum_h \sum_i (Y_{hi} - \bar Y)^2 + \sum_h M_h (\bar Y_h - \bar Y)^2 \\
 &\sum_h \sum_i (Y_{hi} - \bar Y)^2 + \sum_h M_h (\bar Y_h - \bar Y)^2 =
 \sum_i \sum_h (Y_{hi} - \bar Y)^2 = M S^2
@@ -294,28 +315,87 @@ $$
 $$
 and thus $V(\bar y_s) \to (1-f) S^2 /m$ which is the SRS variance.
 
+## Equal-size cluster sampling
+
+* Often obtaining a sampling frame containing the individual units of interest may be difficult.
+  + There are no listings of US adults; there are, however, listings of household addresses that are approximately complete (and can be made moreso by review, either “on foot” or, where possible, using Google Earth).
+  + Similarly, it might be more convenient to list classes in a school rather
+than students; nursing homes rather than patients; etc.
+* For ease of exposition, we are going to assume for the moment
+that
+  + Once a cluster is sampled, all of the elements in that clusters are also
+sampled (may or may not be practical or efficient).
+  + All clusters are of equal size.
+  + Clusters are sampled via SRS without replacement.
+
+## Notation
+
+* $i=1,\ldots, K$ clusters in the population
+* $i=1,\ldots, k$ clusters in the sample
+* $j=1,\ldots, M$ units in each cluster $(M \geq 2$)
+* Total number of units in the population: $N=KM$
+* Total number of units in the sample: $n=kM$
+* $Y_{ij}$ is the observation associated with the $j$th unit in the $i$th cluster
+* $\bar Y_i = M^{-1} \sum_j Y_{ij}$ is the mean of the $i$th cluster
+* $\bar Y = K^{-1} \sum_i \bar Y_i = (KM)^{-1} \sum_{i=1}^K \sum_{j=1}^M Y_{ij}$
 
 ## Example
 
-* Ex: Estimating injury prevalence from a probability sample of children in passenger vehicle crashes.
-* Partners for Child Passenger Safety was a probability sample of children in passenger vehicles crashes in State-Farm-insured vehicles.
-* Can be approximated as a disproportionate stratified sample design based on medical treatment status (hospitalized/fatal, treated, no treated/unknown) by vehicle status (drivable/not drivable).
-* Goal: estimate serious injury rate in population 
+```{r, out.width = "250px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l5_table2.png")
+```
 
-## Example: Data
+## Example
 
 ```{r, out.width = "250px", fig.align='center'}
 library(knitr)
-include_graphics("./figs/l5_table1.pdf")
+include_graphics("./figs/l5_table3.png")
 ```
 
-## R Code:
+## Estimator and variance
 
-```{r, }
-library(survey)
-wt = c(0.3411,0.0128,0.2331,0.0180,0.0009,0.0024)
-inj = c(13496,2338,3180,65420,24667,475521)
-strat = c(13496,1169,635,6542,1150,8893)
-designn<-svydesign(ids=c(1:31985),strata=strat,variables=inj~1,weights=wt)
+* Since all elements in the cluster are observed if a cluster is sampled, $\bar y_i = \bar Y_i$
+* I.e., the observed cluster mean is the population mean
+* Hence $(\bar y_1, \ldots, \bar y_k)$ can be viewed as an SRS sample from $(\bar Y_1, \ldots, \bar Y_K)$
+* So that $\bar y_c = k^{-1} \sum_{i=1}^k \bar y_i = n^{-1} \sum_i \sum_j y_{ij}$ is unbiased for $\bar Y$
+with variance 
 
-```
+$$
+\frac{(1-f_K) S_K^2}{k}  = \frac{K-k}{K} \times \frac{1}{k} \times \frac{1}{K-1} \sum_i (\bar Y_i - \bar Y)^2
+$$
+
+* And $s_k^2 = (k-1)^{-1} \sum_i (\bar y_i - \bar y)^2$ is an unbiased estimator for $S_K^2$
+
+## Design effect and intraclass correlation $\rho$
+
+$$
+\begin{aligned}
+\sum_i (\bar Y_i - \bar Y)^2 &= \sum_i \left[ \frac{1}{M} \sum_j ( Y_{ij} - \bar Y ) \right]^2 \\
+&= \frac{1}{M^2} \left [ \sum_i \sum_j ( Y_{ij} - \bar Y )^2 + \sum_i \sum_{j \neq l} \sum_l (Y_{ij} - \bar Y) (Y_{il} - \bar Y) \right] \\
+&= \frac{1}{M^2} \left [ (KM-1) S^2 + \sum_i \sum_{j \neq l} \sum_l (Y_{ij} - \bar Y) (Y_{il} - \bar Y) \right] \\
+\end{aligned}
+$$
+
+
+## Intraclass correlation
+
+The finite population between-cluster covariance is given by
+$$
+E[ (Y_{ij} - \bar Y) (Y_{il} - \bar Y) ] = \frac{1}{KM(M-1)} \sum_i \sum_{j \neq l} \sum_l (Y_{ij} - \bar Y) ( Y_{il} - \bar Y )
+$$
+and the _intraclass correlation_ $\rho$ by
+$$
+\rho = \frac{E(Y_{ij} - \bar Y)(Y_{il} - \bar Y)}{E (Y_{ij} - \bar Y)^2} = \frac{}{}
+$$
+
+
+
+## JITT
+
+* Poststratification analysis of the ideology
+* Define strata by 
+  + Gender
+  + Marriage status
+  + Joint
+* Estimate mean ideology and variance under poststratification and the SRS
