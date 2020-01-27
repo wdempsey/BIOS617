@@ -233,5 +233,89 @@ $$
 * Replace $m$ with its expectation $n M / N$ yields
 
 $$
-\bar y_s - \bar Y = \frac{N}{nM} \sum_h \sum_i
+\bar y_s - \bar Y = \frac{N}{nM} \sum_h \sum_i z_{hi} = \frac{N \bar z}{M}
 $$
+
+## Variance calculation continued
+
+* Subtracting constant makes computation simple:
+$$
+\begin{aligned}
+V(\bar y_s) &= V(\bar y_s - \bar Y) = 
+\end{aligned}
+$$
+where
+$$
+S_{h(z)}^2 = \left( \right) \approx N_h^{-1} \left( \sum_i Z_{hi}^2 - \left( \sum_i Z_{hi} \right)^2 / N_h \right)
+$$
+so
+
+$$
+\begin{aligned}
+V(\bar y_s) &\approx \frac{N^2}{nM^2} (1-f) \sum_h \frac{N_h}{N} \frac{1}{N_h} \left( \sum_i Z_{hi}^2 - \left( \sum_i Z_{hi} \right)^2 / N_h \right)  \\
+&= \frac{N}{nM^2} (1-f) \left( \sum_i Z_{hi}^2 - \left( \sum_i Z_{hi} \right)^2 / N_h \right)
+\end{aligned}
+$$
+
+## Variance calculation continued
+
+$$
+\begin{aligned}
+\sum_h \sum_i Z_{hi}^2 &= \sum_h \sum_i (Y_{hi} - \bar Y )^2 =  \sum_h \sum_i (Y_{hi} - \bar Y_h + \bar Y_h - \bar Y )^2 \\
+&= \sum_h \sum_i (Y_{hi} - \bar Y_h )^2  + \sum_h M_h (\bar Y_h - \bar Y)^2 \\
+&+ 2 \underbrace{\sum_i \sum_h (Y_{hi} - \bar Y_h) (\bar Y_h - \bar Y)}_{=0}
+\end{aligned}
+$$
+
+and 
+
+$$
+\sum_h \left( \right)^2 / N_h = \sum_h \left( \right)^2 / N_h = \sum_h \left( \right)^2 / N_h
+$$
+
+
+## Variance calculation (continued)
+
+
+## Discussion of variance
+
+* The first term is approximately the variance of a proportionate stratified design with $m_h$ elements sampled from the $M_h$ elements in stratum $h$
+* The second term is the loss from the subclass analysis
+* If $M_h/N_h \to 1$ (nearly all elements belong to the subdomain), the second term approaches $0$ so the variance approximates that of proportionate stratification
+* If $M_h/N_h \to 0$ then 
+
+$$
+\begin{aligned}
+&\sum_h \sum_i (Y_{hi} - \bar Y)^2 + \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) (\bar Y_h - \bar Y)^2 \to
+\sum_h \sum_i (Y_{hi} - \bar Y)^2 + \sum_h M_h (\bar Y_h - \bar Y)^2 \\
+&\sum_h \sum_i (Y_{hi} - \bar Y)^2 + \sum_h M_h (\bar Y_h - \bar Y)^2 =
+\sum_i \sum_h (Y_{hi} - \bar Y)^2 = M S^2
+\end{aligned}
+$$
+and thus $V(\bar y_s) \to (1-f) S^2 /m$ which is the SRS variance.
+
+
+## Example
+
+* Ex: Estimating injury prevalence from a probability sample of children in passenger vehicle crashes.
+* Partners for Child Passenger Safety was a probability sample of children in passenger vehicles crashes in State-Farm-insured vehicles.
+* Can be approximated as a disproportionate stratified sample design based on medical treatment status (hospitalized/fatal, treated, no treated/unknown) by vehicle status (drivable/not drivable).
+* Goal: estimate serious injury rate in population 
+
+## Example: Data
+
+```{r, out.width = "250px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l5_table1.pdf")
+```
+
+## R Code:
+
+```{r, }
+library(survey)
+wt = c(0.3411,0.0128,0.2331,0.0180,0.0009,0.0024)
+inj = c(13496,2338,3180,65420,24667,475521)
+strat = c(13496,1169,635,6542,1150,8893)
+designn<-svydesign(ids=c(1:31985),strata=strat,variables=inj~1,weights=wt)
+
+```
