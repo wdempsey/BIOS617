@@ -386,7 +386,11 @@ E[ (Y_{ij} - \bar Y) (Y_{il} - \bar Y) ] = \frac{1}{KM(M-1)} \sum_i \sum_{j \neq
 $$
 and the _intraclass correlation_ $\rho$ by
 $$
-\rho = \frac{E(Y_{ij} - \bar Y)(Y_{il} - \bar Y)}{E (Y_{ij} - \bar Y)^2} = \frac{}{}
+\begin{aligned}
+\rho &= \frac{E(Y_{ij} - \bar Y)(Y_{il} - \bar Y)}{E (Y_{ij} - \bar Y)^2} \\
+&= \frac{\frac{1}{KM(M-1)} \sum_i \sum_{j \neq l} \sum_l (Y_{ij} - \bar Y) (Y_{il} - \bar Y)}{\frac{1}{KM} \sum_i \sum_l (Y_{ij} - \bar Y)^2} \\
+&= \frac{\sum_i \sum_{j \neq l} \sum_l (Y_{ij} - \bar Y) (Y_{il} - \bar Y)}{(KM-1)(M-1) S^2} \\
+\end{aligned}
 $$
 
 
