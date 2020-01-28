@@ -315,8 +315,8 @@ and
 $$
 S_k^2 = \frac{1}{K-1} \sum_{i=1}^K \left( \bar Y_i  - \bar Y \right)^2 = \frac{KM-1}{(K-1)M^2} S^2 \left[ 1 + (M-1) \rho \right]
 $$
-* Therefore
 
+* Therefore
 $$
 \begin{aligned}
 V(\bar y_c) &= \left(1 - \frac{k}{K} \right) \frac{S_k^2}{k} \\
