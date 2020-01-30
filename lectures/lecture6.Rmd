@@ -338,6 +338,7 @@ $$
 
 ## Population anova table
 
+
 ## Derivation
 
 ## Design effects in equal-size cluster sampling
