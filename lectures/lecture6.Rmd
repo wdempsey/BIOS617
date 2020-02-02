@@ -4,6 +4,7 @@ author: "Walter Dempsey"
 date: "1/29/2020"
 output:
   beamer_presentation: default
+  ioslides_presentation: default
 ---
 
 ```{r setup, include=FALSE}
@@ -254,14 +255,14 @@ sampled (may or may not be practical or efficient).
 
 ```{r, out.width = "250px", fig.align='center'}
 library(knitr)
-include_graphics("./figs/l4_table2.png") # place holder
+include_graphics("./figs/l6_fig1.png") # place holder
 ```
 
 ## Example
 
 ```{r, out.width = "250px", fig.align='center'}
 library(knitr)
-include_graphics("./figs/l4_table2.png") # place holder
+include_graphics("./figs/l6_fig2.png") # place holder
 ```
 
 ## Estimator and variance
@@ -338,8 +339,32 @@ $$
 
 ## Population anova table
 
+* Between clusters:
+  + SS: $M \sum_i (\bar Y_i - \bar Y)^2$
+  + df: $K-1$
+  + MS: $M S_k^2$
+* Within clusters
+  + SS: $\sum_i \sum_j (Y_{ij} - \bar Y_i)^2$
+  + df: $KM-K$
+  + MS: $S_w^2$
+* Total
+  + SS: $\sum_i \sum_j (Y_{ij} - \bar Y)^2$
+  + df: $KM-K+K-1 = KM-1$
+  + MS: $S^2$
+ 
+## Connection between $S^2$ and $S_w^2$
 
-## Derivation
+$$ 
+\begin{aligned}
+&(KM-1) S^2 = (K-1) M S_k^2 + K(M-1) S_w^2 \\
+= &\frac{(K-1)M(KM-1)}{(K-1)M^2} S^2 \left[ 1+ (M-1) \rho \right] + K(M-1) S_w^2 \\
+= &\frac{(KM-1)}{M} S^2 \left[ 1+ (M-1) \rho \right] + K(M-1) S_w^2 \\
+\Rightarrow  &(KM-1) \left[ 1 - \frac{1 + (M-1)\rho}{M} \right] = K(M-1) S_w^2 \\
+\Rightarrow  &\frac{(KM-1)(M-1)}{M} S^2 (1-\rho) = K(M-1) S_w^2 \\
+\Rightarrow  &\frac{KM-1}{KM} S^2 (1-\rho) = S_w^2 \\
+\Rightarrow  &S^2 (1-\rho) \approx S_w^2
+\end{aligned}
+$$
 
 ## Design effects in equal-size cluster sampling
 
@@ -353,6 +378,33 @@ $$
 * $deff > 1$ when $\rho > 0$ (ex: race in a household)
 * Minimized when $1+ (M-1) \rho = 0$ which is equivalent to $\rho = - \frac{1}{M-1}$
 * Maximized when $\rho = 1$: $deff = M$
+
+## Intercorrelation discussion
+
+* The large majority of the time $\rho > 0$, so that cluster sampling is statistically inefficient relative to SRS
+  +   Compare this with stratified sampling. Both approaches have units sampled within a larger grouping. Why is cluster sampling less efficient and stratified sampling more efficient than SRS when there is within-group homogeneity?
+* Also, even small values of $\rho$ can lead to large design effects if $M$ is large
+* If $\rho$ is small but $M$ is large, take smaller within-cluster samples $(m<M)$ and more clusers $k^\prime = \frac{n}{m} > \frac{n}{M} = k$ (will discuss soon).
+
+## Estimating intraclass correlation
+
+* Direct computation of $\rho$ gets difficult in most practical settings, where there are unequal clusters sizes and or three or more stages of sampling.
+* However, a synthetic $\rho$ can still be computed as 
+$$ \rho = \frac{deff -1}{\bar M - 1}$$
+where  $\bar M$ is the mean number of units per the (highest-level) cluster.
+
+## Intraclass correlation and confidence intervals, sample size
+
+* Using $\rho$ a quick confidence interval for a mean can be computed from any cluster:
+$$
+\bar y_c \pm t_{(0.975, K-1)} \sqrt{[1+(M-1)\rho]s^2/n}
+$$
+
+* Using an estimate of $\rho$, sample sizes computed under SRS can be adjusted:
+$$
+n = [1+(M-1)\rho] n_{SRS}
+$$
+
 
 ## JITT
 
