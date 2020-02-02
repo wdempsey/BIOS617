@@ -368,7 +368,7 @@ $$
 
 ## Design effects in equal-size cluster sampling
 
-The deff for equal-size cluser sampling is given by
+The deff for equal-size cluster sampling is given by
 
 $$
 deff = \frac{V(\bar y_c)}{ V(\bar y_{SRS})} \approx \frac{V(\bar y_{SRS}(1+(M-1)\rho))}{V(\bar y_{SRS})} = [1+(M-1)\rho]
