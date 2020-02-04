@@ -329,12 +329,26 @@ $$
 
 $$
 \rho = \frac{\sum_{i=1}^K \sum_{j \neq l} (Y_{ij} - \bar Y) (Y_{il} - \bar Y) }{(N-1)(M-1)S^2}
-= \frac{x}{x} \to \frac{S_1^2 - \frac{S_2^2}{M}}{S^2}
+= \frac{\frac{K-1}{K}S_1^2 - \frac{S_2^2}{M}}{\frac{N-1}{N} S^2} \to \frac{S_1^2 - \frac{S_2^2}{M}}{S^2}
 $$
 As $K,N \to \infty$. Using the previous result that $S_w^2 = S_2^2 \approx (1-\rho) S^2$, we have
 $$
 S_1^2 = \rho S^2 + \frac{(1-\rho) S^2}{M} = S^2 \left[ \frac{1}{M} + \rho \left( 1 - \frac{1}{M} \right) \right]
 = S^2 [1+(M-1)\rho]/M
+$$
+
+## Plugging this back into $V(\bar y_c)$
+
+$$
+\begin{aligned}
+V(\bar y_c) &= \left( 1  - \frac{k}{K} \right) \frac{S_1^2}{k} + \left( 1  - \frac{m}{M} \right) \frac{S_2^2}{k}  \\
+&\approx \left( 1  - \frac{k}{K} \right) \frac{1}{k} \left( \frac{S^2}{M} (1+(M-1)\rho) \right) + \left( 1  - \frac{m}{M} \right) \frac{(1-\rho) S^2}{k}  \\
+&= \frac{S^2}{n} \left[ \left( 1 - \frac{k}{K} \right) \left( \frac{m}{M} ((1-\rho)+M\rho) + (1-\rho) - \frac{m}{M} (1-\rho) \right) \right] \\
+&= \frac{S^2}{n} \left[ \left( 1 - \frac{k}{K} \right) m \rho - \frac{n}{N} (1-\rho) + (1-\rho) \right] \\
+&= \frac{S^2}{n} \left[ \left( 1 - \frac{n}{N} \right) + \left( m - 1 - \frac{n}{N} (M-1) \right) \rho \right] \\
+&= \frac{S^2}{n} \left[ \left( 1 - \frac{n}{N} \right) + \left( 1 - \frac{n}{N} \right)(m-1)\rho + \frac{n}{N} \left( m - 1 - (M-1) \right) \rho \right] \\
+&= (1-f)\frac{S^2}{n} [1+(m-1)\rho] - \frac{M-m}{N} S^2 \rho.
+\end{aligned}
 $$
 
 ##  Design effect
