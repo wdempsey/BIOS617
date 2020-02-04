@@ -1,7 +1,7 @@
 ---
-title: "BIOS 617 - Lecture 7"
+title: "BIOS 617 - Lecture 8"
 author: "Walter Dempsey"
-date: "1/29/2020"
+date: "2/5/2020"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -25,250 +25,16 @@ library(ggrepel)
 library(matrixStats)
 ```
 
+## JITT:
 
-## JITT
-
-* Let $M_j=1$ if the individual is sampled __and__ responds to the survey, and $M_j = 0$ otherwise.  Suppose $P(M_j = 1 \mid I_j ) = \pi$.
-* Then $\bar y_{HT} = \frac{1}{n} \sum_{i=1}^n \frac{y_i m_i}{\pi}$ is an unbiased estimator:
-$$
-E[ \bar y_{HT}] = \frac{1}{\pi \times n} \sum_{i=1}^N E[ I_j M_j ] Y_j = \frac{1}{\pi \times n} \sum_{i=1}^N \frac{n}{N} \times \pi \times Y_i = \bar Y.
-$$
-
-* The variance (if $\pi$ is known) is given by $\frac{(1-f)}{\pi^2} \frac{S^2}{n} \leq \frac{1}{4 \pi (\pi \cdot n)}$.
-* Emerson sample size $n= 207 \to 0.5/\sqrt{207} = 3.5\%$ but report is $\pm 6.2 \%$.
-$$
-\frac{1}{2 \sqrt{\pi * 207}} = 0.065 \Rightarrow \pi = 28.59\%
-$$
-* [See NYT article](https://nyti.ms/38ZNZCE)
-
-
-
-
-## Subdomain estimation 
-
-* Stratified sample: know $N$, $N_h$ for $h=1,\ldots, H$
-* We are interested in a subdomain analysis using the stratified sample.
-* $M_h$: number of subdomain elements in stratum $h$
-* $M = \sum_h M_h$
-* If known, then estimator is similar estimator to population average
-$$
-\bar Y = \sum_h \left( \frac{N_h}{N} \right) \bar Y_h \to \bar Y = \sum_h \left( \frac{M_h}{M} \right) \bar Y_h
-$$
-where $\bar Y_h$ is the subdomain estimator from previous lecture.
-* If unknown, then need to estimate $\hat M_h$
-
-## How to estimate $M_h$?
-
-* $m_h \leq n_h$: number of observed individuals in subdomain
-* Stratified sampling: $N_h$, $N$, $n_h$, $n$ all __known__ and __fixed__; $M_h$ __unknown__ and __fixed__
-* Stratified sampling: We __observe__ $m_h$ in subdomain in the sample $n_h$ but it is __random__
-* Key idea: 
-$$E \left[ m_h \right] = \frac{M_h}{N_h} \cdot n_h,$$  
-so then an unbiased estimator is given by
-$$\hat M_h = \frac{N_h}{n_h} m_h$$
-* Easily extend to estimator for $M$: $\hat M = \sum_h \hat M_h$
-
-## How to esimate $\bar y$?
-
-* Estimator is given by
-$$
-\bar y = \frac{ \sum_h \hat M_h \bar y_h}{\sum_h \hat M_h } = \frac{ \sum_h (N_h/n_h) m_h \bar y_h}{\sum_h (N_h / n_h) m_h }
-= \frac{ \sum_h (N_h/n_h) \sum_{i=1}^{m_h} y_{hi}}{\sum_h (N_h / n_h) m_h }
-$$
-is an unbiased estimator of $\bar Y$.
-
-* If design is proportionate, then $n_h / N_h \equiv f$, and 
-
-$$
-\bar y_s = \frac{f^{-1}\sum_{h=1}^H \sum_{i=1}^{m_h} y_{hi} }{f^{-1} \sum_h m_h } = \frac{1}{m} \sum_{h=1}^H \sum_{i=1}^{m_h} y_{hi}
-$$
-the simple subdomain mean.
-
-## What is the variance?
-
-* Let $z_{hi} = \delta_{hi} (y_{hi} - \bar Y)$ where $\delta_{hi}$ is 1 if the ith element is in the subdomain and $0$ otherwise 
-* By definition, $m_h = \sum_i \delta_{hi}$ and $m = \sum_h \sum_i \delta_{hi}$; then
-
-$$
-\bar y_s - \bar Y = \frac{1}{m} \sum_{h=1}^H \sum_{i=1}^{{\bf n_h}} z_{hi} \approx
-\frac{N}{nM} \sum_{h=1}^M \sum_{i=1}^{n_h} z_{hi} = \frac{N \bar z}{M}
-$$
-
-* __Key point__: $Z_{hi} = \delta_{hi} (Y_{hi} - \bar Y^{(D)})$ replaces $Y_{hi}$ in stratified variance calculation under proportionate allocation.
-$$
-\bar Y^{(D)} = \frac{1}{M_h}\sum_{h=1}^H \delta_{hi} Y_{hi}
-$$
-
-## Connection to stratified variance under proportionate allocation
-
-$$
-V(\bar y_{st}) = \sum_{h=1}^H P_h (1-f_h) \frac{S_h^2}{n_h}
-$$
-where
-$$ \begin{aligned}
-S_h^2 &= \frac{1}{N_h-1}\sum_{i=1}^{N_h} (Y_{hi} - \bar Y_h)^2 \\
-&= \frac{1}{N_h-1} \left( \sum_{i=1}^{N_h} Y_{hi}^2 - 2 \bar Y_h \sum_{i=1}^{N_h} Y_{hi} - \sum_{i=1}^{N_h} \bar Y_h^2 \right) \\
-&= \frac{1}{N_h-1} \left( \sum_{i=1}^{N_h} Y_{hi}^2 - N_h \bar Y_h^2 \right) \\
-&= \frac{1}{N_h-1} \left( \sum_{i=1}^{N_h} Y_{hi}^2 - \frac{\left( \sum_{i=1}^{N_h} Y_{hi} \right )^2}{N_h} \right) \\
-\end{aligned}
-$$
-
-## Variance calculation (ctd)
-
-* Subtracting constant makes computation simple:
-$$
-\begin{aligned}
-V(\bar y_s) &= V(\bar y_s - \bar Y^{(D)}) = V\left( \frac{N}{M} \bar z \right) = \frac{N^2}{M^2} \sum_h P_h (1-f_h) S_{h(z)}^2 / n
-\end{aligned}
-$$
-where
-$$
-\begin{aligned}
-S_{h(z)}^2 &= \left( \sum_{i=1}^{N_h} Z_{hi}^2 - \left( \sum_{i=1}^{N_h} Z_{hi} \right)^2 / N_h \right) / (N_h - 1) \\
-&\approx N_h^{-1} \left( \sum_i Z_{hi}^2 - \left( \sum_i Z_{hi} \right)^2 / N_h \right)
-\end{aligned}
-$$
-
-## Variance calculation (ctd)
-
-$$
-\begin{aligned}
-\sum_h \sum_i Z_{hi}^2 &= \sum_h \sum_i \delta_{hi} (Y_{hi} - \bar Y^{(D)} )^2 \\
-&=  \sum_h \sum_i \delta_{hi} (Y_{hi} - \bar Y_h^{(D)} + \bar Y_h^{(D)} - \bar Y^{(D)})^2 \\
-&= \sum_h \sum_i \delta_{hi} (Y_{hi} - \bar Y_h )^2  + \sum_h M_h (\bar Y_h - \bar Y)^2 \\
-\end{aligned}
-$$
-
-$$ \begin{aligned}
-\sum_h \left( \sum_i Z_{hi} \right)^2 / N_h &= \sum_h \left( \sum_i \delta_{hi} (Y_{hi} - \bar Y^{(D)} ) \right)^2 / N_h \\
-&= \sum_h M_h (\bar Y_h^{(D)} - \bar Y^{(D)})^2 / N_h
-\end{aligned}
-$$
-
-## Variance calculation (ctd)
-
-$$
-\begin{aligned}
-V(\bar y_s) &= \frac{N}{nM^2} \frac{N-n}{N} \bigg ( \sum_h \sum_i (Y_{hi} - \bar Y_h^{(D)})^2 \\
-&+ \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) ( \bar Y_h - \bar Y^{(D)} )^2 \bigg) \\
-&= \frac{1}{M^2} \left[ \frac{N}{n} - 1 \right] \bigg( \sum_h \sum_i (Y_{hi} - \bar Y_h^{(D)})^2 \\
-&+ \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) ( \bar Y_h^{(D)} - \bar Y^{(D)} )^2 \bigg) 
-\end{aligned}
-$$
-
-
-## Variance under proportionate allocation
-
-Under proportionate allocation, $\frac{m}{M} \approx \frac{n}{N}$ and 
-
-$$
-\begin{aligned}
-V(\bar y_s ) &\approx \frac{1}{M^2} \left[ \frac{M}{m} - 1 \right] \bigg( \sum_h \sum_i \delta_{hi} (Y_{hi} - \bar Y_h)^2 \\
-&+ \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) ( \bar Y_h^{(D)} - \bar Y^{(D)} )^2 \bigg) \\
-&\approx (1-f) \frac{1}{mM} \bigg( \sum_h \sum_i \delta_{hi} (Y_{hi}^{(D)} - \bar Y_h^{(D)})^2 \\
-&+ \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) ( \bar Y_h^{(D)} - \bar Y^{(D)} )^2 \bigg) 
-\end{aligned}
-$$
-
-
-
-## Discussion of variance
-
-* The first term is approximately the variance of a proportionate stratified design with $m_h$ elements sampled
-* The second term is the loss from the subclass analysis
-* If $M_h/N_h \to 1$ the second term approaches $0$ so the variance approximates that of proportionate stratification
-* If $M_h/N_h \to 0$ then 
-$$
-\begin{aligned}
-&\sum_h \sum_i (Y_{hi} - \bar Y_h^{(D)})^2 + \sum_h M_h \left( 1 - \frac{M_h}{N_h} \right) (\bar Y_h^{(D)} - \bar Y^{(D)})^2 \\
-&\to
-\sum_h \sum_i (Y_{hi} - \bar Y_h^{(D)})^2 + \sum_h M_h (\bar Y_h^{(D)} - \bar Y^{(D)})^2 \\
-&\sum_h \sum_i (Y_{hi} - \bar Y_h^{(D)})^2 + \sum_h M_h (\bar Y_h^{(D)} - \bar Y^{(D)})^2 \\
-&= \sum_i \sum_h (Y_{hi} - \bar Y_h^{(D)})^2 = M S^2
-\end{aligned}
-$$
-and thus $V(\bar y_s) \to (1-f) S^2 /m$ which is the SRS variance.
-
-## Equal-size cluster sampling
-
-* Often obtaining a sampling frame containing the individual units of interest may be difficult.
-  + There are no listings of US adults; there are, however, listings of household addresses that are approximately complete (and can be made moreso by review, either “on foot” or, where possible, using Google Earth).
-  + Similarly, it might be more convenient to list classes in a school rather
-than students; nursing homes rather than patients; etc.
-* For ease of exposition, we are going to assume for the moment
-that
-  + Once a cluster is sampled, all of the elements in that clusters are also
-sampled (may or may not be practical or efficient).
-  + All clusters are of equal size.
-  + Clusters are sampled via SRS without replacement.
-
-## Notation
-
-* $i=1,\ldots, K$ clusters in the population
-* $i=1,\ldots, k$ clusters in the sample
-* $j=1,\ldots, M$ units in each cluster $(M \geq 2$)
-* Total number of units in the population: $N=KM$
-* Total number of units in the sample: $n=kM$
-* $Y_{ij}$ is the observation associated with the $j$th unit in the $i$th cluster
-* $\bar Y_i = M^{-1} \sum_j Y_{ij}$ is the mean of the $i$th cluster
-* $\bar Y = K^{-1} \sum_i \bar Y_i = (KM)^{-1} \sum_{i=1}^K \sum_{j=1}^M Y_{ij}$
-
-
-## Key equations
-
-$$
-S_k^2 = \frac{1}{K-1} \sum_{i=1}^K \left( \bar Y_i  - \bar Y \right)^2 = \frac{KM-1}{(K-1)M^2} S^2 \left[ 1 + (M-1) \rho \right]
-$$
-
-* Therefore
-
-$$
-\begin{aligned}
-V(\bar y_c) &= \left( 1 - \frac{k}{K} \right) \frac{S_k^2}{k} \\
-&=\left(1 - \frac{n}{N} \right) \frac{S^2}{n} \frac{KM-1}{KM-M} \left[ 1 + (M-1) \rho \right] \\
-&\approx\left(1 - \frac{n}{N} \right) \frac{S^2}{n} \left[ 1 + (M-1) \rho \right] \\
-&= V(\bar y_{SRS}) \left[ 1 + (M-1) \rho \right]
-\end{aligned}
-$$
-
-## Design effects in equal-size cluster sampling
-
-The deff for equal-size cluster sampling is given by
-
-$$
-deff = \frac{V(\bar y_c)}{ V(\bar y_{SRS})} \approx \frac{V(\bar y_{SRS}(1+(M-1)\rho))}{V(\bar y_{SRS})} = [1+(M-1)\rho]
-$$
-
-* $deff < 1$ when $\rho < 0$ (ex: gender in a household)
-* $deff > 1$ when $\rho > 0$ (ex: race in a household)
-* Minimized when $1+ (M-1) \rho = 0$ which is equivalent to $\rho = - \frac{1}{M-1}$
-* Maximized when $\rho = 1$: $deff = M$
-
-
-## NEW MATERIAL: Systematic sampling
-
-* Before modern computing, drawing a simple random sample without replacement was a non-trivial task.
-* Much easier would be to sample every $k$th element in a sampling frame, where $k = N/n = f^{-1}$ (assuming for the moment that $n$ is a factor of $N$).
-* Even today, if frame is not in an electronic form, some type of systematic sampling might be required.
-  + Even if not required, systematic sampling is often at least as efficient as SRS: implicit stratification in order of sampling frame.
-  + Disadvantage is that unbiased estimator of variance cannot be obtained without making assumptions about the sampling frame.
+* How would you use poststratification on age to adjust for phone type (landline or cell) in polling?
+* Try and apply proposal to Pew using ideology as the outcome.
 
 ## Systematic sampling
 
 * Always starting at the first element means that only a single sample can be obtained from the population – no sampling variability.
 * Choose a random start $r$ between $1$ and $k$: select elements $Y_r, Y_{r+k}, \ldots, Y_{r+(n-1)k}$
   + $k$ possible samples, all with equal probability of selection $1/k$
-
-## Systematic sampling
-
-* Combination of cluster and stratified sampling.
-o Design effect is not estimable, since we are sampling only
-one element.
-• Order of the list achieves stratification with respect to a given
-measure to the extent that the list is ordered according to that
-measure.
-o Size of business, age of customer, etc.
-o Stratified proportionate allocation.
 
 ## Expectation of $\bar y_{sys}$
 
@@ -283,17 +49,8 @@ $$
 
 ## Variance of $\bar y_{sys}$
 
-Recall from previous work that the variance of a cluster sample
-design with all elements in the cluster sampled is given by
-
-$$
-V(\bar y_c) = \left ( 1 - \frac{a}{A} \right) \frac{S^2}{aB} \frac{AB-1}{B(A-1)} \left[ 1 + (B-1) \rho \right]
-$$
-where, to avoid notation confusion, the total number of clusters in the population is A, the number of clusters sampled is a, the number of elements in each cluster is B, and the intraclass correlation is $\rho$.
-
-## Variance of $\bar y_{sys}$
-
-In systematic sampling, $a=1$, so, reverting to the notation of the systematic sampling slides, we have
+* Systematic sampling is cluster sampling with one cluster.
+* Reverting to the notation of the systematic sampling slides, we have
 $$
 \begin{aligned}
 V(\bar y_c) &= \left ( 1 - \frac{1}{k} \right) \frac{S^2}{n} \frac{nk-1}{n(k-1)} \left[ 1 + (n-1) \rho \right] \\
@@ -310,7 +67,7 @@ $$
 * If we assume that there is no within-cluster correlation, systematic sample is equivalent to SRS:
 $$
 \begin{aligned}
-v(\bar y_{sys} &= \frac{S^2}{n} \frac{nk-1}{nk} \\
+V(\bar y_{sys}) &= \frac{S^2}{n} \frac{nk-1}{nk} \\
 &= \left( 1 - \frac{1}{k} \right) \frac{S^2}{n} \left( \frac{k}{k-1} \right) \left(  \frac{nk-1}{nk} \right) \\
 &= V(\bar y_{srs} ) \left( \frac{k}{k-1} \right) \left(  \frac{nk-1}{nk} \right) \\
 &= V(\bar y_{srs} ) \left(  \frac{nk-1}{n(k-1)} \right) \\
@@ -381,9 +138,210 @@ A practical issue of concern is _list periodicity_.
 
 Use the correct fractional interval $F = N/n$ and round down: select observations $\left \lfloor \frac{r}{\lfloor F \rfloor + Fj} \right \rfloor$ for $j=0,\ldots,n-1$.
 
+## NEW MATERIAL: Multi-stage sampling
+
+* In many settings, it might be expensive/highly inefficient to take all elements in a sampled cluster.
+* US area probability sample: a sample of counties (avg $\approx$ 40,000 households) or US Census blocks (avg. $\approx$ 1600 households) might be taken as the first stage of sampling.
+* Sampling of clinics: review of all patients clinical records for a sampled clinic might be prohibitively expensive.
+* Recall $deff$ for clustered samples: $1+(M-1)\rho$
+  + As M increases, sample becomes less efficient for a fixed $\rho > 0$.
+* Take sample of elements in a sampled cluster. 
+* First stage of sample (cluster) is Primary Sampling Unit (PSU).
+
+## Example
+
+```{r, out.width = "250px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l8_fig1.png") # place holder
+```
+
+## Example
+
+```{r, out.width = "250px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l8_fig2.png") # place holder
+```
+
+## Assumptions
+
+* Equal number of elements per cluster
+* SRS without replacement at second stage
+
+## Unbiasedness
+
+* Population mean
+$$
+\bar Y = \frac{1}{N} \sum_{i=1}^K \sum_{j=1}^M Y_{ij} = \frac{M}{N} \sum_{i=1}^K \frac{1}{M} \sum_{j=1}^M Y_{ij} = \frac{1}{K} \sum_{i=1}^K \bar Y_{i}
+$$
+* Sample mean:
+$$
+\bar y_c = \frac{1}{k} \sum_{i=1}^k \bar y_i =  \frac{1}{k} \sum_{i=1}^k \frac{1}{m} \sum_{j=1}^m y_{ij} = 
+\frac{1}{n} \sum_{i=1}^k \sum_{j=1}^m y_{ij}
+$$
+
+* Sampling fraction $P(i \in s) P(j \in s \mid i \in s) = \frac{k}{K} \times \frac{m}{M} = \frac{n}{N} = f$
+* SRS mean estimator still unbiased, since design is _epsem_.
+$$
+E[ \bar y_c ] = \frac{1}{n} \sum_{i=1}^K E \left[ I_{i} \sum_{j=1}^M I_{ij} Y_{ij} \right]
+\frac{1}{n} \sum_{i=1}^K \sum_{j=1}^M E \left[ I_{i} I_{ij} \right] Y_{ij} =
+\frac{1}{N} \sum_{i=1}^K \sum_{j=1}^M Y_{ij}
+$$
+
+## Sampling variance of mean from two-stage cluster sample
+
+$$
+\begin{aligned}
+V(\bar y_c) = \left( 1 - \frac{k}{K} \right) \frac{S_1^2}{k} + \left( 1 - \frac{m}{M} \right) \frac{S_2^2}{n}
+\end{aligned}
+$$
+where
+$$
+S_1^2 = \frac{\sum_{i=1}^{K} (\bar Y_i - \bar Y)^2}{K-1} 
+\quad \text{ and } \quad
+S_2^2 = \frac{\sum_{i=1}^{K} \sum_{j=1}^M (Y_{ij} - \bar Y_i)^2}{K(M-1)} 
+$$
+
+* This should be intuitive, but needs to be proven. 
+* Key idea: treat as proportionately stratified sample and use
+$$
+V(\bar y_c) = E \left[ V(\bar y_c \mid i \in s ) \right] + V \left( E[ \bar y_c \mid i \in s ] \right)
+$$
+where treat chosen clusters as strata since we are fixing the clusters through conditioning.
+
+## Proof begins
+
+$$
+V (\bar y_c \mid i \in s) = \frac{1-f}{n} \sum_{i=1}^K P_i S_i^2 = \left( 1 - \frac{m}{M} \right) \frac{1}{n} \sum_{i=1}^k \frac{1}{k} S_i^2
+$$
+where $S_i^2 = (M-1)^{-1} \sum_{j=1}^M (Y_{ij} - \bar Y_i)^2$. Then
+$$
+\begin{aligned}
+E [ V(\bar y_c \mid i \in s) ] &= \left( 1 - \frac{m}{M} \right) \frac{1}{n} E \left( \sum_{i=1}^k \frac{1}{k} S_i^2 \right) \\
+&= \left( 1 - \frac{m}{M} \right) \frac{1}{n} \frac{1}{K} \left( \sum_{i=1}^K S_i^2 \right) \\
+&= \left( 1 - \frac{m}{M} \right) \frac{1}{n} \frac{1}{K(M-1)} \sum_{i=1}^K \sum_{j=1}^M (Y_{ij} - \bar Y_i)^2 \\
+&= \left( 1 - \frac{m}{M} \right) \frac{S_2^2}{n}
+\end{aligned}
+$$
+
+## Proof continues
+
+$$
+E[ \bar y_c \mid i \in s ] = \frac{1}{k} \sum_{i=1}^k \bar Y_i,
+$$
+then
+$$
+V( E [ \bar y_c \mid i \in s ] ) = \left( 1 - \frac{k}{K} \right) \frac{1}{k} \frac{1}{K-1} \sum_{i=1}^K (\bar Y_i - \bar Y_i )^2 = \left(1-\frac{k}{K} \right) \frac{S_1^2}{k}.
+$$
+Thus
+$$
+V(\bar y_c) = \underbrace{\left( 1 - \frac{k}{K} \right) \frac{S_1^2}{k}}_{\text{first stage variance}} + \underbrace{\left( 1 - \frac{m}{M} \right) \frac{S_2^2}{n}}_{\text{second stage variance}} 
+$$
+
+## Estimating sampling variance of mean from two-stage cluster sample
+
+* Need to estimate $S_1^2$ and $S_2^2$
+
+$$
+s_2^2 = \frac{1}{k(m-1)} \sum_{i=1}^k \sum_{j=1}^m (y_{ij} - \bar y_i)^2
+$$
+and 
+$$
+\begin{aligned}
+E [ s_2^2 ] &= E[ E [ s_2^2 \mid i \in s]] =
+E \left[ \frac{1}{k} \sum_{i=1}^k E(s_i^2) \right] \\
+&= E \left[ \frac{1}{k} \sum_{i=1}^k S_i^2 \right] = \frac{1}{K} \sum_{i=1}^K S_i^2 = S_2^2
+\end{aligned}
+$$
+
+## ISSUE: Biased estimator
+
+* $s_1^2 = \frac{1}{k-1} \sum_{i=1}^k (\bar y_i - \bar y)^2$ is a biased estimator of $S_1^2$ when second stage sampling is performed!
+
+$$
+\begin{aligned}
+E [ s_1^2 ] = S_1^2 + \left( 1-\frac{m}{M} \right) \frac{S_2^2}{m}
+\end{aligned}
+$$
+
+## Proof of bias
+
+$$
+\begin{aligned}
+E [ \sum_{i=1}^l (\bar y_i - \bar y )^2 ] &= E \left[ E \left[ \sum_{i=1}^k (\bar y_i - \bar y)^2 \mid i \in s \right] \right] \\
+&= E \left[ E \left[ \sum_{i=1}^k \bar y_i^2 \mid i \in s \right] \right] + k E \left[ E \left[ \bar y^2 \mid i \in s \right] \right] \\
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+E \left[ E \left[ \sum_{i=1}^k \bar y_i^2 \mid i \in s \right] \right] 
+&= E \left[ E \left[ \sum_{i=1}^k (\bar y_i - \bar Y_i + \bar Y_i)^2 \mid i \in s \right] \right] \\
+&= E \left[ \sum_{i=1}^k E \left[ (\bar y_i - \bar Y_i)^2 \mid i \in s \right] + \sum_{i=1}^k \bar Y_i^2 \right] \\
+&= E \left[ \sum_{i=1}^k V (\bar y_i \mid i \in s) \right] + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
+\end{aligned}
+$$
 
 
-## JITT:
+## Unbiased estimators
 
-* How would you use poststratification on age to adjust for phone type (landline or cell) in polling?
-* Try and apply proposal to Pew using ideology as the outcome.
+* Replace $S_2^2$ with $s_2^2$ and replace $S_1^2$ with $s_1^2 - \left( 1- \frac{m}{M} \right) \frac{s_2^2}{m}$
+yields an unbiased estimator of $V(\bar y_c)$.
+
+$$
+\begin{aligned}
+v(\bar y_c ) &= \left( 1 - \frac{k}{K} \right) \frac{1}{k} \left(s_1^2 - \left( 1- \frac{m}{M} \right) \frac{s_2^2}{m} \right) + \left( 1 - \frac{m}{M} \right) \frac{s_2^2}{km} \\
+&= \left( 1 - \frac{k}{K} \right) \frac{s_1^2}{k} + \left( 1 - \frac{m}{M} \right) \frac{s_2^2}{km} \left( 1 - \left( 1 - \frac{k}{K} \right) \right) \\
+&= \left( 1 - \frac{k}{K} \right) \frac{s_1^2}{k} + \frac{k}{K} \left( 1 - \frac{m}{M} \right) \frac{s_2^2}{km}  \\
+&= (1-f_1) \frac{s_1^2}{k} + f_1 (1-f_2) \frac{s_2^2}{n}
+\end{aligned}
+$$
+
+## Design effect for 2-stage sampling
+
+From previous results we have
+$$
+\frac{N-1}{N} S^2 = \frac{K-1}{K} S_1^2 + \frac{M-1}{M} S_2^2
+$$
+and
+$$
+\rho = \frac{\sum_{i=1}^K \sum_{j \neq l} (Y_{ij} - \bar Y) (Y_{il} - \bar Y) }{(N-1)(M-1)S^2}
+$$
+
+## Re-writing cross term 
+
+$$
+\begin{aligned}
+\sum_{j \neq l} (Y_{ij} - \bar Y) (Y_{il} - \bar Y) &= \sum_{j,l=1}^M (Y_{ij} - \bar Y) (Y_{il} - \bar Y) - \sum_{j=1}^M (Y_{ij} - \bar Y)^2 \\
+&= \left[ \sum_{j=1}^M (Y_{ij} - \bar Y) \right]^2 - \sum_{j=1}^M (Y_{ij} - \bar Y)^2 \\
+&= \left[ M ( \bar Y_{i} - \bar Y) \right]^2 - \sum_{j=1}^M (Y_{ij} - \bar Y)^2 \\
+\end{aligned}
+$$
+and thus
+$$
+\begin{aligned}
+\sum_{i=1}^K \sum_{j \neq l} (Y_{ij} - \bar Y) (Y_{il} - \bar Y) &= M^2 \sum_{i=1}^K (\bar Y_i - \bar Y)^2 - \sum_{i=1}^K \sum_{j=1}^M (Y_{ij} - \bar Y)^2 \\
+&= M (K-1) S_1^2 - (N-1) S^2 = M (K-1) S_1^2 - [M(K-1)S_1^2 + K(M-1) S_2^2] \\
+&= M(K-1)(M-1) S_1^2 - K(M-1)S_2^2
+\end{aligned}
+$$
+
+## Plug and play
+
+$$
+\rho = \frac{\sum_{i=1}^K \sum_{j \neq l} (Y_{ij} - \bar Y) (Y_{il} - \bar Y) }{(N-1)(M-1)S^2}
+= \frac{x}{x} \to \frac{S_1^2 - \frac{S_2^2}{M}}{S^2}
+$$
+As $K,N \to \infty$. Using the previous result that $S_w^2 = S_2^2 \approx (1-\rho) S^2$, we have
+$$
+S_1^2 = \rho S^2 + \frac{(1-\rho) S^2}{M} = S^2 \left[ \frac{1}{M} + \rho \left( 1 - \frac{1}{M} \right) \right]
+= S^2 [1+(M-1)\rho]/M
+$$
+
+##  Design effect
+
+* The design effect associated with a mean from two-stage cluster sample of equal cluster size is given by 
+$$
+deff = [1+(m-1)\rho] - (M-m) \frac{f}{1-f} \rho
+$$
+or just $1+(m-1)\rho$ as $K$ and thus $N \to \infty$ for a fixed $M$.
+* Note that $m$ (unlike $\rho$) can be manipulated by the design, so the design effect can be controlled.
