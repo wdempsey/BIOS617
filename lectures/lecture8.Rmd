@@ -119,6 +119,7 @@ $$
 ## List periodicity
 
 A practical issue of concern is _list periodicity_.
+
 * Avoid sampling intervals that coincide with periodicity in the list.
   + Suppose there is a pairing of (heterosexual) spouses: HWHWHW. Even sampling interval will yield only men or only women, but an odd interval would work well.
   + Apartment block with 8 apartments per floor. Sampling interval of 8 gives same apartment on each floor, but an interval of 7 will work well.
