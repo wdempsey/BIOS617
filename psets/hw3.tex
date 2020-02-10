@@ -1,0 +1,42 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage[margin=1.0in]{geometry}
+
+\def\given{\, | \,}
+
+\begin{document}
+
+\title{Homework \# 3, Due February 24, 2020}
+\author{BIOS 617}
+\date{Assigned on: February 10, 2020}
+
+\maketitle
+
+\begin{enumerate}
+\setlength{\itemsep}{15pt}%
+\setlength{\parskip}{15pt}%
+
+\item  The dataset `hw3.dat' contains a population of 50 individuals in a firm. The first column is an indicator of gender (1 for female, 0 for male) and the second for salaried (=1) versus hourly (=0).
+	\begin{enumerate}
+	\item For a systematic sample of size $n=10$, compute the (true) variance of the estimated proportion of women and of salaried workers. {\bf [10 pts]}
+	\item Compute the variances under SRS for proportion of women and of salaried workers and the resulting design effects. {\bf [10 pts]}
+	\item Comment on your findings in (b). {\bf [5 pt]}
+	\end{enumerate}
+
+\item Cochran 10.10 {\bf [20 pt]} Show that if $S_u^2 >0$, in the notation of section 10.6, a simple random sample of $n$ primary units, with $1$ element chosen per unit, is more precise than a simple random sample of $n$ elements ($n>1$, $M>1$). Show that the precision of the two methods is equal if $n/N$ is negligible. Would you expect this intuitively? \emph{Although this results can be shown exactly, you can make the assumption that $K$ is large, so that $\frac{K-1}{K} \approx 1$ and thus $\frac{N-1}{N} \approx 1$ to simplify calculations.}
+
+\item A researcher took an SRS of 4 high schools from a region of 29 high schools for a study on the prevalence of routine vaping among high school students in the region:
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{p{1in} | p{1.5in} p{1.5in} p{1.5in}}
+School & Number of students & Number of students interviewed & Number of routine vapers \\ \hline
+1 & 800 & 20 & 10 \\
+2 & 760 & 19 & 4 \\
+3 & 800 & 20 & 6 \\
+4 & 840 & 21 & 13 \\ \hline
+\end{tabular}
+\end{table}
+
+\end{enumerate}
+\end{document}
