@@ -317,7 +317,7 @@ $$
 \begin{aligned}
 S_1^2 &= \frac{\sum_{i=1}^K (\bar Y_i - \bar Y)^2}{K-1}, \\
 S_2^2 &= \frac{\sum_{i=1}^K \sum_{j=1}^M (\bar Y_{ij} - \bar Y_i)^2}{K(M-1)}, \\
-S_3^2 &= \frac{\sum_{i=1}^K \sum_{j=1}^M \sum_{l=1}^R (Y_{ijl} - \bar Y_{il})^2}{KM(R-1)},
+S_3^2 &= \frac{\sum_{i=1}^K \sum_{j=1}^M \sum_{l=1}^R (Y_{ijl} - \bar Y_{ij})^2}{KM(R-1)},
 \end{aligned}
 $$
 
