@@ -1,0 +1,80 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage[margin=1.0in]{geometry}
+
+\def\given{\, | \,}
+
+\begin{document}
+
+\title{Homework \# 2, Due February 10, 2020}
+\author{BIOS 617}
+\date{Assigned on: January 27, 2020}
+
+\maketitle
+
+\begin{enumerate}
+\setlength{\itemsep}{15pt}%
+\setlength{\parskip}{15pt}%
+
+\item  Show that, under proportionate allocation, when $n_h = 2$ for all strata,
+$$
+v( \bar y_{st} ) = \frac{1-f}{n^2} \sum_{h=1}^2 ( y_{h1} - y_{h2} )^2
+$$
+This is sometimes called a ``paired selection'' design.  {\bf [10 pt]}.
+
+\item The $2,010$ farms in a small country are stratified by size in hectares. A sample $n = 100$ are to be selected for a survey to estimate the average number of hectares planted in corn. Data on the seven strata are as follows (the population means and variances are for the total size of the farms in each stratum, regardless of the type of crop):
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c c}
+Size (hectares) & $N_h$ & $\bar Y_h$ & $S_h^2$ \\ \hline
+$<$40 & 394 & 5.4 & 8.3 \\
+40-79 & 461 & 16.3 & 13.3 \\
+80-119 & 391 & 24.3 & 15.1 \\
+120-159 & 334 & 34.5 & 19.8 \\
+160-199 & 169 & 42.1 & 24.5 \\
+200-239 & 113 & 50.1 & 26.0 \\
+$\geq$ 240 & 148 & 63.8 & 35.2 \\
+Total & 2010 & 26.3 & - \\ \hline
+\end{tabular}
+\end{table}
+
+	\begin{enumerate}
+		\item Compute the sample sizes for a proportionate allocation and an optimum allocation assuming constant costs across strata (Neyman allocation) {\bf [10 pt]}
+		\item What is an implicit assumption in a) required for the estimation of the mean number of hectares planted in corn to be optimal? {\bf [5 pt]}
+		\item Estimate $V(\bar y_{prop} )$ and $V( \bar y_N )$ and the associated design effects of proportionate and Neyman allocation using the above table. {\bf [15 pt]}
+	\end{enumerate}
+
+\item Show that
+	\begin{enumerate}
+		\item $V(\bar y_{ps}) > V(\bar y_{st})$ where $\bar y_{ps}$ is computed using known strata after sampling, and $\bar y_{st}$ is computed using proportionate allocation to strata before sampling. {[\bf 10 pt]}
+		\item $V(\bar y_{ps}) \leq V(\bar y_{SRS}) $ asymptotically. {[\bf 10 pt]}
+	\end{enumerate}
+
+\item (Cochran 5.11) If $V_{prop} (\bar y_{st})$ is the variance of the estimated mean from a stratified random sample of size $n$ with proportional allocation and $V(\bar y)$ is the variance of the mean of a simple random sample of size $n$, show that the ratio
+$$
+\frac{V_{prop} (\bar y_{st})}{V(\bar y)}
+$$
+does not depend on the size of the sample bu that the ratio
+$$
+\frac{V_{min} (\bar y_{st})}{V_{prop} (\bar y)}
+$$
+decreases as $n$ increases, where $V_{min} (\bar y_{st})$ is the variance of the estimated mean from a stratified random sample of size $n$ with optimal allocation.  This implies that optimum allocation for fixed $n$ becomes more effective in relation to proportional allocation as $n$ increases. {\bf [20 pt]}
+
+{\it Hint:} Use the fact that for proportionate allocation
+$$
+V_{prop} (\bar y_{st}) = \frac{1-f}{n} \sum_h P_h S_h^2
+$$
+and
+$$
+V_{min} (\bar y_{st}) = \frac{\left( \sum_h P_h S_h \right)^2}{n} - \frac{\sum_h P_h S_h^2}{N}
+$$
+
+\item A population consists of 100,000 elements, grouped into 10,000 clusters of 10 each. Attached is a dataset (hw2\_5.dat) that contains the data from a random sample of 10 clusters. (The first column is the cluster ID number; the second column is the observation.
+	\begin{enumerate}
+		\item Compute an estimate of the population mean and an associated 95\% confidence interval (you may ignore the sampling fraction) {\bf [10 pt]}
+		\item Estimate the design effect {\bf [10 pt]}
+	\end{enumerate}
+
+\end{enumerate}
+\end{document}
