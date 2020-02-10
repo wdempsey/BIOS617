@@ -148,7 +148,7 @@ $$
 $$
 \begin{aligned}
 E [ \sum_{i=1}^l (\bar y_i - \bar y )^2 ] &= E \left[ E \left[ \sum_{i=1}^k (\bar y_i - \bar y)^2 \mid i \in s \right] \right] \\
-&= E \left[ E \left[ \sum_{i=1}^k \bar y_i^2 \mid i \in s \right] \right] + k E \left[ E \left[ \bar y^2 \mid i \in s \right] \right] \\
+&= E \left[ E \left[ \sum_{i=1}^k \bar y_i^2 \mid i \in s \right] \right] - k E \left[ E \left[ \bar y^2 \mid i \in s \right] \right] \\
 \end{aligned}
 $$
 
