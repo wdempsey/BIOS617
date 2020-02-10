@@ -65,10 +65,10 @@ llest = mean(landlinedata$ideo_numeric[llstrata1])*P1/100 + mean(landlinedata$id
 ```
 
 * The mean age in all the data is `r round(mean(data$age),2)`, in just the cell surveys is `r round(mean(celldata$age),2)`, and in just the landlines is `r round(mean(data$age[data$sample=="landline"]),2)`.
-* Split cell data into strata of 18-24 ($P_1 = `r round(P1,3)`$\%), 25-44 ($P_2 = `r round(P1,3)`$\%), and 45+ ($P_3 = `r round(P3,3)`$\%)
+* Split cell data into strata of 18-24 ($P_1 = `r round(P1,3)`$\%), 25-44 ($P_2 = `r round(P2,3)`$\%), and 45+ ($P_3 = `r round(P3,3)`$\%)
 * The mean ideology is `r round(mean(celldata$ideo_numeric[cellstrata1]),3)`, `r round(mean(celldata$ideo_numeric[cellstrata2]),3)`, and `r round(mean(celldata$ideo_numeric[cellstrata3]),3)` respectively in __cell__ data.
 * The mean ideology is `r round(mean(landlinedata$ideo_numeric[llstrata1]),3)`, `r round(mean(landlinedata$ideo_numeric[llstrata2]),3)` and `r round(mean(landlinedata$ideo_numeric[llstrata3]),3)` respectively in __landline__ data.
-* PS estimates are `r round(cellest,2)` for cell only data and `r round(llest,2)`
+* PS estimates are `r round(cellest,2)` for cell only data and `r round(llest,2)` for landline only data
 * Overall estimate was `r round(mean(data$ideo_numeric),2)`
 
 
@@ -117,35 +117,6 @@ V(\bar y_c) = E \left[ V(\bar y_c \mid i \in s ) \right] + V \left( E[ \bar y_c 
 $$
 where treat chosen clusters as strata since we are fixing the clusters through conditioning.
 
-## Proof begins
-
-$$
-V (\bar y_c \mid i \in s) = \frac{1-f}{n} \sum_{i=1}^K P_i S_i^2 = \left( 1 - \frac{m}{M} \right) \frac{1}{n} \sum_{i=1}^k \frac{1}{k} S_i^2
-$$
-where $S_i^2 = (M-1)^{-1} \sum_{j=1}^M (Y_{ij} - \bar Y_i)^2$. Then
-$$
-\begin{aligned}
-E [ V(\bar y_c \mid i \in s) ] &= \left( 1 - \frac{m}{M} \right) \frac{1}{n} E \left( \sum_{i=1}^k \frac{1}{k} S_i^2 \right) \\
-&= \left( 1 - \frac{m}{M} \right) \frac{1}{n} \frac{1}{K} \left( \sum_{i=1}^K S_i^2 \right) \\
-&= \left( 1 - \frac{m}{M} \right) \frac{1}{n} \frac{1}{K(M-1)} \sum_{i=1}^K \sum_{j=1}^M (Y_{ij} - \bar Y_i)^2 \\
-&= \left( 1 - \frac{m}{M} \right) \frac{S_2^2}{n}
-\end{aligned}
-$$
-
-## Proof continues
-
-$$
-E[ \bar y_c \mid i \in s ] = \frac{1}{k} \sum_{i=1}^k \bar Y_i,
-$$
-then
-$$
-V( E [ \bar y_c \mid i \in s ] ) = \left( 1 - \frac{k}{K} \right) \frac{1}{k} \frac{1}{K-1} \sum_{i=1}^K (\bar Y_i - \bar Y_i )^2 = \left(1-\frac{k}{K} \right) \frac{S_1^2}{k}.
-$$
-Thus
-$$
-V(\bar y_c) = \underbrace{\left( 1 - \frac{k}{K} \right) \frac{S_1^2}{k}}_{\text{first stage variance}} + \underbrace{\left( 1 - \frac{m}{M} \right) \frac{S_2^2}{n}}_{\text{second stage variance}} 
-$$
-
 ## Estimating sampling variance of mean from two-stage cluster sample
 
 * Need to estimate $S_1^2$ and $S_2^2$
@@ -186,10 +157,36 @@ $$
 E \left[ E \left[ \sum_{i=1}^k \bar y_i^2 \mid i \in s \right] \right] 
 &= E \left[ E \left[ \sum_{i=1}^k (\bar y_i - \bar Y_i + \bar Y_i)^2 \mid i \in s \right] \right] \\
 &= E \left[ \sum_{i=1}^k E \left[ (\bar y_i - \bar Y_i)^2 \mid i \in s \right] + \sum_{i=1}^k \bar Y_i^2 \right] \\
-&= E \left[ \sum_{i=1}^k V (\bar y_i \mid i \in s) \right] + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
+&= E ( \sum_{i=1}^k V (\bar y_i))  + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
 \end{aligned}
 $$
 
+## Proof continues
+
+$$
+\begin{aligned}
+&E ( \sum_{i=1}^k V (\bar y_i) )  + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
+=& \sum_{i=1}^k \left( 1 - \frac{m}{M} \right) \frac{E(S_i^2)}{m}  + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
+=& \left( 1 - \frac{m}{M} \right) \frac{k S_2^2}{m}  + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
+\end{aligned}
+$$
+
+## Proof of bias
+
+$$
+\begin{aligned}
+E[ \bar y^2 ] &= V(\bar y^2) + E[\bar y]^2 \\
+&= \left( 1 - \frac{k}{K} \right) \frac{S_1^2)}{k} + \left( 1 - \frac{m}{M} \right) \frac{S_2^2}{n} + \bar Y^2
+\end{aligned}
+$$
+Combining these two terms we have 
+$$
+\begin{aligned}
+& k \left( 1 - \frac{m}{M} \right) \frac{S_2^2}{m}  + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
+&-k \times \left( \left( 1 - \frac{k}{K} \right) \frac{S_1^2)}{k} + \left( 1 - \frac{m}{M} \right) \frac{S_2^2}{n} + \bar Y^2 \right) \\
+&= (k-1) \left[ (1-m/M) S_2^2/m + S_1^2\right]
+\end{aligned}
+$$
 
 ## Unbiased estimators
 
@@ -225,12 +222,16 @@ $$
 &= \left[ M ( \bar Y_{i} - \bar Y) \right]^2 - \sum_{j=1}^M (Y_{ij} - \bar Y)^2 \\
 \end{aligned}
 $$
-and thus
+
+## And thus
+
 $$
 \begin{aligned}
-\sum_{i=1}^K \sum_{j \neq l} (Y_{ij} - \bar Y) (Y_{il} - \bar Y) &= M^2 \sum_{i=1}^K (\bar Y_i - \bar Y)^2 - \sum_{i=1}^K \sum_{j=1}^M (Y_{ij} - \bar Y)^2 \\
-&= M (K-1) S_1^2 - (N-1) S^2 = M (K-1) S_1^2 - [M(K-1)S_1^2 + K(M-1) S_2^2] \\
-&= M(K-1)(M-1) S_1^2 - K(M-1)S_2^2
+&\sum_{i=1}^K \sum_{j \neq l} (Y_{ij} - \bar Y) (Y_{il} - \bar Y) \\
+=& M^2 \sum_{i=1}^K (\bar Y_i - \bar Y)^2 - \sum_{i=1}^K \sum_{j=1}^M (Y_{ij} - \bar Y)^2 \\
+=& M (K-1) S_1^2 - (N-1) S^2 \\
+=& M (K-1) S_1^2 - [M(K-1)S_1^2 + K(M-1) S_2^2] \\
+=& M(K-1)(M-1) S_1^2 - K(M-1)S_2^2
 \end{aligned}
 $$
 
