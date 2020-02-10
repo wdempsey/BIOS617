@@ -203,7 +203,7 @@ $$
 
 - Variance estimate $v(\bar y_h) = (1-f_h) s_h^2 / n_h$ is unbiased for $V(\bar y_h)$, so
 $$ \small
-v(\bar y_{st}) = \sum_h P_h \left(1-\frac{n_h}{N_h} \right) \frac{s_h^2}{n_h}
+v(\bar y_{st}) = \sum_h P_h^2 \left(1-\frac{n_h}{N_h} \right) \frac{s_h^2}{n_h}
 $$
 is an unbiased for $V(\bar y_{st})$.
 
