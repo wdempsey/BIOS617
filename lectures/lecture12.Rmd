@@ -91,7 +91,7 @@ We can approximate the variance of $g({\bf u})$ as
 $$
 v(g(u)) \approx V(g_l) \text{ for } g_l = \sum_{i=1}^k u_i \frac{\partial g}{\partial u_i} \mid_{u_i = U_i}
 $$
-Just use the frist term of the approximation so that  
+Just use the first term of the approximation so that  
 $$
 \begin{aligned}
 V(g({\bf u})) &\approx V \left( g({\bf U}) + \sum_{i=1}^k (u_i - U_i) \frac{\partial g}{\partial u_i} \mid_{u_i=U_i} \right) \\
@@ -160,7 +160,7 @@ otherwise.
 
 ## When is first-order approximation reasonable?
 
-* When $\bar x$ and $\bar y$ are bivariate normal, the MSE of $r$ can be approximated by (Cocharn, 6.9)
+* When $\bar x$ and $\bar y$ are bivariate normal, the MSE of $r$ can be approximated by (Cochran, 6.9)
 $$
 \begin{aligned}
 E(r-R)^2 &\approx V(r) \left( 1 + \frac{3 C_x^2}{n} + \frac{n (C_y^2 + C_x^2 - 2 C_{xy})}{6 C_x^2 (\rho C_y^2 + C_x^2 - 2 C_{xy})} \right) \\
