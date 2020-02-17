@@ -1,0 +1,214 @@
+---
+title: "BIOS 617 - Lecture 11"
+author: "Walter Dempsey"
+date: "2/17/2020"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r brexit, echo = FALSE, include = FALSE}
+# install packages
+if(!require('dslabs')){install.packages('dslabs')}
+if(!require('tidyverse')){install.packages('tidyverse', dependencies = TRUE)}
+if(!require('ggrepel')){install.packages('ggrepel')}
+if(!require('matrixStats')){install.packages('matrixStats')}
+if(!require('survey')){install.packages('survey')}
+
+# load libraries
+library(dslabs)
+library(tidyverse)
+library(ggrepel)
+library(matrixStats)
+library(survey)
+library(dplyr)
+```
+
+```{r eval = TRUE, include = FALSE}
+if(!require('sampling')){install.packages('sampling')}
+
+library("sampling"); library("kableExtra")
+subsample_df = read.table(file = "data/mymu284.dat", header = F)
+data("MU284")
+subsample_df = MU284[subsample_df[,1],]
+```
+
+## Cluster Sampling: Example.
+
+MU284: 1985 data from all 284 municipalities in Sweden
+
+```{r, out.width = "80px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l12_fig1.png") # place holder
+```
+
+## Subset of size 20
+
+```{r, eval = TRUE, echo = FALSE}
+kable(subsample_df) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F ,font_size = 7)
+```
+
+## Data overview
+
+Contains the following variables clustered into 50 geographic regions:
+
+* 1985 population (thousands)
+* 1975 population (thousands)
+* 1985 tax revenues
+* Number of Conservative seats in city council
+* Number of Social Democratic seats in city council Number of
+seats in city council
+* Number of municipal employees
+* Real estate value (millions of kronor)
+
+We are going to use the clustering in the sample (although
+not necessary) for pedagogical purposes.
+
+* 5-8 municipalities per cluster: restrict to 5 (N=250) for example
+
+## Consider two designs:
+
+* Sample $k=10$ clusters and all municipalities therein $(M=5)$
+* Sample $k=25$ clusters and $m=2$ municipalities in each cluster
+  + $n=50$ in both designs
+  + Focus on estimating mean number of municipal employees: `r round(mean(MU284$ME84),0)`
+  
+## First design
+
+```{r, eval = TRUE, echo = TRUE}
+CL.df = MU284 %>%
+  group_by(CL) %>%
+  summarise(mean_size = mean(ME84, na.rm = TRUE))
+
+set.seed("498491561")
+CLset1 = sample(1:50, size = 10)
+```
+* We select units `r CLset1`
+* These have means `r round(CL.df$mean_size[CLset1])`
+* Estimate is therefore `r round(mean(CL.df$mean_size[CLset1]))`
+
+## First Design: Continued
+
+* Variance estimate is 
+$$
+\begin{aligned}
+v(\bar y) &= \left( 1 - \frac{k}{K} \right) \frac{1}{k \cdot (k-1)} \sum_{i=1}^10 (\bar y_i - \bar y)^2 \\
+&= \left( 1 - \frac{10}{50} \right) \frac{1}{10 \cdot 9} \sum_{i=1}^10 (\bar y_i - \bar y)^2 \\
+&= \left( 1 - \frac{10}{50} \right) \frac{1}{10 \cdot 9} \sum_{i=1}^10 (\bar y_i - \bar y)^2 \\
+&= `r var(CL.df$mean_size[CLset1])/10*(1-10/50)`
+\end{aligned}
+$$
+* 95\% CI is
+$$
+`r round(mean(CL.df$mean_size[CLset1]))` \pm `r qt(0.975, 9)` \times \sqrt{`r var(CL.df$mean_size[CLset1])/10*(1-10/50)`} = (`r round(mean(CL.df$mean_size[CLset1]) - qt(0.975, 9) * sqrt(var(CL.df$mean_size[CLset1])/10*(1-10/50)))`,`r round(mean(CL.df$mean_size[CLset1]) + qt(0.975, 9) * sqrt(var(CL.df$mean_size[CLset1])/10*(1-10/50)))`)
+$$
+
+## Design effect and intraclass correlation
+
+* $s^2 = `r var(MU284$ME84[is.element(MU284$CL, CLset1)])`$, and
+$$
+\hat d = \frac{v(\bar y)}{(1-f) s^2/n} = \frac{`r var(CL.df$mean_size[CLset1])/10*(1-10/50)`}{`r var(MU284$ME84[is.element(MU284$CL, CLset1)])*(1-10/50)/50`}
+= `r round((var(CL.df$mean_size[CLset1])/10*(1-10/50))/(var(MU284$ME84[is.element(MU284$CL, CLset1)])*(1-10/50)/50),3)`
+$$
+And $\hat d = 1 + (M-1) \hat \rho$ implies
+$$
+\Rightarrow \hat \rho = \frac{\hat d - 1}{M-1} = `r round(((var(CL.df$mean_size[CLset1])/10*(1-10/50))/(var(MU284$ME84[is.element(MU284$CL, CLset1)])*(1-10/50)/50) - 1)/(4),3)`
+$$
+
+```{r, eval = TRUE, include=FALSE}
+hat.rho = ((var(CL.df$mean_size[CLset1])/10*(1-10/50))/(var(MU284$ME84[is.element(MU284$CL, CLset1)])*(1-10/50)/50) - 1)/(4)
+```
+
+## Second design
+
+```{r, eval = TRUE, include = FALSE}
+set.seed("1451")
+CLset = sample(1:50, size = 25)
+y_result = s_result = vector(length = 25)
+CL_person_sampled = rep(0,0)
+for (i in 1:length(CLset)) {
+  current_sample = sample(which(MU284$CL==CLset[i]), 2)
+  CL_person_sampled = c(CL_person_sampled, current_sample)
+  y_result[i] = mean(MU284$ME84[current_sample])
+  s_result[i] = var(MU284$ME84[current_sample])
+}
+```
+
+* The sampled means are: `r round(y_result)`
+* The sampled varisances are: `r round(s_result)`
+
+## Second design
+
+* The estimate is then $\bar y = \frac{1}{25} \sum_{i=1}^{25} \bar y_i = `r mean(y_result)`$
+* The 1st stage variability is $s_1^2\frac{1}{24} \sum_{i=1}^{25} (\bar y_i-\bar y)^2 = `r round(var(y_result))`$
+* The 2nd stage variability is $s_2^2 = \frac{1}{25} \sum_{i=1}^{25} s_i^2 = `r mean(s_result)`$
+* Then
+$$
+\small
+\begin{aligned}
+v(\bar y) &= \left( 1-\frac{25}{50} \right) \frac{`r round(var(y_result))`}{25} + \frac{25}{50} \left( 1- \frac{2}{5} \right) \frac{`r mean(s_result)`}{50} \\
+&= `r ( 1-25/50) * var(y_result)/25` + `r (25/50)*(1-2/5)*mean(s_result)/50`  \\
+&=`r ( 1-25/50) * var(y_result)/25 + (25/50)*(1-2/5)*mean(s_result)/50`
+\end{aligned}
+$$
+* 95\% CI: 
+$$
+`r mean(y_result)` \pm `r round(qt(0.975,24),2)` \times \sqrt{`r ( 1-25/50) * var(y_result)/25 + (25/50)*(1-2/5)*mean(s_result)/50`} =
+(`r round(mean(y_result)- qt(0.975,24)*sqrt(( 1-25/50) * var(y_result)/25 + (25/50)*(1-2/5)*mean(s_result)/50),0)`, `r round(mean(y_result) + qt(0.975,24)*sqrt(( 1-25/50) * var(y_result)/25 + (25/50)*(1-2/5)*mean(s_result)/50),0)`)
+$$
+
+
+## Design effect and intraclass correlation
+
+* $s^2 = `r var(MU284$ME84[CL_person_sampled])`$; then
+$$
+\hat d = \frac{v(\bar y)}{(1-f)s^2/n} = \frac{`r ( 1-25/50) * var(y_result)/25 + (25/50)*(1-2/5)*mean(s_result)/50`}{`r var(MU284$ME84[CL_person_sampled])*(1-50/250)/50`} =
+`r round((( 1-25/50) * var(y_result)/25 + (25/50)*(1-2/5)*mean(s_result)/50)/(var(MU284$ME84[CL_person_sampled])*(1-50/250)/50),2)`
+$$
+Implying
+$$
+\hat \rho \approx \frac{\hat d - 1}{m-1} = \frac{`r round((( 1-25/50) * var(y_result)/25 + (25/50)*(1-2/5)*mean(s_result)/50)/(var(MU284$ME84[CL_person_sampled])*(1-50/250)/50),2)`-1}{2-1}
+= `r round((( 1-25/50) * var(y_result)/25 + (25/50)*(1-2/5)*mean(s_result)/50)/(var(MU284$ME84[CL_person_sampled])*(1-50/250)/50) -1,2)`
+$$
+
+## Optimal design
+
+* Using the result from the first sample, suppose we wanted to estimate m to optimize (minimize) costs.
+* Suppose the cost of recruiting a cluster (e.g., setting up the staff in a region) is equal to the cost of going to a municipality and collecting and managing the data: $c_1 = c_2 = 1$
+* Using the approximation that ignored the second stage variance:
+$$
+m = \sqrt{\frac{c_1 (1-\rho)}{c_2 \rho} } = \sqrt{\frac{1-0.135}{0.135}} = `r round(sqrt((1-hat.rho)/(hat.rho)),2)` \to `r ceiling(sqrt((1-hat.rho)/(hat.rho)))`
+$$
+
+## Optimal design
+
+```{r, eval = TRUE, include = FALSE}
+ssq = var(MU284$ME84[is.element(MU284$CL, CLset1)])
+s1sq = var(CL.df$mean_size[CLset1])
+k = 10; m = 5
+s2sq = ((k*m-1) * ssq - (k-1) * m * s1sq)/(k*(m-1))
+susq = s1sq - s2sq/m
+mstar = sqrt(s2sq/susq)
+```
+
+* Using the exact result, we first compute
+$$
+\begin{aligned}
+\hat S_u^2 &= \hat S_1^2 - \hat S_2^2/M \\
+&= s_1^2 - \left( 1 - \frac{m}{M} \right) s_2^2 - \frac{s_2^2}{m} \\
+&= s_1^2 - \frac{s_2^2}{m}
+\end{aligned}
+$$
+* $s_1^2 = k v(\bar y)/(1-f) = `r var(CL.df$mean_size[CLset1])`$
+* $s_2^2 = \frac{(km-1) s^2 - (k-1) m s_1^2}{k(m-1)} = `r s2sq`$
+* Then
+$$
+m = \sqrt{\frac{c_1 S_2^2}{c_2 S_u^2}} = \sqrt{\frac{`r s2sq`}{`r susq`}} = `r round(mstar,3)` \to
+`r round(sqrt(s2sq/susq))`
+$$
+
