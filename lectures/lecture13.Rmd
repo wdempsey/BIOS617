@@ -1,0 +1,125 @@
+---
+title: "BIOS 617 - Lecture 12"
+author: "Walter Dempsey"
+date: "2/19/2020"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r brexit, echo = FALSE, include = FALSE}
+# install packages
+if(!require('dslabs')){install.packages('dslabs')}
+if(!require('tidyverse')){install.packages('tidyverse', dependencies = TRUE)}
+if(!require('ggrepel')){install.packages('ggrepel')}
+if(!require('matrixStats')){install.packages('matrixStats')}
+if(!require('survey')){install.packages('survey')}
+
+# load libraries
+library(dslabs)
+library(tidyverse)
+library(ggrepel)
+library(matrixStats)
+library(survey)
+```
+
+```{r eval = TRUE, include = FALSE}
+if(!require('sampling')){install.packages('sampling')}
+
+library("sampling"); library("kableExtra")
+subsample_df = read.table(file = "data/mymu284.dat", header = F)
+data("MU284")
+subsample_df = MU284[subsample_df[,1],]
+```
+
+
+## Regression Estimators
+
+The ratio estimator of the mean $\bar y_{r} = r \bar X = \frac{\bar y}{\bar x} \bar X$ can be generalized to the __regression estimator__:
+$$
+\bar y_{lr} = \bar y + b (\bar X - \bar x) = \bar y - b (\bar x - \bar X)
+$$
+where $b$ is an estimator of the slope relating change in $y$ to change in $x$: $b = \frac{\Delta y}{\Delta x}$.
+
+Sometime $b$ might be known or fixed based on prior knowledge, but more typically it must be estimated from the data.
+
+
+## SRS setting, use least-squares estimate:
+
+$$
+b = \frac{\sum_{i=1}^n (y_i - \bar y) (x_i - \bar x)}{ \sum_{i=1}^n (x_i - \bar x)^2 }
+$$
+which is the solution to 
+$$
+\min_{b} \sum_{i=1}^n \left( y_i - a - b x_i \right)^2 
+$$
+Taking derivative with respect to $a$ and setting equal to zero
+$$
+\sum_{i=1}^n (y_i - a - b x_i)  = 0 \Rightarrow a = \bar y - b \bar x
+$$
+while with respect to $b$ lets
+$$
+\sum_{i=1}^n (y_i - (\bar y - b \bar x) - b x_i) x_i = \sum_{i=1}^n (y_i - \bar y) x_i - b \sum_{i=1}^n (x_i - \bar x) x_i = 0.
+$$
+
+## Bias of regression estimator
+
+Consider population least-squares regression estimator given by 
+$$
+B = \frac{\sum_{i=1}^n (Y_i - \bar Y) (X_i - \bar X)}{ \sum_{i=1}^n (X_i - \bar X)^2 } \to e_i := y_i - \bar Y - B(x_i - \bar X)
+$$
+Then
+$$
+\begin{aligned}
+\sum_{i=1}^N e_i &= \sum_{i=1}^N Y_i - N \bar Y - (B \sum_{i=1}^n X_i - B N \bar X) \\
+&= N \bar Y - N \bar Y - (BN \bar X - BN \bar X ) = 0 \\
+\end{aligned}
+$$
+and
+$$
+\begin{aligned}
+\sum_{i=1}^N e_i (x_i - \bar X) &= \sum_{i=1}^N (Y_i-\bar Y)(X_i-\bar X) - B \sum_{i=1}^n (X_i - \bar X)^2 \\
+&= \sum_{i=1}^N (Y_i-\bar Y)(X_i-\bar X) - \sum_{i=1}^N (Y_i-\bar Y)(X_i-\bar X) = 0 \\
+\end{aligned}
+$$
+
+## Bias discussion (ctd)
+
+$$
+\begin{aligned}
+b &= \frac{\sum_{i=1}^n (y_i - \bar y) (x_i - \bar x)}{ \sum_{i=1}^n (x_i - \bar x)^2 } = \frac{\sum_{i=1}^n y_i (x_i-\bar x)}{ \sum_{i=1}^n (x_i - \bar x)^2 }\\
+&= \frac{\sum_{i=1}^n (\bar Y + B(x_i - \bar X) + e_i) (x_i - \bar x)}{ \sum_{i=1}^n (x_i - \bar x)^2 } \\
+&= \bar Y \frac{\sum_{i=1}^n (x_i - \bar x)}{ \sum_{i=1}^n (x_i - \bar x)^2 } + B \frac{\sum_{i=1}^n (x_i - \bar X) (x_i - \bar x)}{ \sum_{i=1}^n (x_i - \bar x)^2 } + \frac{\sum_{i=1}^n e_i (x_i - \bar x)}{ \sum_{i=1}^n (x_i - \bar x)^2 } \\
+&= B + \frac{\sum_{i=1}^n e_i (x_i - \bar x)}{ \sum_{i=1}^n (x_i - \bar x)^2 } \\
+\end{aligned}
+$$
+
+## Bias of $\bar y_{lr}$
+
+* We have $E(\bar y_{lr}) = \bar Y - E (b (\bar x - \bar X))$ 
+* So the bias of $\bar y_{lr}$ is given by $cov(b,\bar x)$
+$$
+\begin{aligned}
+-E (b(\bar x - \bar X)) &= - cov(b, \bar x - \bar X) - E(b) E(\bar x - \bar X) \\
+&= - cov(b, \bar x - \bar X) = -cov (b, \bar x)
+\end{aligned}
+$$
+* We can show this is approximated by
+$$
+-\frac{1-f}{n} \frac{1}{N-1} \sum_{i=1}^N e_i (x_i - \bar X)^2/S_x^2
+$$
+* Bias goes to $0$ as $n \to N$ or $n,N \to \infty$
+* Bias is __quadratic__ in $X_i$ if the relationship between $Y_i$ and $X_i$ is approximately linear, bias will be close to 0 regardless of sample size.
+
+## Proof of the bias
+
+$$
+\begin{aligned}
+\frac{\sum_{i=1}^n e_i (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2} &=\frac{\sum_{i=1}^n e_i (x_i - \bar X) + n \bar e (\bar X- \bar x)}{n s_x^2} \\
+-(\bar x - \bar X) \cdot \frac{\sum_{i=1}^n e_i (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2} &=\frac{\sum_{i=1}^n e_i (x_i - \bar X)(\bar x - \bar X)}{ns_x^2} + \frac{\bar e (\bar X- \bar x)^2}{s_x^2} 
+\end{aligned}
+$$
