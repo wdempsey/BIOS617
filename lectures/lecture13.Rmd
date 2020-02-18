@@ -1,5 +1,5 @@
 ---
-title: "BIOS 617 - Lecture 12"
+title: "BIOS 617 - Lecture 13"
 author: "Walter Dempsey"
 date: "2/19/2020"
 output:
@@ -120,6 +120,217 @@ $$
 $$
 \begin{aligned}
 \frac{\sum_{i=1}^n e_i (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2} &=\frac{\sum_{i=1}^n e_i (x_i - \bar X) + n \bar e (\bar X- \bar x)}{n s_x^2} \\
--(\bar x - \bar X) \cdot \frac{\sum_{i=1}^n e_i (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2} &=\frac{\sum_{i=1}^n e_i (x_i - \bar X)(\bar x - \bar X)}{ns_x^2} + \frac{\bar e (\bar X- \bar x)^2}{s_x^2} 
+-(\bar x - \bar X) \cdot - \frac{\sum_{i=1}^n e_i (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2} &=\frac{\sum_{i=1}^n e_i (x_i - \bar X)(\bar x - \bar X)}{ns_x^2} + \frac{\bar e (\bar X- \bar x)^2}{s_x^2} \\ 
+&\approx -\frac{\sum_{i=1}^n u_i(\bar x - \bar X)}{ns_x^2} \\
 \end{aligned}
 $$
+where $u_i = e_i (x_i - \bar X)$ and 
+
+$$
+\bar e = O \left( n^{-1/2} \right) \quad \text{and} \quad
+\left ( \bar X - \bar x \right)^2  = O\left( n^{-1} \right)
+$$
+
+so the second term goes to zero at a rate of $n^{-3/2}$ compared to the first term which goes to zero at a rate of $n^{-1}$
+
+## Proof of the bias
+
+$$
+\begin{aligned}
+E\left [ -(\bar x - \bar X) \frac{\sum_{i=1}^n e_i (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2} \right]
+&\approx E\left [-\frac{\sum_{i=1}^n u_i(\bar x - \bar X)}{ns_x^2} \right] \\
+&= E\left [-\frac{\bar u (\bar x - \bar X)}{s_x^2} = -\frac{(\bar u - \bar U) (\bar x - \bar X)}{s_x^2} \right]\\
+&= E\left [-\frac{(\bar u - \bar U) (\bar x - \bar X)}{s_x^2} \right]\\
+\end{aligned}
+$$
+where $\bar U = \frac{1}{N} \sum_{i=1}^N e_i (x_i - \bar X) = 0$
+
+## Consider $Z_i = U_i + X_i$ under SRS
+
+$$
+\small
+\begin{aligned}
+E [ (\bar z - \bar Z)^2 ] &= \frac{1-f}{n} \frac{1}{N-1} \sum_{i=1}^N (z_i - \bar Z)^2 \\
+&= \frac{1-f}{n} \frac{1}{N-1} \sum_{i=1}^N ((u_i-\bar U) + (x_i - \bar X))^2 \\
+&= \frac{1-f}{n} \frac{1}{N-1} \sum_{i=1}^N \bigg [ (u_i-\bar U)^2 + (x_i - \bar X)^2 \\
+&+ (u_i - \bar U) (x_i - \bar X) \bigg ] \\
+&= E[(\bar u - \bar U)^2] + E[(\bar x - \bar X)^2] + \frac{1-f}{n} \frac{1}{N-1} \sum_{i=1}^N (u_i - \bar U) (x_i - \bar X)
+\end{aligned}
+$$
+
+## Plugging in and using taylor series approximation
+
+$$
+\begin{aligned}
+E\left [-\frac{(\bar u - \bar U) (\bar x - \bar X)}{s_x^2} \right]
+&= - \frac{1-f}{n} \frac{1}{N-1} \sum_{i=1}^N (u_i - \bar U) (x_i - \bar X) / S_x^2 \\
+&= - \frac{1-f}{n} \frac{1}{N-1} \sum_{i=1}^N u_i (x_i - \bar X) / S_x^2 \\
+&= - \frac{1-f}{n} \frac{1}{N-1} \sum_{i=1}^N e_i (x_i - \bar X)^2 / S_x^2 \\
+\end{aligned}
+$$
+
+## Variance of regression estimator
+
+To determine $V(\bar y_{lr})$, note that
+$$
+\bar y + b (\bar X- \bar x) = \bar y + B (\bar X - \bar x) - (B-b) (\bar X - \bar x)
+$$
+
+* $B-b$ and $\bar X - \bar x$ are both of $O(n^{-1/2})$, so $(B-b) (\bar X - \bar x)$ is of $O(n^{-1})$
+* $V(\bar y_{lr})$ comes form the error of $y_i - B x_i$, which is $O(n^{-1/2})$
+* So we can obtain $V(\bar y + B(\bar X-\bar x))$ as asymptotically equivalent to $V(\bar y_{lr})$
+
+##  Variance of regression estimator
+
+* Let $y_{Bi} = y_i + B(\bar X - x_i)$, then $\bar y_{B} = \bar y + B(\bar X - \bar x)$
+* $E(y_{Bi}) = \bar Y + B(\bar X - \bar X) = \bar Y$ and 
+$$
+\begin{aligned}
+V(\bar y + B(\bar X- \bar x)) &= E \left[ (\bar y_B - \bar Y)^2 \right] \\
+&= \frac{1-f}{n} \frac{1}{N-1} \sum_{i=1}^N \left (\bar y_i + B(\bar X - x_i) - \bar Y \right)^2 \\
+&= \frac{1-f}{n} \frac{1}{N-1} \sum_{i=1}^N \bigg [ (\bar y_i - \bar Y)^2 \\
+&- 2 B (y_i - \bar Y) ( x_i - \bar X) + B^2 (x_i - \bar X)^2 \bigg ] \\
+&= \frac{1-f}{n} \left( S_y^2 - 2 B S_yx + B^2 S_x^2 \right)
+\end{aligned}
+$$
+
+##  Variance of regression estimator
+
+* We have $B = S_{yx}/S_x^2$ which implies 
+$$
+\begin{aligned}
+V(\bar y + B(\bar X- \bar x)) &= \frac{1-f}{n} \left( S_y^2 - 2 B S_{yx} + B^2 S_{x}^2 \right) \\ 
+&= \frac{1-f}{n} \left( S_y^2 - 2 S_{yx}^2/S_x^2 + S_{yx}^2/S_{x}^2 \right) \\ 
+&= \frac{1-f}{n} \left( S_y^2 - S_{yx}^2/S_x^2 \right)
+\end{aligned}
+$$
+
+* Finally, $\rho^2 = \frac{S_{yx}^2}{S_y^2 S_x^2}$ implies 
+$$
+\begin{aligned}
+V(\bar y + B(\bar X- \bar x)) &= \frac{1-f}{n} S_y^2 \left( 1 - \rho^2 \right)
+\end{aligned}
+$$
+
+* As $|\rho| \to 1$ then $V(\bar y_{lr}) \to 0$ even in small samples
+* As long as $\rho \neq 0$, $V(\bar y_{lr}) < V(\bar y)$ (asympotically)
+
+## Variance estimator of regression estimator
+
+* To obtain an estimator of $\frac{1-f}{n} S_y^2 (1-\rho^2)$ based on the observed sample, recall
+$$\begin{aligned}
+S_y^2 (1-\rho^2) &= \frac{\sum_{i=1}^N (y_i + B(\bar X - x_i) - \bar Y)^2}{N-1} \\
+&= \frac{\sum_{i=1}^N (e_i - E(e_i))^2}{N-1} = S_e^2
+\end{aligned}
+$$
+
+* Under SRS samples, an unbiased estimator of $S_e^2$ is 
+$$
+s_e^2 = \frac{\sum_{i=1}^n (e_i - \bar e )^2}{n-1} \approx \frac{\sum_{i=1}^n ((y_i - \bar y) - b(x_i - \bar x))^2}{n-1}
+$$
+
+* Using $n-2$ rather than $n-1$ to account for the additional degree of freedom being estimated, we have
+$$
+v(\bar y_{lr}) = \frac{1-f}{n(n-2)} \sum_{i=1}^n ( (y_i - \bar y) - b (x_i - \bar x))^2
+$$
+
+## Regression estimator based on linear regression
+
+* Our focus has been on model-free inference, and none of the results previously obtain have relied on modeling assumptions.
+* Nonetheless we note that there is an implicit linear model
+lurking here: bias goes to 0 as the relationship between Y i
+and X i becomes linear, and variance is reduced as the
+correlation (linear regression slope if Y i and X i are linearly
+related) goes to 1 or -1.
+* Suppose we make the following modeling assumption: 
+$$ 
+y_i = \alpha + \beta x_i + \epsilon_i, \quad E_{M} (\epsilon_i) = 0, V_M (\epsilon_i) = \sigma_{\epsilon}^2
+$$
+where $E_M$ and $V_M$ are expectations and variances taken _with respect to the model_
+
+## Linear regression
+
+$$
+\begin{aligned}
+b &= \beta + \frac{\sum_{i=1}^n \epsilon_i (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)}, \quad \text{so } E_M(b) = \beta \\
+b &= \frac{\sum_{i=1}^n y_i (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)} =
+\frac{\sum_{i=1}^n (\alpha+\beta x_i + \epsilon_i) (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)} \\
+&= \alpha \frac{\sum_{i=1}^n (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)} + \beta \frac{\sum_{i=1}^n (x_i - \bar x)^2}{\sum_{i=1}^n (x_i - \bar x)} + \frac{\sum_{i=1}^n \epsilon_i (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)}\\
+\end{aligned}
+$$
+Similary, $\bar Y = \alpha + \beta \bar X + \bar \epsilon_N$ so $E_M (\bar y_{lr} = \bar Y) = 0$. To see this,
+$$
+\begin{aligned}
+\bar y_{lr} - \bar Y &= \bar y + b(\bar X - \bar x) - \bar Y \\
+&\alpha + \beta \bar x + \bar \epsilon_n + b(\bar X- \bar x) - (\alpha + \beta \bar X + \bar \epsilon_N) \\
+&\beta (\bar x - \bar X) - b(\bar x - \bar X) + ( \bar \epsilon_n - \bar \epsilon_N) \\
+\Rightarrow E(y_{lr} - \bar Y) &= E(\bar \epsilon_n) - E(\bar \epsilon_N )
+\end{aligned}
+$$
+
+## Finally we need variance
+
+$$
+\begin{aligned}
+&\beta (\bar x - \bar X) - b (\bar x - \bar X) + (\bar \epsilon_n - \bar \epsilon_N) \\
+=& (\bar X - \bar x) \frac{\sum_{i=1}^n \epsilon_i (x_i - \bar x)}{\sum_{i=1}^n (x_i-\bar x)^2} +  (\bar \epsilon_n - \bar \epsilon_N) 
+\end{aligned}
+$$
+so that, conditional on a given set of $x$'s,
+$$
+\begin{aligned}
+V_{M \mid x} (\bar y_{lr}) &= E_{M \mid x} ( \bar y_{lr} - \bar Y)^2 \\ 
+&= V_M (\bar \epsilon_n - \bar \epsilon_N)  + \frac{(\bar X - \bar x)^2}{\left( \sum_{i=1}^n (x_i - \bar x)^2 \right)^2} \sum_{i=1}^n V_M (\epsilon_i) (x_i - \bar x)^2 \\
+&= \sigma_{\epsilon}^2 \left[ \frac{1}{n} - \frac{1}{N} \right] + 
+\sigma_{\epsilon}^2 \frac{(\bar X - \bar x)^2}{\sum_{i=1}^n (x_i - \bar x)^2}
+\end{aligned}
+$$
+
+## Linear regression
+
+* Getting $\bar x$ closer to $\bar X$ reduces model variance.
+* We are not making normality assumptions here, just 
+  + linearity, 
+  + independence, and 
+  + homoscedasticity assumptions
+
+## Linear regression
+
+* Linear regression estimator is now part of a general formulation for using auxiliary information to improve the estimate $\bar y$ based on the discrepancy between $\bar x$ and $\bar X$:
+$\bar y_a = \bar y + k (\bar X - \bar x)$
+  + $k=0 \to \bar y_a = \bar y$ (``simple mean'')
+  + $k=r \to \bar y_a = \bar y_r$ (``ratio estimator of the mean'')
+  + $k=b \to \bar y_a = \bar y_{lr}$ (``(linear) regression estimator of the mean'')
+* If $X$ is multivariate, we obtain the generalized regression estimator
+  + __Calibration estimation__
+  
+## Example: Fit
+
+Estimate 1985 Swedish population total using 1975 Swedish population total and SRS sample of 20 municipalities via regression estimator in R.
+
+```{r swedish, eval = TRUE, echo = TRUE}
+data = read.table(file = "data/mymu284.dat", 
+                  header = TRUE)
+fit = lm(P85 ~ P75, data = data)
+kable(summary(fit)$coef, digits = 2)
+```
+
+## Example: Prediction
+
+```{r swed_pred, eval = TRUE, echo = TRUE}
+data("MU284")
+barX = mean(MU284$P75); N = nrow(MU284)
+pred = predict(fit, data.frame(P75=barX), 
+               se.fit = TRUE)
+```
+* The prediction is $N \cdot \bar y_{lr} = `r round(N * pred$fit,2)`$
+* The df is $`r pred$df`$
+* The standard error is $`r N * pred$se.fit`$
+* The CI is then
+$$
+`r round(N*pred$fit,2)` \pm `r round(qt(0.975, pred$df),2)` \cdot `r round(N * pred$se.fit,2)`=
+(`r round(N*pred$fit - qt(0.975, pred$df) * N * pred$se.fit,2)`,
+`r round(N*pred$fit + qt(0.975, pred$df) * N * pred$se.fit,2)`)
+$$
+* Compare to $\hat Y = N \bar y_{SRS} = `r mean(data$P85) * N`$ with standard error $`r round(N * sqrt( (1 - nrow(data)/nrow(MU284)) * var(data$P85) / nrow(data)),2)`$
+* Truth is `r sum(MU284$P85)`
