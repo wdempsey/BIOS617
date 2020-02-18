@@ -251,11 +251,11 @@ For large $N_h$, we can show that the deff of proportionate stratified sample is
 - $V(\bar y) = (1-f) S^2 / n$
 - $S^2 \dot = \sum_h P_h [ S_h^2 + (\bar Y_h - \bar Y)^2 ]$
 $$ \small
-\text{deff} = \frac{V(\bar y_{st})}{V(\bar y)} \dot = \frac{\sum_h P_h S_h^2}{\sum_h P_h S_h^2 + \sum_h P_h (\bar Y_h - \bar Y)^2 ]}
+\text{deff} = \frac{V(\bar y_{st})}{V(\bar y)} \dot = \frac{\sum_h P_h S_h^2}{\sum_h P_h S_h^2 + \sum_h P_h (\bar Y_h - \bar Y)^2}
 $$
 - Thus
 $$
-\text{deff} = \left( 1 + \frac{\sum_h P_h (\bar Y_h - \bar Y)^2 ]}{\sum_h P_h S_h^2}\right)^{-1} \leq 1
+\text{deff} = \left( 1 + \frac{\sum_h P_h (\bar Y_h - \bar Y)^2}{\sum_h P_h S_h^2}\right)^{-1} \leq 1
 $$
 - What factors increase the efficiency of proportionate allocation?
 
