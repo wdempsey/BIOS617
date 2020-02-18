@@ -140,7 +140,7 @@ for (i in 1:length(CLset)) {
 ```
 
 * The sampled means are: `r round(y_result)`
-* The sampled varisances are: `r round(s_result)`
+* The sampled variances are: `r round(s_result)`
 
 ## Second design
 
