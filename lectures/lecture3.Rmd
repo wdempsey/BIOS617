@@ -114,7 +114,7 @@ E[y_i y_j ] &= E \left[ y_i E [ y_j \, | \, y_i] \right] \\
 $$
 So the $\text{Cov} (y_i, y_j) = \bar Y^2 - \frac{S^2}{N} - \bar Y^2 = -\frac{S^2}{N}$
 
-## Put is all together
+## Put it all together
 
 $$ \small
 \begin{aligned}
