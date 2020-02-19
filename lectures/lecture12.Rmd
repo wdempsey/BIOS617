@@ -31,7 +31,7 @@ library(survey)
 if(!require('sampling')){install.packages('sampling')}
 
 library("sampling"); library("kableExtra")
-subsample_df = read.table(file = "data/mymu284.dat", header = F)
+subsample_df = read.table(file = "data/mymu284.dat", header = T)
 data("MU284")
 subsample_df = MU284[subsample_df[,1],]
 ```
