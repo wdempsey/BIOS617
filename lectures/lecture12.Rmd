@@ -143,7 +143,7 @@ $$
 $$
 \begin{aligned}
 V(r) &\approx \frac{1}{\bar X} \left[ \frac{1-f}{n} S_y^2 + \frac{1-f}{n} R^2 S_x^2 - \frac{2(1-f)}{n} R S_{xy} \right] \\
-&= \frac{1-f}{n \bar X^2} \left[ S_y^2 - R^2 S_x^2 - 2 R S_{xy} \right]
+&= \frac{1-f}{n \bar X^2} \left[ S_y^2 + R^2 S_x^2 - 2 R S_{xy} \right]
 \end{aligned}
 $$
 
