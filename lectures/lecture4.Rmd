@@ -102,7 +102,7 @@ the most efficient method possible if there are also differing variances by stra
 * **Goal**: Minimize the variance subject to cost constraints
 * Mathematically,
 $$
-(n_1,\ldots,n_H) = \arg \min V(\bar y_{st}) = \arg \min \sum_h P_h (1-f_h) \frac{S_h^2}{n_h}
+(n_1,\ldots,n_H) = \arg \min V(\bar y_{st}) = \arg \min \sum_h P_h^{2} (1-f_h) \frac{S_h^2}{n_h}
 $$
 * Subject to a fixed total cost $C$. 
 * We will assume a general setting where the average cost per interview is equal to $c_h$ and thus, subtracting out any fixed
@@ -113,7 +113,7 @@ costs, the budget available is $C = \sum_h c_h n_h$.
 Since
 $$ \small
 \begin{aligned}
-V(\bar y_{st}) &= \sum_h P_h (1-f_h)  \frac{S_h^2}{n_h} \\
+V(\bar y_{st}) &= \sum_h P_h^{2} (1-f_h)  \frac{S_h^2}{n_h} \\
 &= \sum_h P_h^2 \frac{S_h^2}{n_h} - \sum_h \frac{N_h^2}{N^2} \frac{n_h}{N_h} \frac{S_h^2}{n_h} \\
 &= \sum_h P_h^2 \frac{S_h^2}{n_h} - N^{-1} \sum_h P_h S_h^2 \\
 \end{aligned}
@@ -344,7 +344,7 @@ include_graphics("./figs/l4_table2.png")
 
 Consider two strata with means $\bar y_1$ and $\bar y_2$. The variance of the contrast $\bar y_1 - \bar y_2$ is
 $$
-V(\bar y_1 - \bar y_2) = V(\bar y_1) + V(\bar y_2) = \frac{S_1^2}{n_1^2} + \frac{S_1^2}{n_1^2}
+V(\bar y_1 - \bar y_2) = V(\bar y_1) + V(\bar y_2) = \frac{S_1^2}{n_1^2} + \frac{S_2^2}{n_2^2}
 $$
 Above, we ignore FPC because it will be irrelevant in the optimizing equation again.
 
