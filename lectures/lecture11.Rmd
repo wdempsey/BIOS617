@@ -97,9 +97,9 @@ CLset1 = sample(1:50, size = 10)
 * Variance estimate is 
 $$
 \begin{aligned}
-v(\bar y) &= \left( 1 - \frac{k}{K} \right) \frac{1}{k \cdot (k-1)} \sum_{i=1}^10 (\bar y_i - \bar y)^2 \\
-&= \left( 1 - \frac{10}{50} \right) \frac{1}{10 \cdot 9} \sum_{i=1}^10 (\bar y_i - \bar y)^2 \\
-&= \left( 1 - \frac{10}{50} \right) \frac{1}{10 \cdot 9} \sum_{i=1}^10 (\bar y_i - \bar y)^2 \\
+v(\bar y) &= \left( 1 - \frac{k}{K} \right) \frac{1}{k \cdot (k-1)} \sum_{i=1}^{10} (\bar y_i - \bar y)^2 \\
+&= \left( 1 - \frac{10}{50} \right) \frac{1}{10 \cdot 9} \sum_{i=1}^{10} (\bar y_i - \bar y)^2 \\
+&= \left( 1 - \frac{10}{50} \right) \frac{1}{10 \cdot 9} \sum_{i=1}^{10} (\bar y_i - \bar y)^2 \\
 &= `r var(CL.df$mean_size[CLset1])/10*(1-10/50)`
 \end{aligned}
 $$
@@ -200,7 +200,7 @@ mstar = sqrt(s2sq/susq)
 $$
 \begin{aligned}
 \hat S_u^2 &= \hat S_1^2 - \hat S_2^2/M \\
-&= s_1^2 - \left( 1 - \frac{m}{M} \right) s_2^2 - \frac{s_2^2}{m} \\
+&= s_1^2 - \left( 1 - \frac{m}{M} \right) \frac{s_2^2}{m} - \frac{s_2^2}{M} \\
 &= s_1^2 - \frac{s_2^2}{m}
 \end{aligned}
 $$
