@@ -1,0 +1,212 @@
+---
+title: "BIOS 617 - Lecture 14"
+author: "Walter Dempsey"
+date: "2/24/2020"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Topic 1: Overview
+
+* __Population__: population denotes the aggregate from which the sample is chosen
+* __Sampling frame__: Sampling units(orunits) cover population and arenon-overlapping
+
+## Key formula:
+
+* Population notation
+* Sample notation
+
+## Practice problem:
+
+* What is the population and sampling frame for Pew's US polls? 
+
+## Topic 2: SRS 
+
+* Proved SRS w/o replacement estimator $\bar y$ is unbiased estimator of $\bar Y$
+* Variance $V(\bar y)$ has a simple formula
+* Estimator $s^2$ of population variance $S^2$ is unbiased 
+* Estimating proportions has simpler formula since $s^2 = n p (1-p)$
+* Subdomain estimation: issue is $n_j$ is random.
+  + If we ignore then all formulas are the same as SRS
+  + We can improve by using Taylor series (later lecture)
+
+## Key formula:
+
+* $V(\bar y_{SRS}) = (1-f) S^2/n$
+* $s^2 = \frac{1}{n-1} \sum_{i=1}^n (y_i - \bar y)^2$
+* $V(\bar y_{SRS}) = (1-f) S^2/n$
+* $\bar y_j = n_j^{-1} \sum_{i=1}^n D_{ij} y_i$
+
+## Practice problem:
+
+* Prove SRS without replacement yields an unbiased estimator
+* If I sample one individual at random, what is the variance of that estimator?
+  + Can I construct an estimator of the population variance?
+* Is $s$ an unbiased estimator of $S$?
+
+## Lecture 2: Stratified sampling
+
+* We have strata information a priori in the sampling frame
+* Estimate within strata $\bar y_h$ and then estimate $\bar y = \sum_h P_h \bar y_h$
+* Proportionate allocation $\Rightarrow n_h = N_h \frac{n}{N}$
+
+## Key formula
+
+* $S^2 \approx \sum_h P_h (S_h^2 + (\bar Y_h - \bar Y)^2)$
+* $V(\bar y_{st}) = \sum_h P_h^2 (1-f_h) S_h^2/n_h$
+* $V(\bar y_{prop}) = (1-f) \sum_h P_h S_h^2/n$
+* $deff = V(\bar y_{st})/V(\bar y_{SRS})$
+* Under prop allocation,
+$$
+\left(1+ \frac{\sum_h P_h (\bar Y_h - \bar Y)^2}{\sum_h P_h S_h^2} \right)^{-1}
+$$
+for large $N$ and $N_h$.  Not guaranteed for small sample sizes!
+
+## Practice problem
+
+* Two strata (men, women) with $(N_1,N_2) = (900,1200)$, $(n_1,n_2) = (10,10)$, $(\bar y_1, \bar y_2) = (10,10)$
+  + Estimate the population mean
+  + Let $S_1=4, S_2=2$. Compute the varaince and a 95\% confidence interval
+* What if under proportionate allocation?
+* What is the design effect?
+  + If $(\bar Y_1, \bar Y_2) = (9,11)$
+
+
+## Topic 4: Optimal allocation
+
+* Minimize variance subject to a fixed total cost
+$$
+\arg \min \sum_h P_h^2 (1-f_h) \frac{S_h^2}{n_h}
+$$
+* Neyman allocation assumes same costs across strata
+
+## Key formula
+
+* Optimal: $n_h \propto P_h S_h / \sqrt{c_h}$
+* Neyman: $n_h \propto P_h S_h$
+* $V(\bar y_N) \approx \left( \sum_h P_h S_h \right)^2/n$
+* Comparison to proportionate allocation
+$$
+\frac{V(\bar y_{prop}) - V(\bar y_N)}{V(\bar y_N)} \approx \frac{\sum_h P_h (S_h - \bar S)^2}{\sum_h P_h S_h^2}
+$$
+
+## Practice problem
+
+* What is the optimal under $c_1 = 2, c_2 = 1$ and neyman allocation?
+* What is the variance under neyman allocation?
+
+## Topic 5: Poststratification
+
+* Use auxiliary information $\bar y_{ps} = \sum_h P_h \bar y_h$
+* The denominator is now random!
+* Impacts the variance (larger) when compared to stratified sampling
+* Subdomain estimation with a stratified sample
+  + Use the taylor series arguments again
+
+## Key formula
+
+$$
+V(\bar y_{ps}) \approx V(\bar y_{st}) + (1-f) \sum_h \frac{S_h^2(1-P_h)}{n^2}
+$$
+
+## Topic 6: Equal-sized cluster sampling
+
+* Mean is an unbiased estimate
+* $V(\bar y) = \frac{K-k}{k} \frac{1}{k} \frac{1}{K-1} \sum_i (\bar Y_i - \bar Y)^2$
+* We can approximetly express as
+$$
+V(\bar y_c) = V(\bar y_{SRS}) [1+(M-1)\rho]
+$$
+* Design effect easy to estimate this way (but is approximate!)
+* CI depends on t-statistic with $k-1$ df
+
+## Topic 7: Systematic sampling
+
+* Choose a starting point, the only randomness is in this choice
+* The mean is unbiased
+* Cluster sampling with only one cluster chosen $\Rightarrow$ problems!!
+$$
+V(\bar y_c) = \frac{S^2}{n} \frac{nk-1}{nk} [1 + (n-1) \rho]
+$$
+* Option 1: assuming a random order then $\rho = 0$
+* Option 2: Paired selections model
+$$
+V(\bar y_{sys} ) = \frac{1-f}{n^2} \sum_{j=1}^{n/2} \frac{(y_{j1}-y_{j2})^2}{2}
+$$
+* Option 3: Successive differences model
+$$
+V(\bar y_{sys} ) = \frac{1-f}{2 n(n-1)} \sum_{j=1}^{n-1} (y_{j}-y_{j+1})^2
+$$
+
+## Topic 8: Multi-stage cluster sampling
+
+* Mean is an unbiased estimate
+* $V(\bar y) = (1-k/K) S_1^2/k + (1-m/M) S_2^2/n$, where 
+$$
+S_1^2 = \frac{\sum_i (\bar Y_i - \bar Y)^2}{K-1} \quad
+S_2^2 = \frac{\sum_i \sum_j (Y_{ij} - \bar Y_i)^2}{K(M-1)} \quad
+$$
+* $s_2^2$ unbiased estimator but need an unbiased estimator of $S_1^2$ is 
+$$
+s_1^2 - (1-m/M) s_2^2/m
+$$
+* Variance is then $(1-f_1) s_1^2/k + f_1 (1-f_2) s_2^2/n$
+* Design effect is 
+$$
+[1+(m-1)\rho]-(M-m) \frac{f}{1-f} \rho
+$$
+
+## Topic 8: Multi-stage cluster sampling
+
+* 3-stage sampling
+* $V(\bar y) = (1-k/K) S_1^2/k + (1-m/M) S_2^2/km + (1-r/R)S_3^2/kmr$, where 
+$$
+S_2^2 = \frac{\sum_i \sum_j (\bar Y_{ij} - \bar Y_i)^2}{K(M-1)} \quad
+S_2^2 = \frac{\sum_i \sum_j (\bar Y_{ijl} - \bar Y_{ij})^2}{KM(R-1)} \quad
+$$
+* Need an unbiased estimator of $S_3^2$ is 
+$$
+\hat s_1^2 - (1-m/M) \hat S_2^2/m - (1-r/R) \hat S_3^2/mr
+$$
+* Variance is then $(1-f_1) s_1^2/k + f_1 (1-f_2) s_2^2/km + f_1 f_2 (1-f_3)s_3^2/n$
+
+## Topic 9: Optimal cluster size
+
+* 2-stage sampling: minimize $\Psi = V(\bar y_c) \cdot C$ then
+$$
+m = \sqrt{\frac{c_1(1-\rho)}{c_2 \rho}} \quad
+= \sqrt{\frac{c_1S_2^2}{c_2 S_u^2}} \text{ where } S_u^2 = S_1^2 - S_2^2/M
+$$
+
+## Topic 10: Ratio estimator
+
+* We have $R = \bar Y/ \bar X$ which allows us to estimate $\bar Y = R \bar X$ using $\bar y_{R} = r \bar X$
+* Biggest issue is $\bar x$ is random!
+* Variance is approximately given by
+$$
+\frac{1-f}{n \bar X^2} \left[ S_y^2 - R^2 S_x^2 - 2 R S_{xy} \right]
+$$
+* Good option when 
+$$
+S_{xy} > \frac{1}{2} R S_x^2 \quad \text{ or } \quad
+\rho > \frac{1}{2} \frac{cv(\bar x)}{cv(\bar y)}
+$$
+where $cv(\bar x) = S_x / \bar X$
+
+## Topic 11: Regression estimator
+
+* Regression estimator $\bar y_{lr} = \bar y + b (\bar X - \bar x)$ where
+$$
+b = \frac{\sum_i (y_i - \bar y)(x_i - \bar x)}{\sum_i (x_i - \bar x)^2 }
+$$
+* Variance of estimator is 
+$$
+\frac{1-f}{n} \left( S_y^2 - 2 B S_{yx} + B^2 S_x^2 \right)
+\Rightarrow
+\frac{1-f}{n} S_y^2 \left( 1 - \rho^2 \right)
+$$
