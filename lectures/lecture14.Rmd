@@ -117,7 +117,7 @@ $$
 ## Topic 6: Equal-sized cluster sampling
 
 * Mean is an unbiased estimate
-* $V(\bar y) = \frac{K-k}{k} \frac{1}{k} \frac{1}{K-1} \sum_i (\bar Y_i - \bar Y)^2$
+* $V(\bar y) = \frac{K-k}{K} \frac{1}{k} \frac{1}{K-1} \sum_i (\bar Y_i - \bar Y)^2$
 * We can approximetly express as
 $$
 V(\bar y_c) = V(\bar y_{SRS}) [1+(M-1)\rho]
