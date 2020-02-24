@@ -321,7 +321,7 @@ for the purposes of design it will do.)
 * Preliminary analysis suggests that children aged 1 vs. 2 and older have significant differences in injury risk, children admitted to the ER have significant differences in injury risk, and that there is an interaction between these two factors. This suggests four strata (name, $h$, $P_h$, $p_h$, $S_h$:
 ```{r, out.width = "250px", fig.align='center'}
 library(knitr)
-include_graphics("./figs/l4_table1.pdf")
+include_graphics("./figs/l4_table1.png")
 ```
 
   
