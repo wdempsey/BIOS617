@@ -146,7 +146,7 @@ $$
 $$
 \begin{aligned}
 E \left( \frac{1}{n_h} \right) &\approx \frac{1}{n_h} \\
-\Rightarrow V( \bar y_{ps} ) &\approx \sum_h P_h \frac{S_h^2}{n_h} - \sum_h P_h \frac{S_h^2}{N} = V(\bar y_{st})
+\Rightarrow V( \bar y_{ps} ) &\approx \sum_h P_h^2 \frac{S_h^2}{n_h} - \sum_h P_h \frac{S_h^2}{N} = V(\bar y_{st})
 \end{aligned}
 $$
 
