@@ -135,7 +135,7 @@ g_l = \sum_{i=1}^k u_i \frac{\partial g}{\partial u_i} \mid_{u_i=U_i} = \frac{\b
 $$
 Then we have
 $$
-V(r) \approx V(g_l) = \frac{1}{\bar X} \left[ V(\bar y) + R^2 V(\bar x) - 2 R C(\bar x, \bar y) \right]
+V(r) \approx V(g_l) = \frac{1}{\bar X^2} \left[ V(\bar y) + R^2 V(\bar x) - 2 R C(\bar x, \bar y) \right]
 $$
 
 ## Under SRS
