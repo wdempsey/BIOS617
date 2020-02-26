@@ -139,7 +139,7 @@ $$
 * Simple approach: replace $m$ with its expectation $n M / N$ yields
 
 $$
-\bar y_s - \bar Y = \frac{N}{nM} \sum_{h=1}^M \sum_{i=1}^{n_h} z_{hi} = \frac{N \bar z}{M}
+\bar y_s - \bar Y = \frac{N}{nM} \sum_{h=1}^H \sum_{i=1}^{n_h} z_{hi} = \frac{N \bar z}{M}
 $$
 
 ## Variance calculation (ctd)

@@ -49,7 +49,7 @@ for the purposes of design it will do.)
 * Preliminary analysis suggests that children aged 1 vs. 2 and older have significant differences in injury risk, children admitted to the ER have significant differences in injury risk, and that there is an interaction between these two factors. This suggests four strata (name, $h$, $P_h$, $p_h$, $S_h$:
 ```{r, out.width = "250px", fig.align='center'}
 library(knitr)
-include_graphics("./figs/l4_table1.pdf")
+include_graphics("./figs/l4_table1.png")
 ```
 
   
@@ -72,7 +72,7 @@ include_graphics("./figs/l4_table2.png")
 
 Consider two strata with means $\bar y_1$ and $\bar y_2$. The variance of the contrast $\bar y_1 - \bar y_2$ is
 $$
-V(\bar y_1 - \bar y_2) = V(\bar y_1) + V(\bar y_2) = \frac{S_1^2}{n_1^2} + \frac{S_1^2}{n_1^2}
+V(\bar y_1 - \bar y_2) = V(\bar y_1) + V(\bar y_2) = \frac{S_1^2}{n_1^2} + \frac{S_2^2}{n_2^2}
 $$
 Above, we ignore FPC because it will be irrelevant in the optimizing equation again.
 
@@ -137,7 +137,7 @@ $$
 V(\bar y_{ps}) &= E ( V( \bar y_{ps} \, | \, (n_1, \ldots, n_H) ) ) + V( E ( \bar y_{ps} \mid (n_1,\ldots, n_H) )) \\
 &= E \left[ \sum_h P_h^2 (1-f_h) \frac{S_h^2}{n_h} \right] + V(\bar Y) \\
 &= E \left[ \sum_h P_h^2 \frac{S_h^2}{n_h} \right] - E \left[ \sum_h P_h \frac{S_h^2}{N} \right] \\
-&= E \left[ \sum_h P_h^2 \frac{S_h^2}{n_h} \right] - E \left[ \sum_h P_h \frac{S_h^2}{N} \right] 
+&= E \left[ \sum_h P_h^2 \frac{S_h^2}{n_h} \right] -  \sum_h P_h \frac{S_h^2}{N}  
 \end{aligned}
 $$
 
@@ -343,14 +343,14 @@ sampled (may or may not be practical or efficient).
 
 ```{r, out.width = "250px", fig.align='center'}
 library(knitr)
-include_graphics("./figs/l5_table2.png")
+include_graphics("./figs/l6_fig1.png")
 ```
 
 ## Example
 
 ```{r, out.width = "250px", fig.align='center'}
 library(knitr)
-include_graphics("./figs/l5_table3.png")
+include_graphics("./figs/l6_fig2.png")
 ```
 
 ## Estimator and variance
