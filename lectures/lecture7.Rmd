@@ -236,7 +236,7 @@ $$
 The deff for equal-size cluster sampling is given by
 
 $$
-deff = \frac{V(\bar y_c)}{ V(\bar y_{SRS})} \approx \frac{V(\bar y_{SRS}(1+(M-1)\rho))}{V(\bar y_{SRS})} = [1+(M-1)\rho]
+deff = \frac{V(\bar y_c)}{ V(\bar y_{SRS})} \approx \frac{V(\bar y_{SRS})(1+(M-1)\rho)}{V(\bar y_{SRS})} = [1+(M-1)\rho]
 $$
 
 * $deff < 1$ when $\rho < 0$ (ex: gender in a household)
@@ -262,13 +262,11 @@ $$
 ## Systematic sampling
 
 * Combination of cluster and stratified sampling.
-o Design effect is not estimable, since we are sampling only
+* Design effect is not estimable, since we are sampling only
 one element.
-• Order of the list achieves stratification with respect to a given
-measure to the extent that the list is ordered according to that
-measure.
-o Size of business, age of customer, etc.
-o Stratified proportionate allocation.
+  + Order of the list achieves stratification with respect to a given measure to the extent that the list is ordered according to that measure.
+* Size of business, age of customer, etc.
+* Stratified proportionate allocation.
 
 ## Expectation of $\bar y_{sys}$
 
@@ -310,7 +308,7 @@ $$
 * If we assume that there is no within-cluster correlation, systematic sample is equivalent to SRS:
 $$
 \begin{aligned}
-v(\bar y_{sys} &= \frac{S^2}{n} \frac{nk-1}{nk} \\
+v(\bar y_{sys}) &= \frac{S^2}{n} \frac{nk-1}{nk} \\
 &= \left( 1 - \frac{1}{k} \right) \frac{S^2}{n} \left( \frac{k}{k-1} \right) \left(  \frac{nk-1}{nk} \right) \\
 &= V(\bar y_{srs} ) \left( \frac{k}{k-1} \right) \left(  \frac{nk-1}{nk} \right) \\
 &= V(\bar y_{srs} ) \left(  \frac{nk-1}{n(k-1)} \right) \\
@@ -362,6 +360,7 @@ $$
 ## List periodicity
 
 A practical issue of concern is _list periodicity_.
+
 * Avoid sampling intervals that coincide with periodicity in the list.
   + Suppose there is a pairing of (heterosexual) spouses: HWHWHW. Even sampling interval will yield only men or only women, but an odd interval would work well.
   + Apartment block with 8 apartments per floor. Sampling interval of 8 gives same apartment on each floor, but an interval of 7 will work well.
