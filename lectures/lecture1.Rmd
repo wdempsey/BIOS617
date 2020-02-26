@@ -237,6 +237,7 @@ $$ and $V(X) = Cov(X,X)$.
 $$ \small
 V \left(\sum_j a_j X_j \right) = \sum_j a_j^2 V(X_j) + 2 \sum_j \sum_{i < j} a_i a_j \text{Cov}(X_i, X_j) 
 $$
+
 * Corollary: If $\{ X_j \}$ are independent, then 
 $$ 
 \small V \left(\sum_j a_j X_j \right) = \sum_j a_j^2 V(X_j) 
