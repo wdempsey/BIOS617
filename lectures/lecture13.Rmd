@@ -70,7 +70,7 @@ $$
 
 Consider population least-squares regression estimator given by 
 $$
-B = \frac{\sum_{i=1}^n (Y_i - \bar Y) (X_i - \bar X)}{ \sum_{i=1}^n (X_i - \bar X)^2 } \to e_i := y_i - \bar Y - B(x_i - \bar X)
+B = \frac{\sum_{i=1}^N (Y_i - \bar Y) (X_i - \bar X)}{ \sum_{i=1}^N (X_i - \bar X)^2 } \to e_i := y_i - \bar Y - B(x_i - \bar X)
 $$
 Then
 $$
@@ -139,7 +139,7 @@ $$
 \begin{aligned}
 E\left [ -(\bar x - \bar X) \frac{\sum_{i=1}^n e_i (x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2} \right]
 &\approx E\left [-\frac{\sum_{i=1}^n u_i(\bar x - \bar X)}{ns_x^2} \right] \\
-&= E\left [-\frac{\bar u (\bar x - \bar X)}{s_x^2} = -\frac{(\bar u - \bar U) (\bar x - \bar X)}{s_x^2} \right]\\
+&= E\left [-\frac{\bar u (\bar x - \bar X)}{s_x^2} \right]\\
 &= E\left [-\frac{(\bar u - \bar U) (\bar x - \bar X)}{s_x^2} \right]\\
 \end{aligned}
 $$
