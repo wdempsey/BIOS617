@@ -325,7 +325,7 @@ So as $nk= N \to \infty$ for fixed $n$, $V(\bar y_{sys}) \to V(\bar y_{srs})$
   + Size measure: population of county, number of employees in a business
 * Treat as one selection per stratum and collapse together using collapsed strata variance estimator:
 * $y_1,y_2 \to y_{11}, y_{21}$ and so on
-* Variance is $v(\bar y_{str}) = \frac{1-f}{n^2} \sum_{j=1}^{n/2} \frac{(y_{j1}-y_{j2})^2}{2}$
+* Variance is $v(\bar y_{str}) = \frac{1-f}{n^2} \sum_{j=1}^{n/2} (y_{j1}-y_{j2})^2$
 
 ## Assuming a stratified order: paired selections model
 
@@ -346,7 +346,7 @@ $$
 * Now pair off successive elements: $\underbrace{(y_1, y_2), \ldots, (y_{n-1}, y_n)}_{n-1 \text{ pairs}}$
 * Then 
 $$
-v(\bar y_{sys}) = \frac{1-f}{2 n (n-1)}  = \sum_{j=1}^{n-1} (y_j - y_{j+1})^2
+v(\bar y_{sys}) = \frac{1-f}{2 n (n-1)} \sum_{j=1}^{n-1} (y_j - y_{j+1})^2
 $$
 * For collapsed strata:
 $$
