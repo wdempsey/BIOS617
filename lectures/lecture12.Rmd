@@ -47,7 +47,7 @@ R = \frac{Y}{X} = \frac{\sum_{i=1}^N Y_i }{\sum_{i=1}^N X_i} =
 $$
 
 * Mean estimation, where sample size (denominator) is random (varies across samples)
-* There is an auxiliary variable X that is highly correlated with main variable of interest $Y$, so that total can be estimated as $\bar Y_{R} = r X$ and mean as $\hat \bar Y_{R} = r \bar X$
+* There is an auxiliary variable X that is highly correlated with main variable of interest $Y$, so that total can be estimated as $\bar Y_{R} = r X$ and mean as $\hat{\bar Y_{R}} = r \bar X$
 * Ratio estimation is goal in and of itself: proportion of household expenses on food, change from previous year’s expenses, etc.
 
 ## Taylor series expansion to approximate bias and variance
@@ -198,6 +198,7 @@ $$
 ## Ratio estimation with stratified sampling
 
 There are two options:
+
 * Obtain stratified estimates of the numerator and denominator separately and combine for the ratio estimator:
 $$ 
 r_c = \frac{\bar y}{\bar x} = \frac{\sum_h P_h \bar y_h}{\sum_h P_h \bar x_h}
