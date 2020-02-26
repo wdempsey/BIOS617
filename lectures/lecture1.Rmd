@@ -97,7 +97,7 @@ data(brexit_polls)
 
 ```{r pew, echo = FALSE}
 library(foreign)
-data <- read.dta("pew_research_center_june_elect_wknd_data.dta")
+data <- read.dta("data/pew_research_center_june_elect_wknd_data.dta")
 data <- data[!is.na(data$ideo ),]
 data <- data[!is.element(data$ideo, c("missing/not asked", "dk/refused")),]
 data$ideo_numeric = (data$ideo == 'very conservative')*2 + (data$ideo == 'conservative')*1 + (data$ideo == 'moderate')*0 + (data$ideo == 'liberal')*(-1) + (data$ideo == 'very liberal')*(-2)
