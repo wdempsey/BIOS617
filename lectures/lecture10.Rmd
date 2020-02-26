@@ -1,5 +1,5 @@
 ---
-title: "BIOS 617 - Lecture 8"
+title: "BIOS 617 - Lecture 10"
 author: "Walter Dempsey"
 date: "2/12/2020"
 output:
