@@ -197,7 +197,7 @@ $$
 - Population estimate is unbiased:
 $$ \small
   \bar y_{st} = \frac{1}{N} \sum_h N_h \bar y_h
-  = \frac{1}{N} \sum_h \frac{N}{n_h}  \sum_{i=1}^{n_h} y_{hi}
+  = \frac{1}{N} \sum_h \frac{N_h}{n_h}  \sum_{i=1}^{n_h} y_{hi}
   = \frac{1}{N} \sum_h  \sum_{i=1}^{n_h} w_{hi} y_{hi}
 $$
 

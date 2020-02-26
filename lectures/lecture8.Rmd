@@ -109,8 +109,8 @@ v(\bar y_{sys}) = \frac{1-f}{2 n (n-1)}  = \sum_{j=1}^{n-1} (y_j - y_{j+1})^2
 $$
 * For collapsed strata:
 $$
-\frac{1-f}{n^2} \sum_{j=1}^{n/2} \sum_{j=1}^{n/2} (y_{j1} - y_{j2})^2 = 
-\frac{1-f}{2n} \left[ (n/2)^{-1} \sum_{j=1}^{n/2} \sum_{j=1}^{n/2} (y_{j1} - y_{j2})^2 \right] 
+\frac{1-f}{n^2} \sum_{j=1}^{n/2}  (y_{j1} - y_{j2})^2 = 
+\frac{1-f}{2n} \left[ (n/2)^{-1} \sum_{j=1}^{n/2} (y_{j1} - y_{j2})^2 \right] 
 $$
 * The final term is the mean of stratum variances
 * If we replace with mean of the larger number of pairs then $n-1$ replaces $n/2$
@@ -183,7 +183,7 @@ $$
 * Sampling fraction $P(i \in s) P(j \in s \mid i \in s) = \frac{k}{K} \times \frac{m}{M} = \frac{n}{N} = f$
 * SRS mean estimator still unbiased, since design is _epsem_.
 $$
-E[ \bar y_c ] = \frac{1}{n} \sum_{i=1}^K E \left[ I_{i} \sum_{j=1}^M I_{ij} Y_{ij} \right]
+E[ \bar y_c ] = \frac{1}{n} \sum_{i=1}^K E \left[ I_{i} \sum_{j=1}^M I_{ij} Y_{ij} \right] =
 \frac{1}{n} \sum_{i=1}^K \sum_{j=1}^M E \left[ I_{i} I_{ij} \right] Y_{ij} =
 \frac{1}{N} \sum_{i=1}^K \sum_{j=1}^M Y_{ij}
 $$
@@ -212,7 +212,7 @@ where treat chosen clusters as strata since we are fixing the clusters through c
 ## Proof begins
 
 $$
-V (\bar y_c \mid i \in s) = \frac{1-f}{n} \sum_{i=1}^K P_i S_i^2 = \left( 1 - \frac{m}{M} \right) \frac{1}{n} \sum_{i=1}^k \frac{1}{k} S_i^2
+V (\bar y_c \mid i \in s) = \frac{1-f}{n} \sum_{i=1}^k P_i S_i^2 = \left( 1 - \frac{m}{M} \right) \frac{1}{n} \sum_{i=1}^k \frac{1}{k} S_i^2
 $$
 where $S_i^2 = (M-1)^{-1} \sum_{j=1}^M (Y_{ij} - \bar Y_i)^2$. Then
 $$
@@ -321,7 +321,8 @@ and thus
 $$
 \begin{aligned}
 \sum_{i=1}^K \sum_{j \neq l} (Y_{ij} - \bar Y) (Y_{il} - \bar Y) &= M^2 \sum_{i=1}^K (\bar Y_i - \bar Y)^2 - \sum_{i=1}^K \sum_{j=1}^M (Y_{ij} - \bar Y)^2 \\
-&= M (K-1) S_1^2 - (N-1) S^2 = M (K-1) S_1^2 - [M(K-1)S_1^2 + K(M-1) S_2^2] \\
+&= M (K-1) S_1^2 - (N-1) S^2\\
+&= M (K-1) S_1^2 - [M(K-1)S_1^2 + K(M-1) S_2^2] \\
 &= M(K-1)(M-1) S_1^2 - K(M-1)S_2^2
 \end{aligned}
 $$

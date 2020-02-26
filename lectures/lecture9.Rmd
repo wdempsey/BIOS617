@@ -166,7 +166,7 @@ $$
 $$
 \begin{aligned}
 &E ( \sum_{i=1}^k V (\bar y_i) )  + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
-=& \sum_{i=1}^k \left( 1 - \frac{m}{M} \right) \frac{E(S_i^2)}{m}  + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
+=& E \left [\sum_{i=1}^k \left( 1 - \frac{m}{M} \right) \frac{E(S_i^2)}{m}\right]  + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
 =& \left( 1 - \frac{m}{M} \right) \frac{k S_2^2}{m}  + \frac{k}{K} \sum_{i=1}^K \bar Y_i^2 \\
 \end{aligned}
 $$
@@ -175,8 +175,8 @@ $$
 
 $$
 \begin{aligned}
-E[ \bar y^2 ] &= V(\bar y^2) + E[\bar y]^2 \\
-&= \left( 1 - \frac{k}{K} \right) \frac{S_1^2)}{k} + \left( 1 - \frac{m}{M} \right) \frac{S_2^2}{n} + \bar Y^2
+E[ \bar y^2 ] &= V(\bar y) + E[\bar y]^2 \\
+&= \left( 1 - \frac{k}{K} \right) \frac{S_1^2}{k} + \left( 1 - \frac{m}{M} \right) \frac{S_2^2}{n} + \bar Y^2
 \end{aligned}
 $$
 Combining these two terms we have 
@@ -229,8 +229,8 @@ $$
 \begin{aligned}
 &\sum_{i=1}^K \sum_{j \neq l} (Y_{ij} - \bar Y) (Y_{il} - \bar Y) \\
 =& M^2 \sum_{i=1}^K (\bar Y_i - \bar Y)^2 - \sum_{i=1}^K \sum_{j=1}^M (Y_{ij} - \bar Y)^2 \\
-=& M (K-1) S_1^2 - (N-1) S^2 \\
-=& M (K-1) S_1^2 - [M(K-1)S_1^2 + K(M-1) S_2^2] \\
+=& M^2 (K-1) S_1^2 - (N-1) S^2 \\
+=& M^2 (K-1) S_1^2 - [M(K-1)S_1^2 + K(M-1) S_2^2] \\
 =& M(K-1)(M-1) S_1^2 - K(M-1)S_2^2
 \end{aligned}
 $$
@@ -317,7 +317,7 @@ $$
 \begin{aligned}
 S_1^2 &= \frac{\sum_{i=1}^K (\bar Y_i - \bar Y)^2}{K-1}, \\
 S_2^2 &= \frac{\sum_{i=1}^K \sum_{j=1}^M (\bar Y_{ij} - \bar Y_i)^2}{K(M-1)}, \\
-S_3^2 &= \frac{\sum_{i=1}^K \sum_{j=1}^M \sum_{l=1}^R (Y_{ijl} - \bar Y_{ij})^2}{KM(R-1)},
+S_3^2 &= \frac{\sum_{i=1}^K \sum_{j=1}^M \sum_{l=1}^R (Y_{ijl} - \bar Y_{ijl})^2}{KM(R-1)},
 \end{aligned}
 $$
 
