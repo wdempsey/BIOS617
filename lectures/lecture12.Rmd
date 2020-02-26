@@ -142,8 +142,8 @@ $$
 
 $$
 \begin{aligned}
-V(r) &\approx \frac{1}{\bar X^2} \left[ \frac{1-f}{n} S_y^2 + \frac{1-f}{n} R^2 S_x^2 - \frac{2(1-f)}{n} R S_{xy} \right] \\
-&= \frac{1-f}{n \bar X^2} \left[ S_y^2 - R^2 S_x^2 - 2 R S_{xy} \right]
+V(r) &\approx \frac{1}{\bar X} \left[ \frac{1-f}{n} S_y^2 + \frac{1-f}{n} R^2 S_x^2 - \frac{2(1-f)}{n} R S_{xy} \right] \\
+&= \frac{1-f}{n \bar X^2} \left[ S_y^2 + R^2 S_x^2 - 2 R S_{xy} \right]
 \end{aligned}
 $$
 
@@ -175,7 +175,7 @@ where $C_x^2 = \frac{S_x^2}{\bar X^2}$, $C_y^2 = \frac{S_y^2}{\bar Y^2}$, $C_{xy
 * (A) Estimate mean via $\hat \bar Y = r \bar X$ versus (B) Standard mean estimator $\bar y$
 * Under SRS, we have
 $$
-V(\hat \bar Y_{R}) \approx \frac{1-f}{n \bar X^2} \left[ S_y^2  + R^2 S_x^2 - 2 R S_{xy} \right] \bar X^2
+V(\hat \bar Y_{R}) \approx \frac{1-f}{n \bar X^2} \left[ S_y^2  + R^2 S_x^2 - 2 R S_{xy} \right]
 $$
 * Hence, $V(\bar y ) > V(\hat \bar Y_{R})$ if $2 R S_{xy} - R^2 S_x^2 >0$, i.e., 
 $$
