@@ -397,7 +397,7 @@ where  $\bar M$ is the mean number of units per the (highest-level) cluster.
 
 * Using $\rho$ a quick confidence interval for a mean can be computed from any cluster:
 $$
-\bar y_c \pm t_{(0.975, K-1)} \sqrt{[1+(M-1)\rho]s^2/n}
+\bar y_c \pm t_{(0.975, k-1)} \sqrt{[1+(M-1)\rho]s^2/n}
 $$
 
 * Using an estimate of $\rho$, sample sizes computed under SRS can be adjusted:
