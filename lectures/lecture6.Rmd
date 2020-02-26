@@ -66,7 +66,7 @@ s.sq_male=var(data$ideo_numeric[data$sex == 'male'])
 bary_female=mean(data$ideo_numeric[data$sex == 'female'])
 s.sq_female=var(data$ideo_numeric[data$sex == 'female'])
 
-psbary = bary_female * (1-census_female) + bary_female*census_female
+psbary = bary_male * (1-census_female) + bary_female*census_female
 
 strvar = (census_female * s.sq_female) / n + ((1-census_female) * s.sq_male) / n  
 adjfac = (1-f)* (s.sq_female*(1-census_female)/n^2+s.sq_male*(census_female)/n^2)
