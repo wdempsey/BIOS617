@@ -68,7 +68,7 @@ so then an unbiased estimator is given by
 $$\hat M_h = \frac{N_h}{n_h} m_h$$
 * Easily extend to estimator for $M$: $\hat M = \sum_h \hat M_h$
 
-## How to esimate $\bar y$?
+## How to estimate $\bar y$?
 
 * Estimator is given by
 $$
@@ -96,13 +96,13 @@ $$
 
 * __Key point__: $Z_{hi} = \delta_{hi} (Y_{hi} - \bar Y^{(D)})$ replaces $Y_{hi}$ in stratified variance calculation under proportionate allocation.
 $$
-\bar Y^{(D)} = \frac{1}{M_h}\sum_{h=1}^H \delta_{hi} Y_{hi}
+\bar Y^{(D)} = \frac{1}{M_h}\sum_{h=1}^H N_{h}\delta_{hi} Y_{hi}
 $$
 
 ## Connection to stratified variance under proportionate allocation
 
 $$
-V(\bar y_{st}) = \sum_{h=1}^H P_h (1-f_h) \frac{S_h^2}{n}
+V(\bar y_{st}) = \sum_{h=1}^H P_h (1-f) \frac{S_h^2}{n}
 $$
 where
 $$ \begin{aligned}
@@ -135,7 +135,7 @@ $$
 \begin{aligned}
 \sum_h \sum_i Z_{hi}^2 &= \sum_h \sum_i \delta_{hi} (Y_{hi} - \bar Y^{(D)} )^2 \\
 &=  \sum_h \sum_i \delta_{hi} (Y_{hi} - \bar Y_h^{(D)} + \bar Y_h^{(D)} - \bar Y^{(D)})^2 \\
-&= \sum_h \sum_i \delta_{hi} (Y_{hi} - \bar Y_h )^2  + \sum_h M_h (\bar Y_h - \bar Y)^2 \\
+&= \sum_h \sum_i \delta_{hi} (Y_{hi} - \bar Y_h^{(D)} )^2  + \sum_h M_h (\bar Y_h^{(D)} - \bar Y^{(D)})^2 \\
 \end{aligned}
 $$
 

@@ -140,16 +140,16 @@ brexit_polls %>%
 - Population total: $Y = \sum_{i=1}^N Y_i$
 - Population mean: $\bar Y = Y/N$
 - Population variance: $S^2 = (N-1)^{-1} \sum_{i=1}^N (Y_i - \bar Y)^2$
-- Sampling indicator: $I_1, \ldots, I_n$
+- Sampling indicator: $I_1, \ldots, I_N$
 
 
-## Survey sampling notation: population
+## Survey sampling notation: sample
 
 - Number of elements: $n$
 - Values of variable: $y_1, \ldots, y_n$
-- Population total: $y = \sum_{i=1}^N y_i$
-- Population mean: $\bar y = y/N$
-- Population variance: $s^2 = (n-1)^{-1} \sum_{i=1}^N (y_i - \bar y)^2$
+- Sample total: $y = \sum_{i=1}^n y_i$
+- Sample mean: $\bar y = y/n$
+- Sample variance: $s^2 = (n-1)^{-1} \sum_{i=1}^n (y_i - \bar y)^2$
 - Sampling fraction: $f = n/N$
 - When $n = N$ , sample = population
 
@@ -159,7 +159,7 @@ Also known as **randomization-based** inference.
 
 - *Model-based*: assume a model for the distribution of the data in the population
 - *Design-based*: condition on the values $Y_1, \ldots, Y_n$. 
-    + Inference is with respect to the distribution of $\{ I_j \}_{j=1}^n$
+    + Inference is with respect to the distribution of $\{ I_j \}_{j=1}^N$
     + Over all possible samples $s = 1,\ldots, S$   under a given probability sampling design.
     
 
