@@ -102,7 +102,7 @@ $$
 ## Connection to stratified variance under proportionate allocation
 
 $$
-V(\bar y_{st}) = \sum_{h=1}^H P_h^{2} (1-f_h) \frac{S_h^2}{n_h}
+V(\bar y_{st}) = \sum_{h=1}^H P_h (1-f) \frac{S_h^2}{n}
 $$
 where
 $$ \begin{aligned}
