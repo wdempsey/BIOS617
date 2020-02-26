@@ -3,9 +3,9 @@ title: "BIOS 617 - Lecture 2"
 author: "Walter Dempsey"
 date: "1/13/2019"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
-  beamer_presentation: default
 ---
 
 ```{r setup, include=FALSE}
@@ -102,7 +102,7 @@ library(matrixStats)
 ```
 
 
-```{r heights, echo = FALSE, fig.align='center'}
+```{r heights, echo = FALSE, fig.align='center', fig.height=3, fig.width = 4}
 set.seed(1)
 N = 100
 heights = rnorm(n = N, mean = 65, sd = 5)
@@ -213,7 +213,7 @@ The proof for this is beyond the scope of this course; it is a more complex vers
 - The variance is
 $$ \small
 \begin{aligned}
-S^2 &= \frac{\sum_{i=1}^N (Y_i - \bar Y)^2}{N-1} = \frac{\sum_{i=1}^N Y_i^2 - N\bar Y^2)}{N-1} \\
+S^2 &= \frac{\sum_{i=1}^N (Y_i - \bar Y)^2}{N-1} = \frac{\sum_{i=1}^N Y_i^2 - N\bar Y^2}{N-1} \\
 &= \frac{NP - NP^2}{N-1} = \frac{N \cdot P \cdot (1-P)}{N-1}
 \end{aligned}
 $$
