@@ -129,7 +129,7 @@ the simple subdomain mean.
 
 ## What is the variance?
 
-* Let $z_{hi} = \delta_{hi} (y_{hi} - \bar Y)$ where $\delta_{hi}$ is 1 if the ith element is in the subdomain and $0$ otherwise 
+* Let $z_{hi} = \delta_{hi} (y_{hi} - \bar Y_s)$ where $\delta_{hi}$ is 1 if the ith element is in the subdomain and $0$ otherwise 
 * By definition, $m_h = \sum_i \delta_{hi}$ and $m = \sum_h \sum_i \delta_{hi}$; then
 
 $$
