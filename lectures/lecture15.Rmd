@@ -1,0 +1,27 @@
+---
+title: "BIOS 617 - Lecture 15"
+author: "Walter Dempsey"
+date: "2/9/2020"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Announcements:
+
+* Midterm
+  + Solutions have been posted
+  + Grades finalized
+* HW 3: 
+  + Grading done this week
+* HW 4:
+  + Posted: Due 23rd
+
+## JITT and Diary:
+
+
+## Topic: Cluster sampling with unequal cluster sizes
