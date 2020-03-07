@@ -14,8 +14,9 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Announcements:
 
 * Midterm
-  + Solutions have been posted
-  + Grades finalized
+  + Solutions posted today
+  + Grades finalized by Wednesday
+  + Will return at end of class
 * HW 3: 
   + Grading done this week
 * HW 4:
@@ -23,5 +24,333 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## JITT and Diary:
 
+* JITTs will focus on three types of readings (focused on re-deriving some of their results)
+  + Series on Survey Sampling in __``Statistical Science''__
+  + Two papers on generalizability (Kieding and Lewis) and non-random samples (Xiao-Li Meng)
+  + Recent model-based approaches using MRP (Multilevel regression + Poststratification)
+* JITT discussion (15 minutes)
+  + Review core ideas
+* Diary will supplement JITT (due next Monday).
 
 ## Topic: Cluster sampling with unequal cluster sizes
+
+* Previous work with cluster samples assumed equal cluster sizes:
+  + Eases estimation: useful for obtaining intuition about design
+and estimation.
+* But often impractical, because in real world clusters are rarely so neatly presented, especially in human populations.
+* Unequal cluster size complicated estimation.
+
+## Example
+
+* Suppose we hvae a two-stage sample with $K=10$ clusters and $M_k$ differing between clusters, with $f_1 = 1/2$ and $f_2  1/10$:
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l15_fig1.png") # place holder
+```
+
+## Example (ctd)
+
+* Each element has the same probability of selection $f = f_1 \cdot f_2 = 1/20$
+* __BUT__ the number of elements sampled can differ over samples.
+  + Sample size is now a _random variable_
+  + Denominator in mean can no longer be treated as fixed
+  + Mean $\bar y = \sum_i y / n$ for $n = \sum_i m_i$ is a _ratio estimator_.
+  
+## Alternatives
+
+* Alternatives that retain equal sample sizes across
+clusters
+  + Sample with probability $f_{2i} = m/M_i$
+    + Unequal probabilities of selectoin: need to use weights $w_i = \frac{1}{f_1 f_{2i}} = \frac{KM_i}{km}$ to adjust
+*  Sample first stage with __probability proportional to size__ so that $f_{1i} = \frac{k M_i}{N}$ and $f_{2i} = \frac{m}{M}$, and thus 
+$$
+f_i = f_{1i} f_{2i} = \frac{kM_i}{N} \times \frac{m}{M_i} = \frac{km}{N} = \frac{n}{N}  
+$$
+for $N=\sum_i M_i$
+  + ``Certainty samples'' if $\frac{kM_i}{N} > 1$
+  + Efficiency issues in some settings
+
+## First setting
+
+* Start with sampling pre-specified number of observations $m_i$ from sampled cluster $k$
+  + No constraints on $m_i$ except $m_i > 0 $
+  + SRS WOR at 1st and 2nd stages of sampling
+* Goal of estimation 
+$$
+\bar Y = \frac{\sum_{i=1}^K \sum_{j=1}^{M_i} Y_{ij}}{N} = 
+\frac{\sum_{i=1}^K M_i \bar Y_i}{N} = 
+\sum_{i=1}^K \frac{M_i}{N} \bar Y_i
+$$
+
+## Unbiased estimator of the mean
+
+* Consider SRS of $k$ PSUs from $K$ PSU in the population, and SRS of $m_i$ elements from the population of $M_i$ elements in the $i$th selected PSU
+* Consider an estimator of the form 
+$$
+\bar y_{wc} = \frac{1}{N} \sum_{i=1}^k \sum_{j=1}^{m_i} w_{ij} y_{ij}
+$$
+* __Question__: What $w_ij$ leads to unbiased estimator?
+
+## Unbiased estimator of the mean
+
+* Let $\delta_{ij}$ indicate the $j$th element in the $i$th PSU is chosen
+$$
+E[\delta_{ij}] = f_1 f_{2i} = \frac{k}{K} \times \frac{m_i}{M} := \pi_{ij}
+$$
+* Then $w_{ij} = 1/\pi_{ij}$ implies
+$$
+\begin{aligned}
+E(\bar y_{wc}) &= \frac{1}{N} \sum_{i=1}^K \sum_{j=1}^{M_i} E \left[ w_{ij} \delta_{ij} Y_{ij} \right]  
+= \frac{1}{N} \sum_{i=1}^K \sum_{j=1}^{M_i} w_{ij} E \left[ \delta_{ij} \right] Y_{ij} \\
+&= \frac{1}{N} \sum_{i=1}^K \sum_{j=1}^{M_i} \frac{\pi_{ij}}{\pi_{ij}} Y_{ij} = \bar Y.
+\end{aligned}
+$$
+
+* View as estimating $Y_i$ as $\hat Y_i = \sum_{j=1}^{m_i} w_{2i} y_{ij}$ for $w_{2i} = f_{2i}^{-1}$
+* And $\hat Y = \sum_{i=1}^{k} w_1 \hat Y_i$ for $w_1 = f_1^{-1}$, and $\bar Y = \hat Y / N$
+
+## Variance of $\bar y_{wc}$
+
+$$ 
+V(\bar y_{wc}) = E( V(\bar y_{wc} \mid i \in s)) + V( E ( \bar y \mid i \in s))
+$$
+where
+$$
+V(\bar y_{wc} \mid i \in s) = \frac{K^2}{N^2 k^2} \sum_{i=1}^k M_i^2 V(\bar y_i) = \frac{K^2}{N^2 k^2} \sum_{i=1}^k M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i} 
+$$
+and
+$$
+\begin{aligned}
+E( V(\bar y_{wc} \mid i \in s)) &= \frac{K^2}{N^2 k^2} \sum_{i=1}^K \frac{k}{K} \times M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i} \\
+&= \frac{K}{N^2 k} \sum_{i=1}^K M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i}
+\end{aligned}
+$$
+
+## Second term
+
+$$
+E ( \bar y_{wc} \mid i \in s) = \frac{K}{Nk} \sum_{i=1}^k \sum_{j=1}^{M_i} Y_{ij} = \frac{K}{Nk} \sum_{i=1}^k Y_i
+$$
+then
+$$
+V(E ( \bar y_{wc} \mid i \in s)) = \frac{K^2}{N^2} V \left( \frac{1}{k} \sum_{i=1}^k Y_i \right) =
+\frac{K^2}{N^2} \left( 1 - \frac{k}{K} \right) \frac{S^2_{Y_i}}{k}
+$$
+for 
+$$
+S_{Y_i}^2 = \frac{\sum_{i=1}^K (Y_i - Y/K)^2}{K-1}, \quad Y = \sum_{i=1}^K Y_i.
+$$
+Then
+$$
+V(\bar y_{wc}) = \frac{K^2}{N^2} \left( 1 - \frac{k}{K} \right) \frac{S_{Y_i}^2}{k} + \frac{K}{N^2 k} \sum_{i=1}^K M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i}
+$$
+
+## Unbiased estimator of the variance of $\bar y_{wc}$
+
+* Since $E(s_i^2 \mid i \in s) = S_i^2 = \frac{\sum_{j=1}^{M_i} (Y_{ij}-\bar Y_i )^2}{M_i - 1}$
+* Then an unbiased estimator of $\sum_{i=1}^K M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i}$ is
+$$
+\frac{K}{k} \sum_{i=1}^k M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{s_i^2}{m_i}
+$$
+
+## Unbiased estimator of the variance of $\bar y_{wc}$
+
+$$
+\small
+\begin{aligned}
+s_{Y_i}^2 &= \frac{1}{k-1} \sum_{i=1}^k \left( \hat Y_i - \bar{\hat{Y}} \right)^2 = \frac{1}{k-1} \sum_{i=1}^k \left( M_i \bar y_i - \frac{1}{k} \sum_{i=1}^k \hat Y_i \right)^2 \\
+&= \frac{1}{k-1} \left[ \sum_{i=1}^k \hat Y_i^2 - k \bar{\hat{Y}}^2 \right]
+\end{aligned}
+$$
+then
+$$
+\small
+\begin{aligned}
+\sum_{i=1}^k \hat Y_i^2 &= \sum_{i=1}^k (\hat Y_i - Y_i)^2  + 2 \sum_{i=1}^k \hat Y_i Y_i  - \sum_{i=1}^k Y_i^2 \\
+\Rightarrow E \left[ \sum_{i=1}^k \hat Y_i^2 \right] &= \sum_{i=1}^k V(\hat Y_i \mid i \in s)  + 2 \sum_{i=1}^k E (\hat Y_i \mid i \in s) Y_i  - \sum_{i=1}^k Y_i^2 \\
+&= \sum_{i=1}^k M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i}  + \sum_{i=1}^k Y_i^2 \\
+\Rightarrow E \left( \sum_{i=1}^k \hat Y_i^2 \right) &= 
+\frac{k}{K} \sum_{i=1}^K M_i^2 \left(1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i} + \frac{k}{K} \sum_{i=1}^K Y_i^2
+\end{aligned}
+$$
+
+## Second term $\bar{\hat{Y}}$ 
+
+$$
+\bar{\hat{Y}} = \left(\bar{\hat{Y}} - \bar Y \right)^2 + 2 \bar{\hat{Y}} \bar Y - \bar Y^2
+$$
+where $\bar Y = \frac{1}{K} \sum_{i=1}^K Y_i$ and 
+$$
+\begin{aligned}
+E \left( \bar{\hat{Y}}^2 \right) &= V \left( \bar{\hat{Y}} \right) + \bar Y^2 = V \left( \frac{N}{K} \bar y_{wc} \right) + \bar Y^2 \\
+&=  \frac{N^2}{K^2} \left( \frac{K^2}{N^2} \left( 1 - \frac{k}{K} \right) \frac{S_{Y_i}^2}{k} + \frac{K}{N^2 k} \sum_{i=1}^K M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i} \right) + \bar Y^2 
+\end{aligned}
+$$
+Combining with other terms yields
+$$
+E(s_{Y_i}^2) = S_{Y_i}^2 + \frac{1}{K} \sum_{i=1}^K M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i}
+$$
+
+## Addressing bias
+
+An unbiased estimator of $S_{Y_i}^2$ is given by
+$$
+s_{Y_i}^2 - \frac{1}{k} \sum_{i=1}^k M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{s_i^2}{m_i}
+$$
+And so an unbiased estimator of $V(\bar y_{wc})$ is
+$$
+v(\bar y_{wc}) = \frac{K^2}{N^2} \left( 1 - f_1 \right) \frac{s_{Y_i}^2}{k} + \frac{K}{N^2 k} \sum_{i=1}^k M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{s_i^2}{m_i}
+$$
+
+## Issues
+
+$$
+v(\bar y_{wc}) = \frac{K^2}{N^2} \left( 1 - f_1 \right) \frac{s_{Y_i}^2}{k} + \frac{K}{N^2 k} \sum_{i=1}^k M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{s_i^2}{m_i}
+$$
+
+* First term involves variance of PSU totals, which are a function of __both__ the cluster __means__ $\bar Y_i$ and the cluster __sizes__ $M_i$
+* Typically $M_i$ may be highly variable
+* Hence an alternative mean estimator with a reduced variance may be preferable.
+
+## Alternative view of the estimator
+
+The unbiased estimator $\bar y_{wc} = \frac{K}{Nk} \sum_{i=1}^k M_i \bar y_i$ can be viewed as estimating the mean PSU sample total by
+$$
+\frac{1}{k} \sum_{i=1}^k M_i \bar y_i
+$$
+and then dividing this by the mean PSU size
+$$
+\frac{1}{N/K} = \frac{1}{\sum_{i=1}^K M_i / K}
+$$
+
+## Alternative proposal
+
+* Replace the population mean PSU size with the sample mean PSU size
+* Yields the estimator usually used in practice
+$$
+\bar y_{wcr} = r = \frac{k \sum_{i=1}^k M_i \bar y_i}{k \sum_{i=1}^k M_i} =  \frac{\sum_{i=1}^k M_i \bar y_i}{ \sum_{i=1}^k M_i}
+$$
+  + Ratio estimator (why?)
+  + Takes advantge of correlation between PSU totals and PSU sizes
+    + If sampled PSUs happen to be small on average (or vice versa), preferable to use sample mean of PSUs rather than population mean of PSUs.
+
+## Simple setting
+
+If epsem sampling with $f_{1i} \equiv f_1 = k/K$ and $f_{2 ij} \equiv f_2 = m_i / M_i = m/M$, then
+$$
+\begin{aligned}
+\bar y_{wcr} &=  \frac{\sum_{i=1}^k M_i \bar y_i}{ \sum_{i=1}^k M_i} \\
+&=  \frac{\sum_{i=1}^k \frac{M_i}{m_i} \sum_{j=1}^{m_i} y_{ij}}{ \sum_{i=1}^k (M_i/m_i) m_i} \\
+&=  \frac{\sum_{i=1}^k \sum_{j=1}^{m_i} y_{ij}}{ \sum_{i=1}^k m_i} \\
+&=  \frac{\sum_{i=1}^k \sum_{j=1}^{m_i} y_{ij}}{n} \\
+&= \bar y
+\end{aligned}
+$$
+
+## Various sampling plans
+
+Consider three differing sampling plans for unequal size clusters:
+
+* SRS of k clusters from a population of K clusters for first stage, with all elements in selected clusters being chosen.
+* SRS of k clusters from a population of K clusters for first stage, with equal fraction / m M elements in selected clusters being chosen.
+* SRS of k clusters from a population of K clusters for first stage, with varying fraction chosen in selected clusters.
+
+1. and 2. are epsem designs. All can be viewed as ratio estimators, with variances obtained using results from ratio estimation.
+
+__We will assume negligible first-stage sampling fraction: $\frac{k}{K} \approx 0$ (equivalent to first - stage with-replacement sampling).__
+
+## Epsem One-stage sampling (1)
+
+Here $M_i \bar y_i$ 
+
+* Numerator and denominator are SRS samples of PSU totals
+* Variance of ratio estimator:
+$$
+\begin{aligned}
+V(\bar y_r) &\approx \frac{1}{k \bar M^2} \left( S_y^2 + \bar Y^2 S_m^2 - 2 \bar Y S_{ym} \right) \\
+&= \frac{k}{f^2 M^2} \left( S_y^2 + \bar Y^2 S_m^2 - 2 \bar Y S_{ym} \right) 
+\end{aligned}
+$$
+where
+$$
+\begin{aligned}
+S_y^2 &= \frac{\sum_{i=1}^K (Y_i - Y/K)^2}{K-1}, \quad
+S_m^2 = \frac{\sum_{i=1}^K (M_i - M/K)^2}{K-1} \\
+S_{ym}^2 &= \frac{\sum{i=1}^K (Y_i - Y/K)(M_i - M/K)}{K-1} \\
+\end{aligned}
+$$
+
+## Variance estimation
+
+$$
+\begin{aligned}
+V(\bar y_r) &\approx \frac{1}{k \bar m^2} \left( s_y^2 + \bar y_{wcr}^2 s_m^2 - 2 \bar y_{wcr} s_{ym} \right) \\
+&=  \frac{k}{f^2 m^2} \left( s_y^2 + \bar y_{wcr}^2 s_m^2 - 2 \bar y_{wcr} s_{ym} \right)
+\end{aligned}
+$$
+where
+$$
+\begin{aligned}
+s_y^2 &= \frac{\sum_{i=1}^k (y_i - y/k)^2}{k-1}, \quad
+s_m^2 = \frac{\sum_{i=1}^k (m_i - m/k)^2}{k-1} \\
+s_{ym}^2 &= \frac{\sum{i=1}^k (y_i - y/k)(m_i - m/k)}{k-1} \\
+\end{aligned}
+$$
+
+## Epsem two-stage sampling (2)
+
+As above,
+$$
+\begin{aligned}
+\bar y_r &= \frac{\sum_{i=1}^k M_i \bar y_i}{\sum_{i=1}^k M_i} 
+= \frac{\sum_{i=1}^k (M_i/m_i) \sum_{j=1}^{m_i} y_{ij}}{\sum_{i=1}^k (M_i/m_i) m_i } \\
+&= \frac{\sum_{i=1}^k \sum_{j=1}^{m_i} y_{ij}}{\sum_{i=1}^k m_i} 
+= \frac{\sum_{i=1}^k y_i}{\sum_{i=1}^k m_i} 
+\end{aligned}
+$$
+
+* Under this design our mean estimator is a ratio of sums of
+sample totals $y_i$ and sample sizes $m_i$ for each PSU. Recall
+our general estimator of ratios:
+$$
+r = \frac{\bar y}{\bar x}
+$$
+
+## Variance calculations
+
+$$
+\begin{aligned}
+V(r) &\approx \frac{1}{\bar X^2} \left[ V(\bar y) + R^2 V(\bar x) - 2 R C(\bar x, \bar y) \right] \\
+&= \frac{N^2}{X^2} \left[ \frac{1}{n^2} V(y) + \frac{1}{n^2} R^2 V(x) - \frac{2}{n^2}  R C(x,y) \right] \\
+&= \frac{1}{f^2 X^2} \left[ V(y) + R^2 V(x) - 2 R C(x, y) \right] \\
+\end{aligned}
+$$
+where $V(y) \approx k S_y^2$, $V(m) \approx k S_m^2$, $C(m,y) \approx k S^2_{my}$
+
+## Unbiased estimator 
+
+$$
+\begin{aligned}
+v(\bar y_r) &\approx \frac{k}{f^2 M^2} \left[ s_y^2 + \bar y_r^2 s_m^2 - 2 \bar y_r s_{ym}^2 \right] \\
+&= \frac{k}{f^2 M^2 (k-1)} \bigg[ \left( \sum_{i=1}^k y_i^2 - y^2/k \right) + \bar y_r^2 \left( \sum_{i=1} m_i^2 - m^2 / k \right) \\
+&- 2 \bar y_r \left( \sum_{i=1}^k y_i m_i - ym/k \right) \bigg] \\
+&= \frac{k}{m^2 (k-1)} \left[ \sum_{i=1}^k y_i^2 + \bar y_r^2 \sum_{i=1} m_i^2 - 2 \bar y_r \sum_{i=1}^k y_i m_i \right] \\
+\end{aligned}
+$$
+Writing $e_i = y_i - \bar y_r m_i$, we can simply write
+$$
+v(\bar y_{wcr} ) = \frac{k}{m^2 (k-1)} \left[ \sum_{i=1}^k e_i^2 \right]
+$$
+
+## Is approximation ok?
+
+* Requires Taylor Series approximation to be satisfactory
+* Coefficient of variation of m not much more than 10-20\%
+
+## Non-epsem two-stage sampling (3)
+
+## JITT
+
+* Construct an unbiased estimator when individual $i$ is selected with probability $w_i$
+* What happens to the variance? 
+* Read XXX
