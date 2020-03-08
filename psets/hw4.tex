@@ -19,7 +19,7 @@
 \setlength{\itemsep}{15pt}%
 \setlength{\parskip}{15pt}%
 
-\item  We have the following sufficient statistics from a 2-stage epsem cluster sample: $\sum_{k=1}^10 y_i = 31$, $\sum_{k=1}^10 m_i = 99$, $\sum_{k=1}^10 y_i^2 = 133$, $\sum_{k=1}^10 m_i^2 = 1031$, and $\sum_{k=1}^10 y_i m_i = 329$, where $y_i$ is the sample total from the $i$th cluster and $m_i$ is the number of observations in that cluster.  {\it You may assume the number of clusters is large, and ignore finite population corrections.}
+\item  We have the following sufficient statistics from a 2-stage epsem cluster sample: $\sum_{k=1}^{10} y_i = 31$, $\sum_{k=1}^{10} m_i = 99$, $\sum_{k=1}^{10} y_i^2 = 133$, $\sum_{k=1}^{10} m_i^2 = 1031$, and $\sum_{k=1}^{10} y_i m_i = 329$, where $y_i$ is the sample total from the $i$th cluster and $m_i$ is the number of observations in that cluster.  {\it You may assume the number of clusters is large, and ignore finite population corrections.}
 	\begin{enumerate}[itemsep=5ex]
 	\item Compute an estimate $\bar y_{wcr}$ of the population mean $\bar Y$ and its associated standard error {\bf [10 pt]}.
 	\item Assuming that $y$ is binary (0/1), i.e., so that the population mean is a proportion, compute the design effect and estimate the intraclass correlation. {\bf [10 pt]}
@@ -33,15 +33,23 @@
 \begin{itemize}
 \item Generate a set of means $\mu_i \sim N(0,1)$, $i=1,\ldots,200$.
 \item Generate a set of size measures $M_i \sim \text{Discrete-Uniform} (50,500)$ for $i=1,\ldots,200$.
-\item Generate a population of $Y$ consisting of 200 clusters generating $Y_{ij} \sim N \left( \frac{M_i}{100} + \mu_i, 1 \right)$
+\item Generate a population of $Y$ consisting of 200 clusters generating $Y_{ij} \sim N \left( \frac{M_i}{100} + \mu_i, 1 \right)$ for $i=1,\ldots,M_i$ for all $200$ clusters.
 \end{itemize}
 When you generate this population you will find it helpful to compute the quantities $\bar Y_i$ and $\sum_{i=1}^{M_i} (Y_{ij} - \bar Y_i)^2$ for all clusters for later use.  You may also find in helpful to compute a vector of cluster IDs to parallel your vector $Y$ to draw the sample below.
 
 
 
 	\begin{enumerate}[itemsep=5ex]
-	\item Draw $10,000$ samples from your population using a $2$-stage PPS design, with $k=10$ clusters drawn from $200$ via PPS and $m=10$ elements drawn from each cluster via SRSWOR.  You may find the function \code{ppss} in the R library \code{pps} helpful.  Compute $\bar y_{pps}$ and $v(\bar y_{pps})$ using the 2-stage PPS variance formula. What is the empirical mean of $\bar y_{pps}$ and $v(\bar y_{pps})$ across your simulated $10,000$ samples? {\bf [15 pt]}
-	\item Compute the (with replacement) variance of pps y on p. 272 and compare it with your result in (a) {\bf [15 pt]}
+	\item Draw $10,000$ samples from your population using a $2$-stage PPS design, with $k=10$ clusters drawn from $200$ via PPS and $m=10$ elements drawn from each cluster via SRSWOR.  You may find the function \code{ppss} in the R library \code{pps} helpful.  Compute $\bar y_{pps}$ and $v(\bar y_{pps})$ using
+	$$
+	v(\bar y_{pps}) = \frac{\sum_{i=1}^k (\bar y_i - \bar y)^2}{k(k-1)}
+	$$
+	What is the empirical mean of $\bar y_{pps}$ and $v(\bar y_{pps})$ across your simulated $10,000$ samples? {\bf [15 pt]}
+	\item Compute the (with replacement) variance of $\bar y_{pps}$ using
+	$$
+	\frac{1}{k} \left[ \frac{1}{N} \sum_{i=1}^K M_i (\bar Y_i - \bar Y)^2 \right] + \frac{1}{k \cdot m} \left[ \frac{1}{N} \sum_{i=1}^K \sum_{j=1}^{M_i} (Y_{ij} - \bar Y_i)^2 \right]
+	$$
+	and compare it with your result in (a) {\bf [15 pt]}
 	\item Now consider a two stage design where the first stage is a simple random sample without replacement of the clusters of size 10 and the second stage is also SRSWOR of size 10. Show that the sampling weight associated with each observation is $2 M_i$. {\bf [5 pt]}
 	\item Repeat the generation of the 10,000 samples, this time using the two-stage design in part (c). Compute weighted mean and find the empirical mean of $\bar y_{w}$ and $v(\bar y_w)$ across your simulated 10,000 samples. Compare your results with (a) and explain the reasons for the similarities or differences. {\bf [15 pt]}
 	\end{enumerate}
