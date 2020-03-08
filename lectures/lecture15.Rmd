@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Announcements:
 
 * Midterm
-  + Solutions posted today
+  + Solutions posted
   + Grades finalized by Wednesday
   + Will return at end of class
 * HW 3: 
@@ -351,6 +351,9 @@ $$
 
 ## JITT
 
-* Construct an unbiased estimator when individual $i$ is selected with probability $w_i$
-* What happens to the variance? 
+* How would you respond to this question?
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l15_jit.tpng") # place holder
+```
 * Read XXX
