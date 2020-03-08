@@ -73,7 +73,7 @@ for $N=\sum_i M_i$
 ## First setting
 
 * Start with sampling pre-specified number of observations $m_i$ from sampled cluster $k$
-  + No constraints on $m_i$ except $m_i > 0 $
+  + No constraints on $m_i$ except $m_i > 0$
   + SRS WOR at 1st and 2nd stages of sampling
 * Goal of estimation 
 $$
@@ -349,11 +349,78 @@ $$
 
 ## Non-epsem two-stage sampling (3)
 
+In this most general setting, we allow for a general probability of selection $\pi_{ij} = f_{1i} f_{2ij}$, where probabilities of selection can vary by cluster and by elements within a sampled cluster.
+
+$$
+\bar y_{wcr} = \frac{\sum_{i=1}^k \sum_{j=1}^{m_i} w_{ij} y_{ij} }{\sum_{i=1}^k \sum_{j=1}^{m_i} w_{ij}} = \frac{\hat Y}{\hat M} = \frac{\hat Y}{\hat N}
+$$
+where $w_{ij} = \pi_{ij}^{-1}$. Let $y_{ij}^\star = w_{ij} y_{ij}$. Then
+$$
+\bar y_{wcr} = \frac{\sum_{i=1}^k y_i^\star}{\sum_{i=1}^k w_i}
+$$
+for $y_i^\star = \sum_{j=1}^{m_i} y_{ij}^\star$ and $w_i = \sum_{j=1}^{m_i} w_{ij}$.
+
+## Variance estimator
+
+Same approach as for the epsem design:
+$$
+\begin{aligned}
+v(\bar y_{wcr}) &\approx \frac{k}{w^2} \left[ s_{y^\star}^2 + \bar y_{wcr}^2 s_w^2 - 2 \bar y_{wcr} s_{y^\star m}^2 \right] \\
+&\approx \frac{k}{w^2(k-1)} \left[ \sum_{i=1}^k (y_i^\star)^2 + \bar y_{wcr}^2 \sum_{i=1}^k w_i^2 - 2 \bar y_{wcr} \sum_{i=1}^k y_i^\star w_i \right].
+\end{aligned}
+$$
+
+## Non-epsem two-stage sampling (3): with fpc
+
+* Suppose that we do __not__ want to ingore the fpc.
+* First, let's do a step back to single-stage sampling with different probabilities of selection $\pi_i$
+* We have 
+
+$$
+\hat Y_w = \sum_{i=1}^n w_i y_i = \sum_{i=1}^N \delta_i w_i Y_i,
+$$
+is unbiased for the population total $Y$.
+* Thus $\hat{\bar{Y}} = N^{-1} \hat Y$ is unbiased for the population mean $\bar Y$
+  + __Horvitz-Thompson estimator__
+
+## Non-epsem two-stage sampling (3): with fpc
+
+$$\small
+\begin{aligned}
+V(\hat Y_w) &= V\left( \sum_{i=1}^N \delta_i w_i Y_i \right) \\
+&= \sum_{i=1}^N V(\delta_i) w_i^2 Y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N C(\delta_i, \delta_j) w_i w_j Y_i Y_j  \\
+C(\delta_i, \delta_j) &= E(\delta_i \delta_j) - E(\delta_i) E(\delta_j) = \pi_{ij} - \pi_i \pi_j
+\end{aligned}
+$$
+So 
+$$\small
+V(\hat Y_w) = \sum_{i=1}^N (1-\pi_i) w_i Y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N (\pi_{ij} - \pi_i \pi_j) w_i w_j Y_i Y_j 
+$$
+with estimator
+$$\small
+\begin{aligned}
+v(\hat Y_w) &= \sum_{i=1}^n (1-\pi_i) w_i^2 y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N (\pi_{ij} - \pi_i \pi_j) w_i w_j w_{ij} y_i y_j \\
+&= \sum_{i=1}^n \frac{1-\pi_i}{\pi_i^2} y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N \frac{\pi_{ij} - \pi_i \pi_j}{\pi_i \pi_j \pi_{ij}} y_i y_j \\
+\end{aligned}
+$$
+
+## HT variance
+
+$$\small
+V( \hat{\bar{Y}} ) = \frac{\left[ \sum_{i=1}^N (1-\pi_i) w_i Y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N (\pi_{ij} - \pi_i \pi_j) w_i w_j Y_i Y_j  \right]}{N^2}
+$$
+and
+$$
+v( \hat{\bar{Y}} ) = \frac{\left[ \sum_{i=1}^n \frac{1-\pi_i}{\pi_i^2} y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N \frac{\pi_{ij} - \pi_i \pi_j}{\pi_i \pi_j \pi_{ij}} y_i y_j  \right]}{N^2}
+$$
+
+* Note that computation of this variance requires not only the probability of selection $\pi_i$ for all sampled elements, but also the __joint probabilities of selection__ for all pairs of sampled elements $\pi_{ij}$
+
 ## JITT
 
 * How would you respond to this question?
 ```{r, out.width = "150px", fig.align='center'}
 library(knitr)
-include_graphics("./figs/l15_jit.tpng") # place holder
+include_graphics("./figs/l15_jitt.png") # place holder
 ```
 * Read XXX
