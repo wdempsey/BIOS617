@@ -42,7 +42,7 @@ and estimation.
 
 ## Example
 
-* Suppose we hvae a two-stage sample with $K=10$ clusters and $M_k$ differing between clusters, with $f_1 = 1/2$ and $f_2  1/10$:
+* Suppose we have a two-stage sample with $K=10$ clusters and $M_k$ differing between clusters, with $f_1 = 1/2$ and $f_2 = 1/10$:
 ```{r, out.width = "150px", fig.align='center'}
 library(knitr)
 include_graphics("./figs/l15_fig1.png") # place holder
@@ -61,7 +61,7 @@ include_graphics("./figs/l15_fig1.png") # place holder
 * Alternatives that retain equal sample sizes across
 clusters
   + Sample with probability $f_{2i} = m/M_i$
-    + Unequal probabilities of selectoin: need to use weights $w_i = \frac{1}{f_1 f_{2i}} = \frac{KM_i}{km}$ to adjust
+    + Unequal probabilities of selection: need to use weights $w_i = \frac{1}{f_1 f_{2i}} = \frac{KM_i}{km}$ to adjust
 *  Sample first stage with __probability proportional to size__ so that $f_{1i} = \frac{k M_i}{N}$ and $f_{2i} = \frac{m}{M}$, and thus 
 $$
 f_i = f_{1i} f_{2i} = \frac{kM_i}{N} \times \frac{m}{M_i} = \frac{km}{N} = \frac{n}{N}  
@@ -89,7 +89,7 @@ $$
 $$
 \bar y_{wc} = \frac{1}{N} \sum_{i=1}^k \sum_{j=1}^{m_i} w_{ij} y_{ij}
 $$
-* __Question__: What $w_ij$ leads to unbiased estimator?
+* __Question__: What $w_{ij}$ leads to unbiased estimator?
 
 ## Unbiased estimator of the mean
 
@@ -423,4 +423,9 @@ $$
 library(knitr)
 include_graphics("./figs/l15_jitt.png") # place holder
 ```
-* Read XXX
+* Read the following survey.
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l15_jitt2.png") # place holder
+```
+  + Name 1 way how the model-based perspective is helpful for design-based methods?
