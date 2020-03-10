@@ -95,7 +95,7 @@ $$
 
 * Let $\delta_{ij}$ indicate the $j$th element in the $i$th PSU is chosen
 $$
-E[\delta_{ij}] = f_1 f_{2i} = \frac{k}{K} \times \frac{m_i}{M} := \pi_{ij}
+E[\delta_{ij}] = f_1 f_{2i} = \frac{k}{K} \times \frac{m_i}{M_i} := \pi_{ij}
 $$
 * Then $w_{ij} = 1/\pi_{ij}$ implies
 $$
@@ -167,9 +167,9 @@ $$
 \small
 \begin{aligned}
 \sum_{i=1}^k \hat Y_i^2 &= \sum_{i=1}^k (\hat Y_i - Y_i)^2  + 2 \sum_{i=1}^k \hat Y_i Y_i  - \sum_{i=1}^k Y_i^2 \\
-\Rightarrow E \left[ \sum_{i=1}^k \hat Y_i^2 \right] &= \sum_{i=1}^k V(\hat Y_i \mid i \in s)  + 2 \sum_{i=1}^k E (\hat Y_i \mid i \in s) Y_i  - \sum_{i=1}^k Y_i^2 \\
+\Rightarrow E \left[ \sum_{i=1}^k \hat Y_i^2 \mid i \in s \right] &= \sum_{i=1}^k V(\hat Y_i \mid i \in s)  + 2 \sum_{i=1}^k E (\hat Y_i \mid i \in s) Y_i  - \sum_{i=1}^k Y_i^2 \\
 &= \sum_{i=1}^k M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i}  + \sum_{i=1}^k Y_i^2 \\
-\Rightarrow E \left( \sum_{i=1}^k \hat Y_i^2 \right) &= 
+\Rightarrow E \left( \sum_{i=1}^k \hat Y_i^2 \mid i \in s \right) &= 
 \frac{k}{K} \sum_{i=1}^K M_i^2 \left(1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i} + \frac{k}{K} \sum_{i=1}^K Y_i^2
 \end{aligned}
 $$
