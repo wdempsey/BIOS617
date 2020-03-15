@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = FALSE)
   + JITT due Wed
 * Today:
   + Finish unequal cluster sampling
-  + Case study
+  + No Case study (will try and post at some point)
   + Probability proportion to size (PPS) sampling designs 
 
 
@@ -252,7 +252,7 @@ include_graphics("./figs/l17_fig1.png") # place holder
 2. $R = 804$: sample unit $4$, sample $18$ of $554$ employees
 3. $R + N/k = 1884$: sample unit $9$, sample $18$ of $232$ employees.
 
-## Point and variance esitmation for two-stage PPS sampling
+## Point and variance estimation for two-stage PPS sampling
 
 Since epsem design, unweighted sample mean $\bar y$ is unbiased for the population mean:
 
@@ -303,7 +303,7 @@ $$
 E \left( V \left( \bar y_{pps} \mid i \in s \right) \right) &= E \left( \frac{1}{k^2} \sum_{i=1}^k \frac{\sigma_i^2}{m} \right) \\
 &= E \left( \frac{1}{k^2} \sum_{i=1}^K \delta_i \frac{\sigma_i^2}{m} \right) \\
 &= \frac{1}{k^2} \sum_{i=1}^K \frac{k M_i}{N} \frac{\sigma_i^2}{m} \\
-&= \frac{1}{n N} \sum_{i=1}^K M_i \sigma_i^2
+&= \frac{1}{n N} \sum_{i=1}^K M_i \sigma_i^2 = \frac{\sigma_2^2}{n}
 \end{aligned}
 $$
 
@@ -317,13 +317,47 @@ $$
 
 $$
 \begin{aligned}
+V \left( \frac{1}{k} \sum_{i=1}^k \bar Y_i \right) &=
+\frac{1}{k^2} V \left( \sum_{i=1}^k \bar Y_i \right) 
+= \frac{1}{k^2} V \left( \sum_{i=1}^K \delta_i \bar Y_i \right) \\
+&= \frac{1}{k^2} \left[ \sum_{i=1}^K V \left( \delta_i \bar Y_i \right) \right]
 \end{aligned}
 $$
 
 ## Term 2 (ctd)
 
-## Term 2
+$$
+\begin{aligned}
+V \left( \sum_{i=1}^K \delta_i \bar Y_i \right) &= \sum_{i=1}^k V \left( \delta_i \right) \bar Y_i^2 + \sum_{i=1}^K \sum_{j\neq i, j=1}^K C(\delta_i, \delta_j) \bar Y_i \bar Y_j \\
+&= k \left[ \sum_{i=1}^K \pi_i (1-\pi_i) \bar Y_i^2 - \sum_{i=1}^K \sum_{j\neq i, j=1}^K \pi_i \pi_j \bar Y_i \bar Y_j \right] \\
+&= k \left[ \sum_{i=1}^K \pi_i \bar Y_i^2 - \sum_{i=1}^K \sum_{j=1}^K \pi_i \pi_j \bar Y_i \bar Y_j \right] \\
+&= k \left[ \sum_{i=1}^K \pi_i \bar Y_i^2 - \left( \sum_{i=1}^K \pi_i \bar Y_i \right)^2 \right] \\
+&= k \left[ \sum_{i=1}^K \pi_i \left( \bar Y_i - \bar Y \right)^2 \right] \\
+\end{aligned}
+$$
 
+## Combining
+
+$$
+\begin{aligned}
+V( E ( \bar y_{pps} \mid i \in s )) &= 
+\frac{1}{k^2} \left[ k \sum_{i=1}^K \frac{M_i}{N} (\bar Y_i - \bar Y)^2 \right] \\
+&= \frac{1}{k} \left[ \sum_{i=1}^K \frac{M_i}{N} (\bar Y_i - \bar Y)^2 \right]
+= \frac{\sigma_1^2}{k}
+\end{aligned}
+$$
+
+## Variance estimator for $2$-stage PPS
+
+$$
+V(\bar y_{pps}) = V \left( \frac{1}{k} \sum_{i=1}^k \bar y_i \right) = \frac{V(\bar y_i )}{k}
+$$
+where $V(\bar y_i)$ is the marginal (not conditional) variance of $\bar y_i$.
+
+Estimator of the variance is given by
+$$
+v(\bar y_i) = \frac{1}{k} \times \frac{\sum_{i=1}^k (\bar y_i - \bar y)^2}{k-1}
+$$
 
 ## JITT: Diary
 
