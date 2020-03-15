@@ -1,7 +1,7 @@
 ---
-title: "BIOS 617 - Lecture 15"
+title: "BIOS 617 - Lecture 17"
 author: "Walter Dempsey"
-date: "3/11/2020"
+date: "3/16/2020"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -11,285 +11,29 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-* How would you respond to this question?
-```{r, out.width = "150px", fig.align='center'}
-library(knitr)
-include_graphics("./figs/l15_jitt.png") # place holder
-```
+## Moving to online
+
+* Virtual meetings for remainder of semester
+* Final may be held virtually
+* Midterm: solutions posted
+  + Rather than curve, will give (optional) revised version 
+  + Can make up some missed points (TBD)
+* This week:
+  + Diary due today
+  + JITT due Wed
+* Today:
+  + Finish unequal cluster sampling
+  + Case study
+  + Probability proportion to size (PPS) sampling designs 
+
 
 ## Topic: Cluster sampling with unequal cluster sizes
-
-* Previous work with cluster samples assumed equal cluster sizes:
-  + Eases estimation: useful for obtaining intuition about design
-and estimation.
-* But often impractical, because in real world clusters are rarely so neatly presented, especially in human populations.
-* Unequal cluster size complicated estimation.
-
-## Example
 
 * Suppose we have a two-stage sample with $K=10$ clusters and $M_k$ differing between clusters, with $f_1 = 1/2$ and $f_2 = 1/10$:
 ```{r, out.width = "150px", fig.align='center'}
 library(knitr)
 include_graphics("./figs/l15_fig1.png") # place holder
 ```
-
-## Example (ctd)
-
-* Each element has the same probability of selection $f = f_1 \cdot f_2 = 1/20$
-* __BUT__ the number of elements sampled can differ over samples.
-  + Sample size is now a _random variable_
-  + Denominator in mean can no longer be treated as fixed
-  + Mean $\bar y = \sum_i y / n$ for $n = \sum_i m_i$ is a _ratio estimator_.
-  
-## First setting
-
-* Start with sampling pre-specified number of observations $m_i$ from sampled cluster $k$
-  + No constraints on $m_i$ except $m_i > 0$
-  + SRS WOR at 1st and 2nd stages of sampling
-* Goal of estimation 
-$$
-\bar Y = \frac{\sum_{i=1}^K \sum_{j=1}^{M_i} Y_{ij}}{N} = 
-\frac{\sum_{i=1}^K M_i \bar Y_i}{N} = 
-\sum_{i=1}^K \frac{M_i}{N} \bar Y_i
-$$
-
-## Unbiased estimator of the mean
-
-* Consider SRS of $k$ PSUs from $K$ PSU in the population, and SRS of $m_i$ elements from the population of $M_i$ elements in the $i$th selected PSU
-* Consider an estimator of the form 
-$$
-\bar y_{wc} = \frac{1}{N} \sum_{i=1}^k \sum_{j=1}^{m_i} \frac{y_{ij}}{\pi_{ij}}
-$$
-* Where $\pi_{ij} = k/K \times m_i / M_i$
-$$
-V(\bar y_{wc}) = \frac{K^2}{N^2} \left( 1 - \frac{k}{K} \right) \frac{S_{Y_i}^2}{k} + \frac{K}{N^2 k} \sum_{i=1}^K M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{S_i^2}{m_i}
-$$
-
-## Estimator of variance
-
-An unbiased estimator of $S_{Y_i}^2$ is given by
-$$
-s_{Y_i}^2 - \frac{1}{k} \sum_{i=1}^k M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{s_i^2}{m_i}
-$$
-And so an unbiased estimator of $V(\bar y_{wc})$ is
-$$
-v(\bar y_{wc}) = \frac{K^2}{N^2} \left( 1 - f_1 \right) \frac{s_{Y_i}^2}{k} + \frac{K}{N^2 k} \sum_{i=1}^k M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{s_i^2}{m_i}
-$$
-
-## Issues
-
-$$
-v(\bar y_{wc}) = \frac{K^2}{N^2} \left( 1 - f_1 \right) \frac{s_{Y_i}^2}{k} + \frac{K}{N^2 k} \sum_{i=1}^k M_i^2 \left( 1 - \frac{m_i}{M_i} \right) \frac{s_i^2}{m_i}
-$$
-
-* First term involves variance of PSU totals, which are a function of __both__ the cluster __means__ $\bar Y_i$ and the cluster __sizes__ $M_i$
-* Typically $M_i$ may be highly variable
-* Hence an alternative mean estimator with a reduced variance may be preferable.
-
-## Alternative view of the estimator
-
-The unbiased estimator $\bar y_{wc} = \frac{K}{Nk} \sum_{i=1}^k M_i \bar y_i$ can be viewed as estimating the mean PSU sample total by
-$$
-\frac{1}{k} \sum_{i=1}^k M_i \bar y_i
-$$
-and then dividing this by the mean PSU size
-$$
-\frac{1}{N/K} = \frac{1}{\sum_{i=1}^K M_i / K}
-$$
-
-## Alternative proposal
-
-* Replace the population mean PSU size with the sample mean PSU size
-* Yields the estimator usually used in practice
-$$
-\bar y_{wcr} = r = \frac{k \sum_{i=1}^k M_i \bar y_i}{k \sum_{i=1}^k M_i} =  \frac{\sum_{i=1}^k M_i \bar y_i}{ \sum_{i=1}^k M_i}
-$$
-  + Ratio estimator (why?)
-  + Takes advantge of correlation between PSU totals and PSU sizes
-    + If sampled PSUs happen to be small on average (or vice versa), preferable to use sample mean of PSUs rather than population mean of PSUs.
-
-## Simple setting
-
-If epsem sampling with $f_{1i} \equiv f_1 = k/K$ and $f_{2 ij} \equiv f_2 = m_i / M_i = m/M$, then
-$$
-\begin{aligned}
-\bar y_{wcr} &=  \frac{\sum_{i=1}^k M_i \bar y_i}{ \sum_{i=1}^k M_i} \\
-&=  \frac{\sum_{i=1}^k \frac{M_i}{m_i} \sum_{j=1}^{m_i} y_{ij}}{ \sum_{i=1}^k (M_i/m_i) m_i} \\
-&=  \frac{\sum_{i=1}^k \sum_{j=1}^{m_i} y_{ij}}{ \sum_{i=1}^k m_i} \\
-&=  \frac{\sum_{i=1}^k \sum_{j=1}^{m_i} y_{ij}}{n} \\
-&= \bar y
-\end{aligned}
-$$
-
-## Various sampling plans
-
-Consider three differing sampling plans for unequal size clusters:
-
-* SRS of k clusters from a population of K clusters for first stage, with all elements in selected clusters being chosen.
-* SRS of k clusters from a population of K clusters for first stage, with equal fraction $m/M$ elements in selected clusters being chosen.
-* SRS of k clusters from a population of K clusters for first stage, with varying fraction chosen in selected clusters.
-
-1. and 2. are epsem designs. All can be viewed as ratio estimators, with variances obtained using results from ratio estimation.
-
-__We will assume negligible first-stage sampling fraction: $\frac{k}{K} \approx 0$ (equivalent to first - stage with-replacement sampling).__
-
-## Epsem One-stage sampling (1)
-
-Here $M_i \bar y_i = \sum_{j=1}^{M_i} y_{ij} = Y_i$, so $\bar y_{wcr} = \frac{\sum_{i=1}^k M_i \bar y_i}{\sum_{i=1}^k M_i} = \frac{\sum_{i=1}^k Y_i}{\sum_{i=1}^k M_i}$.
-
-* Numerator and denominator are SRS samples of PSU totals
-* Variance of ratio estimator:
-$$
-\begin{aligned}
-V(\bar y_r) &\approx \frac{1}{k \bar M^2} \left( S_y^2 + \bar Y^2 S_m^2 - 2 \bar Y S_{ym} \right) \\
-&= \frac{k}{f^2 M^2} \left( S_y^2 + \bar Y^2 S_m^2 - 2 \bar Y S_{ym} \right) 
-\end{aligned}
-$$
-where
-$$
-\begin{aligned}
-S_y^2 &= \frac{\sum_{i=1}^K (Y_i - Y/K)^2}{K-1}, \quad
-S_m^2 = \frac{\sum_{i=1}^K (M_i - M/K)^2}{K-1} \\
-S_{ym}^2 &= \frac{\sum{i=1}^K (Y_i - Y/K)(M_i - M/K)}{K-1} \\
-\end{aligned}
-$$
-
-## Variance estimation
-
-$$
-\begin{aligned}
-V(\bar y_r) &\approx \frac{1}{k \bar m^2} \left( s_y^2 + \bar y_{wcr}^2 s_m^2 - 2 \bar y_{wcr} s_{ym} \right) \\
-&=  \frac{k}{f^2 m^2} \left( s_y^2 + \bar y_{wcr}^2 s_m^2 - 2 \bar y_{wcr} s_{ym} \right)
-\end{aligned}
-$$
-where
-$$
-\begin{aligned}
-s_y^2 &= \frac{\sum_{i=1}^k (y_i - y/k)^2}{k-1}, \quad
-s_m^2 = \frac{\sum_{i=1}^k (m_i - m/k)^2}{k-1} \\
-s_{ym}^2 &= \frac{\sum{i=1}^k (y_i - y/k)(m_i - m/k)}{k-1} \\
-\end{aligned}
-$$
-
-## Epsem two-stage sampling (2)
-
-As above,
-$$
-\begin{aligned}
-\bar y_r &= \frac{\sum_{i=1}^k M_i \bar y_i}{\sum_{i=1}^k M_i} 
-= \frac{\sum_{i=1}^k (M_i/m_i) \sum_{j=1}^{m_i} y_{ij}}{\sum_{i=1}^k (M_i/m_i) m_i } \\
-&= \frac{\sum_{i=1}^k \sum_{j=1}^{m_i} y_{ij}}{\sum_{i=1}^k m_i} 
-= \frac{\sum_{i=1}^k y_i}{\sum_{i=1}^k m_i} 
-\end{aligned}
-$$
-
-* Under this design our mean estimator is a ratio of sums of
-sample totals $y_i$ and sample sizes $m_i$ for each PSU. Recall
-our general estimator of ratios:
-$$
-r = \frac{\bar y}{\bar x}
-$$
-
-## Variance calculations
-
-$$
-\begin{aligned}
-V(r) &\approx \frac{1}{\bar X^2} \left[ V(\bar y) + R^2 V(\bar x) - 2 R C(\bar x, \bar y) \right] \\
-&= \frac{N^2}{X^2} \left[ \frac{1}{n^2} V(y) + \frac{1}{n^2} R^2 V(x) - \frac{2}{n^2}  R C(x,y) \right] \\
-&= \frac{1}{f^2 X^2} \left[ V(y) + R^2 V(x) - 2 R C(x, y) \right] \\
-\end{aligned}
-$$
-where $V(y) \approx k S_y^2$, $V(m) \approx k S_m^2$, $C(m,y) \approx k S^2_{my}$
-
-## Unbiased estimator 
-
-$$
-\begin{aligned}
-v(\bar y_r) &\approx \frac{k}{f^2 M^2} \left[ s_y^2 + \bar y_r^2 s_m^2 - 2 \bar y_r s_{ym}^2 \right] \\
-&= \frac{k}{f^2 M^2 (k-1)} \bigg[ \left( \sum_{i=1}^k y_i^2 - y^2/k \right) + \bar y_r^2 \left( \sum_{i=1} m_i^2 - m^2 / k \right) \\
-&- 2 \bar y_r \left( \sum_{i=1}^k y_i m_i - ym/k \right) \bigg] \\
-&= \frac{k}{m^2 (k-1)} \left[ \sum_{i=1}^k y_i^2 + \bar y_r^2 \sum_{i=1} m_i^2 - 2 \bar y_r \sum_{i=1}^k y_i m_i \right] \\
-\end{aligned}
-$$
-Writing $e_i = y_i - \bar y_r m_i$, we can simply write
-$$
-v(\bar y_{wcr} ) = \frac{k}{m^2 (k-1)} \left[ \sum_{i=1}^k e_i^2 \right]
-$$
-
-## Is approximation ok?
-
-* Requires Taylor Series approximation to be satisfactory
-* Coefficient of variation of m not much more than 10-20\%
-
-## Non-epsem two-stage sampling (3)
-
-In this most general setting, we allow for a general probability of selection $\pi_{ij} = f_{1i} f_{2ij}$, where probabilities of selection can vary by cluster and by elements within a sampled cluster.
-
-$$
-\bar y_{wcr} = \frac{\sum_{i=1}^k \sum_{j=1}^{m_i} w_{ij} y_{ij} }{\sum_{i=1}^k \sum_{j=1}^{m_i} w_{ij}} = \frac{\hat Y}{\hat M} = \frac{\hat Y}{\hat N}
-$$
-where $w_{ij} = \pi_{ij}^{-1}$. Let $y_{ij}^\star = w_{ij} y_{ij}$. Then
-$$
-\bar y_{wcr} = \frac{\sum_{i=1}^k y_i^\star}{\sum_{i=1}^k w_i}
-$$
-for $y_i^\star = \sum_{j=1}^{m_i} y_{ij}^\star$ and $w_i = \sum_{j=1}^{m_i} w_{ij}$.
-
-## Variance estimator
-
-Same approach as for the epsem design:
-$$
-\begin{aligned}
-v(\bar y_{wcr}) &\approx \frac{k}{w^2} \left[ s_{y^\star}^2 + \bar y_{wcr}^2 s_w^2 - 2 \bar y_{wcr} s_{y^\star m}^2 \right] \\
-&\approx \frac{k}{w^2(k-1)} \left[ \sum_{i=1}^k (y_i^\star)^2 + \bar y_{wcr}^2 \sum_{i=1}^k w_i^2 - 2 \bar y_{wcr} \sum_{i=1}^k y_i^\star w_i \right].
-\end{aligned}
-$$
-
-## Non-epsem two-stage sampling (3): with fpc
-
-* Suppose that we do __not__ want to ignore the fpc.
-* First, let's do a step back to single-stage sampling with different probabilities of selection $\pi_i$
-* We have 
-
-$$
-\hat Y_w = \sum_{i=1}^n w_i y_i = \sum_{i=1}^N \delta_i w_i Y_i,
-$$
-is unbiased for the population total $Y$.
-
-* Thus $\hat{\bar{Y}} = N^{-1} \hat Y$ is unbiased for the population mean $\bar Y$
-  + __Horvitz-Thompson estimator__
-
-## Non-epsem two-stage sampling (3): with fpc
-
-$$\small
-\begin{aligned}
-V(\hat Y_w) &= V\left( \sum_{i=1}^N \delta_i w_i Y_i \right) \\
-&= \sum_{i=1}^N V(\delta_i) w_i^2 Y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N C(\delta_i, \delta_j) w_i w_j Y_i Y_j  \\
-C(\delta_i, \delta_j) &= E(\delta_i \delta_j) - E(\delta_i) E(\delta_j) = \pi_{ij} - \pi_i \pi_j
-\end{aligned}
-$$
-So 
-$$\small
-V(\hat Y_w) = \sum_{i=1}^N (1-\pi_i) w_i Y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N (\pi_{ij} - \pi_i \pi_j) w_i w_j Y_i Y_j 
-$$
-with estimator
-$$\small
-\begin{aligned}
-v(\hat Y_w) &= \sum_{i=1}^n (1-\pi_i) w_i^2 y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N (\pi_{ij} - \pi_i \pi_j) w_i w_j w_{ij} y_i y_j \\
-&= \sum_{i=1}^n \frac{1-\pi_i}{\pi_i^2} y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N \frac{\pi_{ij} - \pi_i \pi_j}{\pi_i \pi_j \pi_{ij}} y_i y_j \\
-\end{aligned}
-$$
-
-## HT variance
-
-$$\small
-V( \hat{\bar{Y}} ) = \frac{\left[ \sum_{i=1}^N (1-\pi_i) w_i Y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N (\pi_{ij} - \pi_i \pi_j) w_i w_j Y_i Y_j  \right]}{N^2}
-$$
-and
-$$
-v( \hat{\bar{Y}} ) = \frac{\left[ \sum_{i=1}^n \frac{1-\pi_i}{\pi_i^2} y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N \frac{\pi_{ij} - \pi_i \pi_j}{\pi_i \pi_j \pi_{ij}} y_i y_j  \right]}{N^2}
-$$
-
-* Note that computation of this variance requires not only the probability of selection $\pi_i$ for all sampled elements, but also the __joint probabilities of selection__ for all pairs of sampled elements $\pi_{ij}$
 
 ## General (weighted) estimator of a two-stage design
 
@@ -439,10 +183,147 @@ N^{-1} \sum_{i=1}^k w_{is} v( \hat Y_i \mid i \in s) &= N^{-1} \sum_{i=1}^k \fra
 &= \frac{k}{K} \left( 1 - \frac{m}{M} \right) \frac{s_2^2}{n}
 \end{aligned}
 $$
-* THus
+* Thus
 $$
 v(\bar y) = \left( 1- \frac{k}{K} \right) \frac{s_1^2}{k} + \frac{k}{K} \left( 1 - \frac{m}{M} \right) \frac{s_2^2}{n}
 $$
+
+## New content: (Two-stage) Probability Proportional to Size (PPS) sampling
+
+For clusters with number of observations, sample with probability $\frac{kM_i}{M_0}$, $N = M_0 = \sum_{i=1}^K M_i$
+
+* Equalize workload (send equal numbers of interviewers to each samples geographic region)
+* Avoid large clusters dominating the analysis
+  + Important when clusters ``double'' as unit of analysis $\rightarrow$ equal cluster sizes will provide more efficient analysis
+* When combined with a second stage of sampling, can be used to create epsem design
+
+## PPS design
+
+* Select with first stage $\frac{kM_i}{M_0}$
+* Select with second stage probability $\frac{m}{M_i}$
+* Design is epsem for fixed sample size $n$:
+$$
+P(I_{ij} = 1) = \pi_{ij} = \pi_i \pi_{j \mid i \in s} 
+= \frac{kM_i}{M_0} \times \frac{m}{M_i} = \frac{k m}{M_0} 
+= \frac{n}{N} = \pi
+$$
+for all $i,j$.
+
+## Ways to implements
+
+* With replacement
+* Systematic sampling without replacement
+  + Both approaches require cumulating the size of the clusters
+
+## Example:
+
+Population of $2,160$ employees in $10$ units:
+
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l17_fig1.png") # place holder
+```
+
+## PPS sampling with first-stage replacement
+
+* Select a random number $R_1$ from $1$ through $N$.
+* Find cluster with cumulative sum exceeding $R_i$
+* Sample $m$ units from cluster
+* Repeat steps until $k$ clusters have been sampled
+  + If cluster is sampled $b > 1$ times, sample a total of $bm$ units from cluster
+  
+## Employee example: say $k=2$, $m=18$, $n=36$
+
+* $R_1 = 702$: sample unit 3, sample 18 of 127 employees
+* $R_2 = 1744$: sample unit 7, sample 18 of 64 employees
+
+## PP sampling with first-stage systematic sampling
+
+1. Select a random start $R$ between $1$ and $N/k$
+2. Find first cluster with cumulative sume exceeding $R$
+3. Sample $m$ units from first cluster
+4. Find second cluster with cumulative sum exceeding $R + N/k$
+5. Sample $m$ units from second cluster
+6. Repeat steps 4 and 5, finding the $i$ cluster with cumulative sum exceeding $R + (i-1) (N/k)$
+
+## Employee example: $k=2$, $m=18$, $n=36$
+
+1. $N/k = 1080$
+2. $R = 804$: sample unit $4$, sample $18$ of $554$ employees
+3. $R + N/k = 1884$: sample unit $9$, sample $18$ of $232$ employees.
+
+## Point and variance esitmation for two-stage PPS sampling
+
+Since epsem design, unweighted sample mean $\bar y$ is unbiased for the population mean:
+
+$$
+\begin{aligned}
+E( \bar y_{pps} ) &= E ( E( \bar y \mid i \in s) ) \\
+&= E ( E( k^{-1} \sum_{i=1}^k \mid i \in s) ) = E \left( k^{-1} \sum_{i=1}^k Y_i \right) \\
+&= k^{-1} \sum_{i=1}^K E(\delta_i) \bar Y_i \\
+&= k^{-1} \sum_{i=1}^K \frac{k M_i}{M} \bar Y_i \\
+&= N^{-1} \sum_{i=1}^K M_i \bar Y_i  = \bar Y
+\end{aligned}
+$$
+
+## Point and variance esitmation for two-stage PPS sampling
+
+$$ 
+\begin{aligned}
+V(\bar y_{pps} ) &= \frac{\sigma_1^2}{k} + \frac{\sigma_2^2}{km} = \frac{\sigma_1^2}{k} + \frac{\sigma_2^2}{n}
+\end{aligned}
+$$
+where
+$$
+\sigma_1^2 = \frac{1}{N} \sum_{i=1}^K M_i \left( \bar Y_i - \bar Y \right)^2
+$$
+and
+$$
+\begin{aligned}
+\sigma_2^2 &= \frac{1}{N} \sum_{i=1}^K M_i \sigma_i^2 \\
+\sigma_i^2 &= \frac{1}{M_i} \sum_{i=1}^K (Y_{ij} - \bar Y_i )^2
+\end{aligned}
+$$
+To prove this, we use Law of Total Variance:
+$$
+V(\bar y_{pps}) = E \left( V \left( \bar y_{pps} \mid i \in s \right) \right) + V\left( E \left( \bar y_{pps} \mid i \in s \right) \right)
+$$
+
+## Term 1
+
+$$
+V \left( \bar y_{pps} \mid i \in s \right) =
+V \left( \frac{1}{k} \sum_{i=1}^k \bar y_i \mid i \in s \right) =
+\frac{1}{k^2} \sum_{i=1}^k V( \bar y_i ) =
+\frac{1}{k^2} \sum_{i=1}^k \frac{\sigma_i^2}{m}
+$$
+so
+$$
+\begin{aligned}
+E \left( V \left( \bar y_{pps} \mid i \in s \right) \right) &= E \left( \frac{1}{k^2} \sum_{i=1}^k \frac{\sigma_i^2}{m} \right) \\
+&= E \left( \frac{1}{k^2} \sum_{i=1}^K \delta_i \frac{\sigma_i^2}{m} \right) \\
+&= \frac{1}{k^2} \sum_{i=1}^K \frac{k M_i}{N} \frac{\sigma_i^2}{m} \\
+&= \frac{1}{n N} \sum_{i=1}^K M_i \sigma_i^2
+\end{aligned}
+$$
+
+## Term 2
+
+$$
+E \left( \bar y_{pps} \mid i \in s \right) = \frac{1}{k} \sum_{i=1}^k \bar Y_i
+$$
+
+* Since $k$ is fixed, under repeated sampling $\delta_i$ is multinomial with probability $M_i / N$ in each block
+
+$$
+\begin{aligned}
+\end{aligned}
+$$
+
+## Term 2 (ctd)
+
+## Term 2
+
 
 ## JITT: Diary
 
