@@ -60,7 +60,7 @@ where
 
 * $a_{is}^\prime = 0$ unless PSU $i$ is selected
 * $b_{ijs}^\prime = 0$ unless both PSUs $i$ and $j$ are selected
-* $E[a_{is}^\prime] = V(w_{is}^\prime$
+* $E[a_{is}^\prime] = V(w_{is}^\prime)$
 * $E[b_{ijs}^\prime] = C(w_{is}^\prime, w_{js}^\prime)$ 
 
 ## Two-stage design
@@ -73,7 +73,7 @@ $$
 \begin{aligned}
 V(E(\tilde y \mid i \in s)) &= V( \tilde y_1) \\
 E(V(\tilde y \mid i \in s)) &= E \left( \sum_{i=1}^K (w_{is}^\prime)^2 V( \hat Y_i \mid i \in s) \right)  \\
-&= \sum_{i=1}^K \left[ V(w_{is}^\prime) + E(w_{is}^\prime) \right] V( \hat Y_i \mid i \in s)
+&= \sum_{i=1}^K \left[ V(w_{is}^\prime) + E(w_{is}^\prime)^2 \right] V( \hat Y_i \mid i \in s)
 \end{aligned}
 $$
 
@@ -95,7 +95,7 @@ $$
 
 ## Unbiased estimators of $V(\tilde y)$
 
-Start with $v(\tilde y_1)$, repalcing unknowns $Y_i$ with their (unbiased) sample estimates $\hat Y_i$:
+Start with $v(\tilde y_1)$, replacing unknowns $Y_i$ with their (unbiased) sample estimates $\hat Y_i$:
 $$
 v^\star (\tilde y) =  \sum_{i=1}^k a_{is} \hat Y_i^2 + \sum_{i=1,i \neq j}^k \sum_{j=1}^k b_{ijs} \hat Y_i \hat Y_j = \sum_{i=1}^K a_{is}^\prime \hat Y_i^2 + \sum_{i=1,i \neq j}^K \sum_{j=1}^k b_{ijs}^\prime \hat Y_i \hat Y_j
 $$
@@ -173,7 +173,7 @@ $$
 ## Example: step (C)
 
 * Add $N^{-1} \sum_{i=1}^k w_{is} v( \hat Y_i \mid i \in s)$
-* Here $w_is \equiv (kM)^{-1}$ and $v( \hat Y_i \mid i \in s) = M^2 \left( 1 - \frac{m}{M} \right) \frac{S_i^2}{m}$
+* Here $w_{is} \equiv (kM)^{-1}$ and $v( \hat Y_i \mid i \in s) = M^2 \left( 1 - \frac{m}{M} \right) \frac{S_i^2}{m}$
 * So 
 $$
 \begin{aligned}
