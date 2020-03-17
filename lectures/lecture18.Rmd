@@ -259,4 +259,48 @@ Consider sampling with replacement in 1st stage
   + Sample 43 = (21+22) elements from unit 4
 * $R_{21} = 155$, $R_{22} = 709$: 
   + sample 14 elements from unit 6 and 15 elements from unit 9
+  
+## Point estimation for stratified PPS/PPeS
 
+For PPeS, use stratified ratio estimator:
+$$
+\bar y_{ppes} = \frac{\sum_{h=1}^H \sum_{i=1}^{k_h} w_{hi} \bar y_{hi}}{\sum_{h=1}^H \sum_{i=1}^{k_h} w_{hi}}
+$$
+where now the $w_{hi}$ are weighted to account for both the stratification and the unequal probability of selection induces by errors in the measure of size: 
+$$
+w_{hi} = \frac{k K_h M_i}{k_h K \tilde M_i}
+$$
+
+## If PPS
+
+Then 
+$$
+w_{hi} \equiv w_h = \frac{k K_h}{k_h K}
+$$
+and
+$$
+\begin{aligned}
+\sum_{h=1}^H \sum_{i=1}^{k_h} w_{hi} 
+&= \sum_{h=1}^H k_h \times \frac{k K_h}{k_h K} \\
+&= k \sum_{h=1}^H \frac{K_h}{K} = k \\
+\end{aligned}
+$$
+implying
+$$
+\bar y_{pps}= \frac{k\sum_{h=1}^H \frac{K_h}{K} \frac{1}{k_h} \sum_{j=1}^{k_h} \bar y_{hi}}{k} = \sum_{h=1}^H \frac{K_h}{K} \bar y_h
+$$
+
+## Variance estimation for stratified PPS/PPeS
+
+$$
+\begin{aligned}
+v( \bar y_{ppes} ) &\approx \frac{1}{w^2} \sum_{h=1}^H \left[ v( y_{wh}) + \bar y^2_{ppes} v ( w_h ) - 2 \bar y_{ppes} c(y_{wh}, w_h ) \right] \\
+w_h &= \sum_{i=1}^{k_h} w_{hi}, \quad \text{ and } \quad
+y_{wh} = \sum_{i=1}^{k_h} w_{hi} \bar y_{hi} \\
+v(y_{wh}) &= \frac{k_h}{k_h-1} \sum_{i=1}^{k_h} (w_{hi} \bar y_{hi} - y_{wh} / k )^2 \\
+  v(w_h) &= \frac{k_h}{k_h-1} \sum_{i=1}^{k_h} (w_{hi} - w_h / k )^2 \\
+  c(y_{wh}, w_h) &= \frac{k_h}{k_h-1} \sum_{i=1}^{k_h} (w_{hi} - w_h / k) ( w_{hi} \bar y_{hi} - y_{wh} / k )
+\end{aligned}
+$$
+
+## Variance under PPS
