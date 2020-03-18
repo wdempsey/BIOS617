@@ -9,6 +9,8 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(survey)
+library(pps)
 ```
 
 ## Moving to online
@@ -101,6 +103,7 @@ $$
 
 ## Point and variance esitmation for two-stage PPS sampling
 
+* Assuming with-replacement sampling at both stages: 
 $$ 
 \begin{aligned}
 V(\bar y_{pps} ) &= \frac{\sigma_1^2}{k} + \frac{\sigma_2^2}{km} = \frac{\sigma_1^2}{k} + \frac{\sigma_2^2}{n}
@@ -255,6 +258,7 @@ $$
 ## Employee example 
 
 Consider sampling with replacement in 1st stage
+
 * $R_{11} = 832$, $R_{12} = 945$: 
   + Sample 43 = (21+22) elements from unit 4
 * $R_{21} = 155$, $R_{22} = 709$: 
@@ -443,12 +447,9 @@ $$
 
 ## Generate population
 
-```{r, sim1, echo = TRUE, eval = TRUE}
-library(survey)
-library(pps)
-
+```{r sim1, echo = TRUE, eval = TRUE}
 #Generate the population###
-set.seed(1978139)
+set.seed(1319871)
 K<-1000
 M<-20+rgeom(K,.01)
 N<-sum(M)
@@ -459,7 +460,7 @@ kid<-rep(c(1:K),M)
 
 ## Generate samples
 
-```{r, sim2, echo = TRUE, eval = TRUE}
+```{r sim2, echo = TRUE, eval = TRUE}
 ###Generate the samples##
 k<-100
 m<-10
@@ -467,16 +468,22 @@ myid<-c(t(matrix(rep(c(1:100),10),100,10)))
 SIM<-1000
 holdmean<-rep(0,SIM)
 holdse<-rep(0,SIM)
+```
+
+## Generate samples
+
+```{r sim2, echo = TRUE, eval = TRUE}
+
+###Generate the samples##
 for(sim in 1:SIM){
-sampk<-ppss(M,k)
-y<-NULL
+sampk<-ppss(M,k); y<-NULL; baryi <- NULL
 for(i in 1:k){
-ty<-sample(Y[sampk[i]==kid],size=m)
+ty<-sample(Y[sampk[i]==kid],size=m); 
 y<-c(y,ty)
 }
 ###Estimate the mean and variance###
 mydata<-list(myid,y)
-designn<-svydesign(id=~myid,data=mydata,variables=y~1,)
+designn<-svydesign(id=~myid,data=mydata,variables=y~1,probs = 1)
 kmean<-svymean(~y,designn)
 ###Save mean and variance###
 holdmean[sim]<-ftable(kmean)[1]
@@ -494,7 +501,27 @@ $$
 * Relative error: `r (mean(holdmean)/mean(Y)-1)*100`
 * Simulation error:
 $$
-B^{-1} \left( \frac{\sum_{b=1}^B ( \bar y^{(b)} - B^{-1} \sum_{b=1}^B \bar y^{(b)} )^2 }{B-1} \right) = var(holdmean)/SIM
+B^{-1} \left( \frac{\sum_{b=1}^B ( \bar y^{(b)} - B^{-1} \sum_{b=1}^B \bar y^{(b)} )^2 }{B-1} \right) = `r var(holdmean)/SIM`
 $$
 
+## Confidence intervals
+
+* Consider true coverage of nominal confidence intervals
+* What fraction of the intervals
+
+$$
+\bar y^{(b)} \pm 1.96 \times \sqrt{ v(\bar y^{(b)})}
+$$
+
+* Coverage is: `r sum(((holdmean-1.96*holdse)<mean(Y)& ((holdmean+1.96*holdse)>mean(Y))))/SIM`
+* That is conservative – the CIs for `r sum(((holdmean-1.96*holdse)<mean(Y)& ((holdmean+1.96*holdse)>mean(Y))))` out of `r SIM` simulations included the population mean, when we want only `r SIM*0.95` out of `r SIM`.
+* Did we do something wrong?
+
+## CI with FPC
+
+* We neglected finite population correction
+* Coverage with fpc is: `r sum(((holdmean-1.96*sqrt(0.9)*holdse)<mean(Y)& ((holdmean+1.96*sqrt(0.9)*holdse)>mean(Y))))/SIM`
+* Better, but still appears conservative
+* Simulation error? 
+  + 95\% of draws of binomial distribution with $n=1000$ and $p=0.95$ will lie in 936 to 963.
 
