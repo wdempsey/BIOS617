@@ -449,7 +449,7 @@ $$
 
 ```{r sim1, echo = TRUE, eval = TRUE}
 #Generate the population###
-set.seed(1319871)
+set.seed(7531)
 K<-1000
 M<-20+rgeom(K,.01)
 N<-sum(M)
@@ -462,33 +462,26 @@ kid<-rep(c(1:K),M)
 
 ```{r sim2, echo = TRUE, eval = TRUE}
 ###Generate the samples##
-k<-100
-m<-10
+k<-100; m<-10
 myid<-c(t(matrix(rep(c(1:100),10),100,10)))
 SIM<-1000
-holdmean<-rep(0,SIM)
-holdse<-rep(0,SIM)
+holdmean<-rep(0,SIM); holdse<-rep(0,SIM)
 ```
 
 ## Generate samples
 
-```{r sim2, echo = TRUE, eval = TRUE}
-
+```{r sim3, echo = TRUE, eval = TRUE}
 ###Generate the samples##
+set.seed(1357)
 for(sim in 1:SIM){
-sampk<-ppss(M,k); y<-NULL; baryi <- NULL
-for(i in 1:k){
-ty<-sample(Y[sampk[i]==kid],size=m); 
-y<-c(y,ty)
-}
+sampk<-ppss(M,k); y<-NULL
+for(i in 1:k){ ty<-sample(Y[sampk[i]==kid],size=m); y<-c(y,ty) }
 ###Estimate the mean and variance###
 mydata<-list(myid,y)
 designn<-svydesign(id=~myid,data=mydata,variables=y~1,probs = 1)
 kmean<-svymean(~y,designn)
 ###Save mean and variance###
-holdmean[sim]<-ftable(kmean)[1]
-holdse[sim]<-ftable(kmean)[2]
-}
+holdmean[sim]<-ftable(kmean)[1]; holdse[sim]<-ftable(kmean)[2] }
 ```
 
 ## Using simulation
@@ -524,4 +517,3 @@ $$
 * Better, but still appears conservative
 * Simulation error? 
   + 95\% of draws of binomial distribution with $n=1000$ and $p=0.95$ will lie in 936 to 963.
-
