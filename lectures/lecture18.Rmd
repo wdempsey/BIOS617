@@ -304,3 +304,197 @@ v(y_{wh}) &= \frac{k_h}{k_h-1} \sum_{i=1}^{k_h} (w_{hi} \bar y_{hi} - y_{wh} / k
 $$
 
 ## Variance under PPS
+
+* $w_{hi} \equiv w_{h} = \frac{k K_h}{k_h K}$ and we obtain $v(w_h) = v(k_h) = 0$, $c(y_{wh}, w_h) = 0$, and
+$$
+\begin{aligned}
+v(\bar y_{pps} ) &\approx \frac{1}{k^2} \sum_{h=1}^H v(y_{wh}) \\
+&= \frac{1}{k^2} \sum_{h=1}^H v \left( \sum_{i=1}^{k_h} \frac{k K_h}{k_h K} \bar y_{hi} \right)
+&= \frac{1}{k^2} \sum_{h=1}^H k^2 \left( \frac{K_h}{K} \right)^2 v \left( \bar y_{h} \right) \\
+&= \sum_{h=1}^H \left( \frac{K_h}{K} \right)^2 v \left( \bar y_{h} \right)
+\end{aligned}
+$$
+where $v(\bar y_h) = \frac{1}{k_h - 1} \sum_{i=1}^{k_h} ( \bar y_{hi} - \bar y_{i} )^2$.
+
+## Issues in PPS/PPeS sampling
+
+1. In practice, PPS/PPeS is often carried out by without replacement systematic sampling from cumulative totals, but analyzed as if sampled with replacement
+  + Leads to overestimation of variance and conservative inference (trivial if number of first-stage units is large).
+  
+## Issues in PPS/PPeS sampling
+
+2. Oversized PSUs
+  + If there is a great deal of variability among the cluster sizes and/or a limited number of clusters in the population, it is quite possible that
+  + Can't have a probability of selection exceed $1$
+  
+## Example
+
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l18_fig3.png") # place holder
+```
+
+* Let $k=2$, $m=50$, and $f = n/N = 1/16$
+* Applying standard rules for 1st stage selection yields
+$$
+P( \delta_D = 1) = \frac{2 \times 900}{1600} = 1\frac{1}{8}
+$$
+
+## Solution
+
+* Set aside PSUs with probability of selection  $\geq 1$ into a ``self-representing'' stratum:
+  + Apply overall sampling fraction to PSUs in this stratum.
+  + Compute proportional fraction for the remaining sample and draw via PPS from remaining PSUs 
+* In example:
+  + Sample $900 \times \frac{1}{16} \approx 56$ elements from PSU D
+  + Sample a second PSU from from A,B,C,E,F using PPS and draw $100-56=44$ elements from it
+ 
+## Issues in PPS/PPeS sampling
+
+3. Undersized PSUs
+  + If $M_i$ is small, $m/M_i$ can exceed $1$
+  + In example, if PSU B is chosen from the non-self-representing stratum, then $44/30 > 1$
+
+* Solution:
+  + Collapse PSUs before selection.
+  + Collapse PSUs after selection (must be careful to avoid bias).
+  
+## Collapsing __after__ selection (via systematic sampling)
+
+* At each draw, identify the selected unit. If it and the next unit on the list are of minimum size m, stop.
+* If selected unit or the following are not of minimum size
+  + Move forward on the list until the first unit of minimum size is encountered.
+  + Cumulate units backwards until a collapsed unit of sufficient size is created.
+  + Continue until a selected unit is collapsed together.
+  
+  
+## Example
+
+```{r, out.width = "75px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/syssam_1.png") # place holder
+```
+
+## Example
+
+```{r, out.width = "200px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/syssam_2.png") # place holder
+```
+
+## Example
+
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/syssam_3.png") # place holder
+```
+
+## Example
+
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/syssam_4.png") # place holder
+```
+
+## Example
+
+```{r, out.width = "200px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/syssam_5.png") # place holder
+```
+
+## Simulation study to verify PPS results
+
+* It is often useful and important to verify the results ofderivation using a simulation study.
+  + Check for errors.
+  + Consider “small sample” properties of asymptotic approximation. 
+  + Gain insight into statistical properties.
+* Back on p. 274 of the notes it was stated that we could estimate the variance of the two-stage epsem PPS estimator by the standard 1-stage epsem cluster variance estimator:
+  $$
+  v(\bar y_{pps} ) = \frac{\sum_{i=1}^{k} (\bar y_i - \bar y)^2}{k (k-1)}
+  $$
+* Let's find out how well that works
+
+## Simulation setup
+
+* Population:
+  + $K= 1,000$ first-stage clusters
+  + $M_i = 20 + U_i$ where $U_i \sim \text{Geometric}(1/100)$
+  + $\mu_i \sim N( M_i / 10, 10)$
+  + $Y_{ij} \sim N(\mu_i, 10)$
+* Sample:
+  + $k=100$ first stage units with probability proportional to $M_i$
+  + Sample $m= 10$ unites from each sampled cluster with equal probability
+
+## Simulation setup
+
+1. Generate population (once)
+2. Draw sample 
+3. Compute mean as 
+$$\frac{1}{100} \sum_{i=1}^{100} \bar y_i = \frac{1}{1000}\sum_{i=1}^{100} \sum_{j=1}^{10} y_{ij}$$
+
+4. Compute variance as 
+$$
+\frac{\sum_{i=1}^{k} (\bar y_i - \bar y)^2}{k (k-1)}
+$$
+
+5. Repeat steps 2-4 $1000$ times with independent samples each time
+  + Save estimate of mean and variance each time
+
+## Generate population
+
+```{r, sim1, echo = TRUE, eval = TRUE}
+library(survey)
+library(pps)
+
+#Generate the population###
+set.seed(1978139)
+K<-1000
+M<-20+rgeom(K,.01)
+N<-sum(M)
+muk<-rnorm(K,M/10,10)
+Y<-rep(muk,M)+rnorm(N,0,10)
+kid<-rep(c(1:K),M)
+```
+
+## Generate samples
+
+```{r, sim2, echo = TRUE, eval = TRUE}
+###Generate the samples##
+k<-100
+m<-10
+myid<-c(t(matrix(rep(c(1:100),10),100,10)))
+SIM<-1000
+holdmean<-rep(0,SIM)
+holdse<-rep(0,SIM)
+for(sim in 1:SIM){
+sampk<-ppss(M,k)
+y<-NULL
+for(i in 1:k){
+ty<-sample(Y[sampk[i]==kid],size=m)
+y<-c(y,ty)
+}
+###Estimate the mean and variance###
+mydata<-list(myid,y)
+designn<-svydesign(id=~myid,data=mydata,variables=y~1,)
+kmean<-svymean(~y,designn)
+###Save mean and variance###
+holdmean[sim]<-ftable(kmean)[1]
+holdse[sim]<-ftable(kmean)[2]
+}
+```
+
+## Using simulation
+
+* Consider bias in the mean estimator:
+$$
+B^{-1} \sum_{b=1}^B \bar y^{(b)} - \frac{1}{N} \sum_{i=1}^K \sum_{j=1}^{M_i} Y_{ij} = `r round(mean(holdmean) - mean(Y),5)`
+$$
+
+* Relative error: `r (mean(holdmean)/mean(Y)-1)*100`
+* Simulation error:
+$$
+B^{-1} \left( \frac{\sum_{b=1}^B ( \bar y^{(b)} - B^{-1} \sum_{b=1}^B \bar y^{(b)} )^2 }{B-1} \right) = var(holdmean)/SIM
+$$
+
+
