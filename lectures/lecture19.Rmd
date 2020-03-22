@@ -1,0 +1,132 @@
+---
+title: "BIOS 617 - Lecture 17"
+author: "Walter Dempsey"
+date: "3/16/2020"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(survey)
+library(pps)
+```
+
+## This week
+
+* Attempt to use camera
+  + If not good, then will get a tablet to assist in 
+* JITT:
+  + Rederive results from recent paper over next week
+  + Nonprobability sampling (e.g., online) versus SRS
+* Today and tomorrow:
+  + General methods for variance estimation 
+
+## General methods for variance estimation
+
+* We’ve been focused on estimation of means and totals because in some settings these are the main foci of interest.
+
+* It is also a convenient way to discuss some of the key issues of design, since point and variance estimation can be obtained, at least approximately, in closed form.
+  + Increasing efficiency through stratification
+    + Optimal allocation
+  + Within-cluster correlation: roh, design effects
+  + Ratio and regression estimation as introduction to calibration.
+  
+## General methods for variance estimation
+
+However, for “analytic” statistics (e.g., regression parameters), combined with complex designs that incorporate stratification, clustering, and weighting simultaneously, methods have been developed that work, at least approximately, for both general statistics and general designs.
+
+* Taylor series approximation
+  + Relies on result obtained for estimation of means and totals.
+* Replication methods
+  + Balance repeated replication
+  + Jackknife
+  + Bootstrap
+  
+## Taylor series approximation (review)
+
+* We can obtain linear approximation to a function $g({\bf u})$ as
+
+$$
+g({\bf u}) \approx g({\bf x}) + \sum_{i=1}^k (u_i - x_i) \frac{\partial g}{\partial u_i}  \mid_{{\bf u}={\bf x}} = 
+$$
+
+* So if ${\bf u}$ is set of samply statistics and ${\bf x}$ is the populatoin mean, then $g({\bf x})$ and $\sum_{i=1}^k x_i \frac{\partial g}{\partial u_i} \mid_{{\bf u}={\bf x}}$ are constants, so
+
+$$
+V( g({\bf u})) \approx V \left( \sum_{i=1}^k u_i \frac{\partial g}{\partial u_i} \mid_{{\bf u} = {\bf U}} \right) 
+$$
+
+## Example: Linear regression
+
+Consider linear regression model for a population
+$$
+Y_i = \beta_0 + \beta_1 X_i + \epsilon_i, \quad i=1,\ldots,N
+$$
+where $\beta_0$ and $\beta_1$ are fixed but unknown quantities and $\epsilon_i$
+
+* The estimators 
+$$
+\begin{aligned}
+\hat \beta_0 &= B_0 = \bar Y - B_1 \bar X \\
+\end{aligned}
+$$
+can be viewed as minimizers of the least-squares estimator:
+$$
+\arg \min_{\beta_0, \beta_1} \sum_{i=1}^N \left( Y_i - (\beta_0 + \beta_1 X_i) \right)^2
+$$
+
+## Example: Linear regression
+
+```{r, out.width = "200px", fig.align='center'}
+include_graphics("./figs/l19_fig1.png") # place holder
+```
+
+## 
+
+## JITT: ``A fundamental identity in statistics'' - X.L. Meng
+
+* Consider $\bar y_n = \frac{1}{n} \sum_{i=1}^n y_i = \frac{\sum_{i=1}^N I_j Y_j}{\sum_{j=1}^N I_j }$
+* For any set of numbers $\{ Y_1, \ldots, Y_N \}$. let $J$ be a random index defined on $\{1,\ldots, N\}$. For example, if $J$ is uniformly distributed then $E_J ( Y_J ) = \sum_{j=1}^N Y_j / N$
+if $J$ is uniformly distributed.
+* Use this to show $\bar y_n - \bar Y = \frac{\text{Cov}_J (I_J, Y_J)}{E_J (Y_J)}$
+* Let $\rho_{I,Y} = \text{Corr}_{J} (I_J, Y_J)$, then show 
+$$
+\bar y_n - \bar Y = \rho_{I,Y} \times \sqrt{\frac{1-f}{f}} \times \sigma_{Y}
+$$
+where $f = n/N = E_J [I_J]$, $\sigma_Y = \sqrt{V_J (Y_j)}$
+* What do these 3 factors represent?
+  
+## JITT: applied to SRS
+
+* Let $\text{MSE}_{{\bf I}} ( \bar y_n) = E_{{\bf I}} \left[ (\bar y_n - \bar Y)^2 \right]$ 
+where $E_{{\bf I}}$ denotes the expectation with respect to any chosen distribution of ${\bf I}$ but conditioning on sample size $\sum_{j=1}^N I_j = n$.
+* Show (explain why) above implies
+
+$$
+\text{MSE}_{{\bf I}} ( \bar y_n) = E_{{\bf I}} \left[ \rho_{I,Y}^2 \right] \times \left( \frac{1-f}{f} \right) \times \sigma_{G}^2
+$$
+
+* Under SRS, we had
+
+$$
+V_{SRS} ( \bar y_n )  = \frac{1-f}{n} S^2, \quad 
+\text{with} \quad
+S^2 = \frac{N}{N-1} \sigma_Y^2 = \frac{1}{N-1} \sum_{j=1}^N (Y_j - \bar Y)^2
+$$
+
+* Show this implies 
+
+$$
+E_{SRS} \left[ \rho_{I,Y}^2 \right] = \frac{1}{N-1}
+$$
+
+## JITT:  For Monday's Diary
+
+* What's the implicit assumption in the following from the NYT:
+
+```{r, out.width = "100px", fig.align='center'}
+include_graphics("./figs/l19_fig2.png") # place holder
+```
