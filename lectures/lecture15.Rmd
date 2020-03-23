@@ -62,7 +62,7 @@ include_graphics("./figs/l15_fig1.png") # place holder
 clusters
   + Sample with probability $f_{2i} = m/M_i$
     + Unequal probabilities of selection: need to use weights $w_i = \frac{1}{f_1 f_{2i}} = \frac{KM_i}{km}$ to adjust
-*  Sample first stage with __probability proportional to size__ so that $f_{1i} = \frac{k M_i}{N}$ and $f_{2i} = \frac{m}{M}$, and thus 
+*  Sample first stage with __probability proportional to size__ so that $f_{1i} = \frac{k M_i}{N}$ and $f_{2i} = \frac{m}{M_i}$, and thus 
 $$
 f_i = f_{1i} f_{2i} = \frac{kM_i}{N} \times \frac{m}{M_i} = \frac{km}{N} = \frac{n}{N}  
 $$
@@ -95,7 +95,7 @@ $$
 
 * Let $\delta_{ij}$ indicate the $j$th element in the $i$th PSU is chosen
 $$
-E[\delta_{ij}] = f_1 f_{2i} = \frac{k}{K} \times \frac{m_i}{M} := \pi_{ij}
+E[\delta_{ij}] = f_1 f_{2i} = \frac{k}{K} \times \frac{m_i}{M_i} := \pi_{ij}
 $$
 * Then $w_{ij} = 1/\pi_{ij}$ implies
 $$
@@ -177,7 +177,7 @@ $$
 ## Second term $\bar{\hat{Y}}$ 
 
 $$
-\bar{\hat{Y}} = \left(\bar{\hat{Y}} - \bar Y \right)^2 + 2 \bar{\hat{Y}} \bar Y - \bar Y^2
+\bar{\hat{Y}}^2 = \left(\bar{\hat{Y}} - \bar Y \right)^2 + 2 \bar{\hat{Y}} \bar Y - \bar Y^2
 $$
 where $\bar Y = \frac{1}{K} \sum_{i=1}^K Y_i$ and 
 $$
@@ -252,7 +252,7 @@ $$
 Consider three differing sampling plans for unequal size clusters:
 
 * SRS of k clusters from a population of K clusters for first stage, with all elements in selected clusters being chosen.
-* SRS of k clusters from a population of K clusters for first stage, with equal fraction / m M elements in selected clusters being chosen.
+* SRS of k clusters from a population of K clusters for first stage, with equal fraction m/M elements in selected clusters being chosen.
 * SRS of k clusters from a population of K clusters for first stage, with varying fraction chosen in selected clusters.
 
 1. and 2. are epsem designs. All can be viewed as ratio estimators, with variances obtained using results from ratio estimation.
@@ -276,7 +276,7 @@ $$
 \begin{aligned}
 S_y^2 &= \frac{\sum_{i=1}^K (Y_i - Y/K)^2}{K-1}, \quad
 S_m^2 = \frac{\sum_{i=1}^K (M_i - M/K)^2}{K-1} \\
-S_{ym}^2 &= \frac{\sum{i=1}^K (Y_i - Y/K)(M_i - M/K)}{K-1} \\
+S_{ym}^2 &= \frac{\sum_{i=1}^K (Y_i - Y/K)(M_i - M/K)}{K-1} \\
 \end{aligned}
 $$
 
@@ -293,7 +293,7 @@ $$
 \begin{aligned}
 s_y^2 &= \frac{\sum_{i=1}^k (y_i - y/k)^2}{k-1}, \quad
 s_m^2 = \frac{\sum_{i=1}^k (m_i - m/k)^2}{k-1} \\
-s_{ym}^2 &= \frac{\sum{i=1}^k (y_i - y/k)(m_i - m/k)}{k-1} \\
+s_{ym}^2 &= \frac{\sum_{i=1}^k (y_i - y/k)(m_i - m/k)}{k-1} \\
 \end{aligned}
 $$
 
@@ -399,8 +399,8 @@ $$
 with estimator
 $$\small
 \begin{aligned}
-v(\hat Y_w) &= \sum_{i=1}^n (1-\pi_i) w_i^2 y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N (\pi_{ij} - \pi_i \pi_j) w_i w_j w_{ij} y_i y_j \\
-&= \sum_{i=1}^n \frac{1-\pi_i}{\pi_i^2} y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N \frac{\pi_{ij} - \pi_i \pi_j}{\pi_i \pi_j \pi_{ij}} y_i y_j \\
+v(\hat Y_w) &= \sum_{i=1}^n (1-\pi_i) w_i^2 y_i^2 + \sum_{i=1, i \neq j}^n \sum_{j=1}^n (\pi_{ij} - \pi_i \pi_j) w_i w_j w_{ij} y_i y_j \\
+&= \sum_{i=1}^n \frac{1-\pi_i}{\pi_i^2} y_i^2 + \sum_{i=1, i \neq j}^n \sum_{j=1}^n \frac{\pi_{ij} - \pi_i \pi_j}{\pi_i \pi_j \pi_{ij}} y_i y_j \\
 \end{aligned}
 $$
 
@@ -411,7 +411,7 @@ V( \hat{\bar{Y}} ) = \frac{\left[ \sum_{i=1}^N (1-\pi_i) w_i Y_i^2 + \sum_{i=1, 
 $$
 and
 $$
-v( \hat{\bar{Y}} ) = \frac{\left[ \sum_{i=1}^n \frac{1-\pi_i}{\pi_i^2} y_i^2 + \sum_{i=1, i \neq j}^N \sum_{j=1}^N \frac{\pi_{ij} - \pi_i \pi_j}{\pi_i \pi_j \pi_{ij}} y_i y_j  \right]}{N^2}
+v( \hat{\bar{Y}} ) = \frac{\left[ \sum_{i=1}^n \frac{1-\pi_i}{\pi_i^2} y_i^2 + \sum_{i=1, i \neq j}^n \sum_{j=1}^n \frac{\pi_{ij} - \pi_i \pi_j}{\pi_i \pi_j \pi_{ij}} y_i y_j  \right]}{N^2}
 $$
 
 * Note that computation of this variance requires not only the probability of selection $\pi_i$ for all sampled elements, but also the __joint probabilities of selection__ for all pairs of sampled elements $\pi_{ij}$
