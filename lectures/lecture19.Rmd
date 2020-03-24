@@ -278,7 +278,7 @@ $$
 * Consider $\bar y_n = \frac{1}{n} \sum_{i=1}^n y_i = \frac{\sum_{i=1}^N I_j Y_j}{\sum_{j=1}^N I_j }$
 * For any set of numbers $\{ Y_1, \ldots, Y_N \}$. let $J$ be a random index defined on $\{1,\ldots, N\}$. For example, if $J$ is uniformly distributed then $E_J ( Y_J ) = \sum_{j=1}^N Y_j / N$
 if $J$ is uniformly distributed.
-* Use this to show $\bar y_n - \bar Y = \frac{\text{Cov}_J (I_J, Y_J)}{E_J (Y_J)}$
+* Use this to show $\bar y_n - \bar Y = \frac{\text{Cov}_J (I_J, Y_J)}{E_J (I_J)}$
 * Let $\rho_{I,Y} = \text{Corr}_{J} (I_J, Y_J)$, then show 
 $$
 \bar y_n - \bar Y = \rho_{I,Y} \times \sqrt{\frac{1-f}{f}} \times \sigma_{Y}
@@ -293,7 +293,7 @@ where $E_{{\bf I}}$ denotes the expectation with respect to any chosen distribut
 * Show (explain why) above implies
 
 $$
-\text{MSE}_{{\bf I}} ( \bar y_n) = E_{{\bf I}} \left[ \rho_{I,Y}^2 \right] \times \left( \frac{1-f}{f} \right) \times \sigma_{G}^2
+\text{MSE}_{{\bf I}} ( \bar y_n) = E_{{\bf I}} \left[ \rho_{I,Y}^2 \right] \times \left( \frac{1-f}{f} \right) \times \sigma_{Y}^2
 $$
 
 * Under SRS, we had
