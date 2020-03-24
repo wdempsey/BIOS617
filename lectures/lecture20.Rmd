@@ -20,8 +20,8 @@ $$
 \begin{aligned}
 \bar y_n - \bar Y &= \frac{\text{E}_J (I_J \cdot Y_J)}{E_J (I_J)} - E_J (Y_J) \\
 &= \frac{\text{E}_J (I_J \cdot Y_J) - E_J (Y_J) E_J (I_J)}{E_J (I_J)} \\
-&= \frac{\text{Cov}_J (I_J, Y_J)}{E_J (Y_J)} \\
-&= \frac{\text{Cov}_J (I_J, Y_J)}{\sqrt{ V_J (I_J) V_J(Y_J)}} \frac{\sqrt{ V_J (I_J)}}{E_J (I_J)} V_J(Y_J) \\
+&= \frac{\text{Cov}_J (I_J, Y_J)}{E_J (I_J)} \\
+&= \frac{\text{Cov}_J (I_J, Y_J)}{\sqrt{ V_J (I_J) V_J(Y_J)}} \frac{\sqrt{ V_J (I_J)}}{E_J (I_J)} \sqrt{V_J(Y_J)} \\
 &= \rho_{I, Y} \times \sqrt{ \frac{1-f}{f} } \times \sigma_Y \\
 \end{aligned}
 $$
@@ -277,8 +277,52 @@ For illustration, consider $\theta = Y$, the population total, and a stratified 
 $$
 \begin{aligned}
 \hat \theta_{(hi)} &= \sum_{l=1, l \neq h}^H y_l + \frac{k_h}{k_h-1} \sum_{j=1, j\neq i}^{k_h} y_{hj} \\
-\hat \theta_{(hi)} - \hat \theta &= \sum_{l=1, l \neq h}^H y_l + \frac{k_h}{k_h-1} \sum_{j=1, j\neq i}^{k_h} y_{hj} \\
+\hat \theta_{(hi)} - \hat \theta &= \frac{k_h}{k_h-1} \sum_{j=1, j\neq i}^{k_h} (y_{hj} - y_h) \\
+&= \left( \sum_{j=1,j\neq i}^{k_h} y_{hj} - y_h \sum \right) + \frac{1}{k_h-1} \sum_{j=1,j\neq i}^{k_h} y_{hj} \\
+&= \frac{1}{k_h-1} \sum_{j=1,j\neq i}^{k_h} y_{hj} - y_{hi} = \frac{y_h}{k_h-1} - y_{hi} \left[ 1+ \frac{1}{k_h-1} \right].
 \end{aligned}
 $$
+
+## Illustration (ctd)
+
+
+$$
+\begin{aligned}
+\hat \theta_{(hi)}
+&= \frac{1}{k_h-1} \sum_{j=1,j\neq i}^{k_h} y_{hj} - y_{hi} = \frac{y_h}{k_h-1} - y_{hi} \left[ 1+ \frac{1}{k_h-1} \right] \\
+&= \frac{k_h}{k_h-1} \left[ y_h / k_h - y_{hi} \right].
+\end{aligned}
+$$
+
+and thus
+$$
+\left( \hat \theta_{(hi)} - \hat \theta \right)^2 = \left[ \frac{k_h}{k_h-1} \right]^2 \left[ y_h / k_h - y_{hi} \right]^2
+$$
+
+## Maximizing precision
+
+Conditioning on the sampled PSUs,
+$$
+\left( \hat \theta_{(hi)} - \hat \theta \right)^2 = \left[ \frac{k_h}{k_h-1} \right]^2 \frac{1}{k_h} \sum_{i=1}^{k_h} \left[ y_{hi} - y_h/k_h \right]^2 = \frac{k_h}{k_h-1} s_{yh}^2
+$$
+
+If we form $C_h$ replicates from stratum $h$, 
+$$
+E \left( \frac{k_h-1}{C_h} \sum_{c=1}^{C_h} \left( \hat \theta_{(hc)} - \hat \theta \right)^2 \right) = k_h s_{yh}^2 
+$$
+
+We can maximize precision by using the maximum number of replicates $k_h$:
+$$
+E \left( \frac{k_h-1}{C_h} \sum_{i=1}^{k_h} \left( \hat \theta_{(hi)} - \hat \theta \right)^2 \right) = k_h s_{yh}^2 
+$$
+
+## JRR
+
+Summing over the strata
+$$
+E \left( \sum_{h=1}^H \frac{k_h-1}{k_h} \sum_{i=1}^{k_h} \left( \hat \theta_{(hi)} - \hat \theta \right)^2 \right) = \sum_{h=1}^{H} k_h s_{yh}^2 = v(y)
+$$
+
+As with BRR, JRR requires linear statistics for this exact result to hold. Simulation studies using non-linear statistics show reasonably reliable behavior (better in larger samples).
 
 ## JITT: Derivation continued
