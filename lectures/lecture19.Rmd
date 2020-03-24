@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 17"
 author: "Walter Dempsey"
-date: "3/16/2020"
+date: "3/22/2020"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -50,10 +50,10 @@ However, for “analytic” statistics (e.g., regression parameters), combined w
 * We can obtain linear approximation to a function $g({\bf u})$ as
 
 $$
-g({\bf u}) \approx g({\bf x}) + \sum_{i=1}^k (u_i - x_i) \frac{\partial g}{\partial u_i}  \mid_{{\bf u}={\bf x}} = 
+g({\bf u}) \approx g({\bf x}) + \sum_{i=1}^k (u_i - x_i) \frac{\partial g}{\partial u_i}  \mid_{{\bf u}={\bf x}}
 $$
 
-* So if ${\bf u}$ is set of samply statistics and ${\bf x}$ is the populatoin mean, then $g({\bf x})$ and $\sum_{i=1}^k x_i \frac{\partial g}{\partial u_i} \mid_{{\bf u}={\bf x}}$ are constants, so
+* So if ${\bf u}$ is set of sample statistics and ${\bf x}$ is the population mean, then $g({\bf x})$ and $\sum_{i=1}^k x_i \frac{\partial g}{\partial u_i} \mid_{{\bf u}={\bf x}}$ are constants, so
 
 $$
 V( g({\bf u})) \approx V \left( \sum_{i=1}^k u_i \frac{\partial g}{\partial u_i} \mid_{{\bf u} = {\bf U}} \right) 
@@ -134,7 +134,7 @@ $$
 $$
 \begin{aligned}
 C(u_1, u_2) &= C \left( \frac{1}{f} \sum_{i=1}^N  I_i X_i Y_i, \frac{1}{f} \sum_{i=1}^N I_i Y_i \right) \\
-&= \frac{1}{f^2} \sum_{i=1}^N  C(I_i, I_j)  X_i X_j Y_i \\
+&= \frac{1}{f^2} \sum_{i=1}^N  \sum_{j=1}^N C(I_i, I_j)  X_i X_j Y_i \\
 &= \frac{1}{f^2} \left[ f(1-f) \sum_{i=1}^N  X_i^2 Y_i - \frac{f(1-f)}{N-1} \sum_{i=1}^N \sum_{j\neq i} (X_i Y_i) \cdot X_j\right] \\
 \end{aligned}
 $$
@@ -150,12 +150,15 @@ $\frac{\partial b_1}{\partial u_i} \mid_{{\bf u} = {\bf U}}$
 ## Alternative approach:
 
 * Use the concept of pseudo maximum likelihood estimator
-* If we had data on the entire populatoin, we could solve
+* If we had data on the entire population, we could solve
 
 $$
-\left( \begin{array}{c} \frac{\partial}{\partial \beta_0} \sum_{i=1}^N l_i (\beta_0, \beta_1, \sigma^2) \\ \frac{\partial}{\partial \beta_1} \sum_{i=1}^N l_i (\beta_0, \beta_1, \sigma^2) \end{array} \right) = 
-\left( \begin{array}{c} -\frac{1}{\sigma^2} \sum_{i=1}^N (Y_i - (\beta_0 + \beta_1 X_i)) \\ -\frac{1}{\sigma^2} \sum_{i=1}^N X_i (Y_i - (\beta_0 + \beta_1 X_i)) \end{array} \right) = 
-\left( \begin{array}{c} 0 \\ 0 \end{array} \right)
+\begin{aligned}
+\left( \begin{array}{c} \frac{\partial}{\partial \beta_0} \sum_{i=1}^N l_i (\beta_0, \beta_1, \sigma^2) \\ \frac{\partial}{\partial \beta_1} \sum_{i=1}^N l_i (\beta_0, \beta_1, \sigma^2) \end{array} \right) 
+&= 
+\left( \begin{array}{c} -\frac{1}{\sigma^2} \sum_{i=1}^N (Y_i - (\beta_0 + \beta_1 X_i)) \\ -\frac{1}{\sigma^2} \sum_{i=1}^N X_i (Y_i - (\beta_0 + \beta_1 X_i)) \end{array} \right)  \\
+&=\left( \begin{array}{c} 0 \\ 0 \end{array} \right)
+\end{aligned}
 $$
 
 * Simplifies to
@@ -168,7 +171,7 @@ $$
 ## Score equation
 
 * This is the __score equation__ and is often denoted $U(\beta)$ using matrix notation
-* Using matrix notation for general regression $E ( Y_i = X_i^\top \beta)$, we have
+* Using matrix notation for general regression $E ( Y_i) = X_i^\top \beta$, we have
 
 $$
 \frac{\partial}{\partial \beta} \sum_{i=1}^N l_i (\beta, \sigma^2) = U(\beta) = -\frac{1}{\sigma^2} X^\top (Y - X \beta)
@@ -183,7 +186,7 @@ $$
 
 ## Unbiased estimator of the population score equation
 
-* This is just a population total; thus general unbiased estimator of the population score equatoin is given by
+* This is just a population total; thus general unbiased estimator of the population score equation is given by
 
 $$
 \frac{\partial}{\partial \beta } \sum_{i=1}^n w_i l_i (\beta, \sigma^2) = U_{w} (\beta) =
@@ -238,7 +241,8 @@ $$
 then
 $$
 \begin{aligned}
-V(b_w) = V(U_w^{-1} ( U_w (b_w))) &= \left( \frac{\partial g}{\partial {\bf u}} \mid_{{\bf u} = {\bf U}} \right)^\top V( {\bf u}) \left( \frac{\partial g}{\partial {\bf u}} \mid_{{\bf u} = {\bf U}} \right) \\
+V(b_w) &= V(U_w^{-1} ( U_w (b_w))) \\
+&= \left( \frac{\partial g}{\partial {\bf u}} \mid_{{\bf u} = {\bf U}} \right)^\top V( {\bf u}) \left( \frac{\partial g}{\partial {\bf u}} \mid_{{\bf u} = {\bf U}} \right) \\
 &= \left( \frac{\partial U_w^{-1}}{\partial {\bf U_w (b_w)}} \mid_{{\bf 0} = {\bf U_w(b_w)}} \right)^\top V( U_w (b_w)) \left( \frac{\partial U_w^{-1}}{\partial {\bf U_w (b_w)}} \mid_{{\bf 0} = {\bf U_w(b_w)}} \right) \\
 &= \left( \frac{\partial U_w}{\partial {\bf \beta}} \mid_{{\bf \beta} = {\bf b_w}} \right)^{-1} V( U_w (b_w)) \left( \frac{\partial U_w}{\partial {\bf \beta}} \mid_{{\bf \beta} = {\bf b_w}} \right)^{-1} \\
 &= \sigma^{4} (X^\prime W X)^{-1} V( U_w (b_w)) (X^\prime W X)^{-1}
