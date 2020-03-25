@@ -29,7 +29,7 @@ $$
 ## What do these factors represent
 
 $$
-\underbrace{\rho_{I, Y}}_{\text{Data Quality}} \times \underbrace{\sqrt{ \frac{1-f}{f} }}_{\text{Data Quantity}}\times \underbrace{\sigma_Y}_{\text{Problem Difficulty}}
+\underbrace{\rho_{I, Y}}_{\text{Data Quality}} \times \underbrace{\sqrt{ \frac{1-f}{f} }}_{\text{Data Quantity}}\times \underbrace{\sigma_Y}_{\text{Problem Difficulty}} = D_I \times D_O \times D_U
 $$
 
 * _Data quantity_ : how much of the population have we observed
@@ -325,4 +325,107 @@ $$
 
 As with BRR, JRR requires linear statistics for this exact result to hold. Simulation studies using non-linear statistics show reasonably reliable behavior (better in larger samples).
 
+## Bootstrap
+
+The bootstrap, like the jackknife, uses the empirical distribution function to estimate variance. In the SRS setting, the existing sample of n elements in sampled __with replacement__ B times to yield a set of estimators $\{ \hat \theta^{(b)} \}$ for $b=1,\ldots,B$.  The variance of $\hat \theta$  is estimated by the variance of the bootstrap estimators:
+
+$$
+v_{boot} (\hat \theta) = (B-1)^{-1} \sum_{b=1}^B \left( \hat \theta^{(b)} - \hat \theta \right)^2 
+$$
+
+## Bootstrap
+
+* The sample design needs to be mirrored in the construction of the bootstrap estimator $\hat \theta^{(b)}$. 
+* When clustering is present, the resampling should be done at the clustering level, not at the element level. 
+* When stratification is present, the resampling should be conducted within each stratum.
+* As with BRR and JRR, in unequal probability of selection sample weights are present, $\hat \theta^{(b)}$ needs to be computed using the (re)sample(d) weights.
+
+## Bootstrap
+
+* Because the bootstrap is an asymptotic procedure, it requires a large sample size for the estimated variance to be relatively unbiased.
+* But in multistage stratified designs, this requirement is often impossible to meet, since the number of PSUs with each stratum may be small.
+* Indeed, if $\theta$ is a population total and $k_h = 2$ for all $h$, $v_{boot} (\hat \theta)$ will underestimate $V(\hat \theta)$ by a factor of 2!
+
+## Suggestions from the literature
+
+1.  Resample with replacement a sample of size $k_h - 1$ within each stratum, replacing totals with $\tilde Y^{\star} = \sum_{h=1}^H \frac{k_h}{k_h-1} \sum_{i \in s^\star} w_i y_i$ for the resample $s^\star$
+2.  Resample with replacement a sample of size $m_h$ within each stratum, replacing totals
+
+$$
+\tilde Y^\star = \sum_{h=1}^H \left[ \sqrt{\frac{m_h}{k_h-1}} \frac{k_h}{m_h} \sum_{i \in s^\star} w_i y_i + \left( 1 - \sqrt{\frac{m_h}{k_h-1}} \right) \sum_{i \in s^\star} w_i y_i \right]
+$$
+for the resample $s^\star$. Here $m_h$ can be any size, although moment matching suggest $m_h = 1$ when $k_h = 2$ and $m_h \approx (k_h-2)^2/(k_h-1)$ for $k_h > 2$.
+
+## Example
+
+Estimating the relationship of age on dioxin levels in the blood.
+
+__National Health and Nutrition Examination Survey (2005-2006)__
+
+* ~3100 US counties collapsed into 30 strata
+* 1 PSU (county or group of counties) sampled per stratum
+* Census blocks sampled within each PSU
+* Blocks aggregated to 2 SECUs per stratum.
+* Over/under sampling based on income, race/ethnicity,
+age.
+* ~11,000 in full sample.
+
+## Example: NHNES
+
+Regress TCDD level Y on age A:
+
+$$
+Y_i = B_0 + B_1 A_i + \epsilon_i, \quad \epsilon_i \sim N(0,\sigma^2)
+$$
+Sample limited to 1,250 adults who had full blood draws and mobile health check sites.
+
+## Example: R code
+
+```{r dioxin, echo = TRUE, eval = TRUE}
+dioxin<-read.table("./data/dioxin2.dat")
+tcdd<-dioxin[,1]
+age<-dioxin[,2]
+wt<-dioxin[,3]
+psu<-dioxin[,4]
+st<-dioxin[,5]
+mypsu<-st*10+psu
+designn<-svydesign(ids=mypsu,strata=st,
+                   variables=tcdd~age,
+                   weights=wt)
+myreg<-svyglm(tcdd~age,design=designn)
+```
+
+## Example: R output
+
+```{r dioxin2, echo = TRUE, eval = TRUE}
+d <- coef(summary(myreg))
+knitr::kable(d)
+```
+
+## Example: R output
+
+```{r dioxin3, echo = TRUE, eval = TRUE}
+designn2<-svydesign(ids=mypsu,strata=st,
+                   variables=tcdd~age,
+                   weights=rep(1,length(wt)))
+myreg2<-svyglm(tcdd~age,design=designn2)
+d2 <- coef(summary(myreg2))
+knitr::kable(d2)
+```
+
 ## JITT: Derivation continued
+
+* Can we estimate $E_{I} \left[ \rho_{I, Y}^2 \right]$ for non-probabilistic data?
+* For binary data, we can show Hoeffding-Frechet bounds
+
+$$
+- \min \left\{ \sqrt{\frac{D_O}{O_Y}}, \sqrt{\frac{O_Y}{D_O}} \right\} \leq \rho_{I, Y} \leq \min \left\{ \sqrt{O_Y D_O}, \frac{1}{\sqrt{O_Y D_O}} \right\}
+$$
+
+where $O_Y = p_Y/ (1-p_Y)$ is the odds ratio. Can you think about instances where the lower and upper bound are achieved?
+
+*  Combine prior work to show that,
+$$
+\frac{\bar y_n - \bar Y}{\sqrt{V_{SRS} (\bar y_n)}} = \sqrt{N-1} \rho_{I,Y}
+$$
+What is the design effect in terms of $N$ and $D_I$?
