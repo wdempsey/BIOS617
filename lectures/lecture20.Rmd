@@ -74,7 +74,7 @@ An alternative to linearization is replication or resampling: elements of the sa
 
 This approach is an extension of variance estimation under interpenetrated subsamples. In this setting, a sample is drawn and randomly divided into $K$ subsamples reflecting the original sample design. The resulting $K$ estimators $\hat \theta_k$ can then be viewed as an SRS from all possible samples under the design the mean $\hat \theta = K^{-1} \sum_{k=1}^K \hat \theta_k$ and estimated variance $v(\hat \theta) = K^{-1} (K-1)^{-1} \sum_{k=1}^K (\hat \theta_k - \hat \theta )^2$
 
-## Balanced repeasted replication (BRR)
+## Balanced repeated replication (BRR)
 
 * In practice actually creating interpenetrated samples can be practically onerous, especially if stratification and clustering is involved. Hence the practical methods we will discuss do not rely on actual interpenetrated sample.
 * BRR is a method that assumes 2 PSUs per stratum (paired selection model).
@@ -96,7 +96,7 @@ This approach is an extension of variance estimation under interpenetrated subsa
 ## Paired selection design
 
 * Consider estimating a total $Y$ in a paired selection design
-* Assume we have appropriate sample selection probabilities/weights so that $y_h = y_{h1} + y_{h2}$ is an unbiased estimator of the populatoin total $Y_h$ in the $h$th stratum,
+* Assume we have appropriate sample selection probabilities/weights so that $y_h = y_{h1} + y_{h2}$ is an unbiased estimator of the population total $Y_h$ in the $h$th stratum,
 
 $$
 E(y) = E \left( \sum_{h=1}^H ( y_{h1} + y_{h2} ) \right) = Y
@@ -217,7 +217,7 @@ yields $v(y) = \sum_{h=1}^H (y_{h1} - y_{h2})^2$
 
 ## Other option (ctd) 
 
-We then compute a weighted estimator of our statistic $\hat \theta_c$ (e.g., a regression parameter) using the replication weight $w_c$, and esitmate the variance as
+We then compute a weighted estimator of our statistic $\hat \theta_c$ (e.g., a regression parameter) using the replication weight $w_c$, and estimate the variance as
 
 $$
 v(\hat \theta)_{BRR} = \frac{\sum_{c=1}^C (\hat \theta_c - \hat \theta)^2}{C}
