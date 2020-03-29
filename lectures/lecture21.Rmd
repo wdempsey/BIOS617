@@ -1,0 +1,78 @@
+---
+title: "BIOS 617 - Lecture 21"
+author: "Walter Dempsey"
+date: "3/30/2020"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(survey)
+library(pps)
+```
+
+## JITT: ``A fundamental identity in statistics'' - X.L. Meng
+
+
+## Two Phase Sampling
+
+* All of discussions of design that use auxiliary data assume that
+we have this data at the population level
+  + Stratification
+  + Post-stratification, calibration
+  + Ratio, regression estimation
+* It settings where auxiliary variables are
+  + Not available
+  + Cheap to collect relative to main data of interest
+  + Highly predictive of the main data of interest
+then it might be worthwhile to conduct two-phase (double)
+sampling.
+
+## Examples
+
+1.  Screening for a rare population (extreme case): use cheap
+method of sampling (mail, telephone) to identify members
+of a rare population for (face-to-face) follow-up.
+2. Allocate the first-phase sample to strata, and subsample
+proportionately or disproportionately from these strata at
+the second phase.
+3. Allocate the first-phase sample to clusters, and sample the
+clusters at the second phase.
+4. Select an epsem sample of clusters, obtain measures of size
+for the sampled clusters, and take the second-phase sample
+of clusters by PP(e)S.
+5. Select a first-phase sample of clusters, list the elements in
+the selected clusters, and then take a second-phase sample
+of elements from the constructed list.
+
+## After the first phase
+
+Once the “first phase” data are available, they can be used for
+stratification, ratio estimation, regression estimation, or
+poststratification for the “second phase” of data collection.
+
+* Because resources are used in the first phase, costs usually
+have to be considered before implementing a two-phase
+design.
+* Since gains from auxiliary information are typically
+modest, large cost differentials are required for two-phase
+sampling to be more efficient that a one-phase design.
+
+## Stratified Two-Phase Sampling
+
+* Take a first phase sampling of $n^\prime$ elements from a populatoin via SRS
+* Allocate the sampled elements to the $h=1,\ldots,H$ strata
+* Sample $n_h \leq n_h^\prime$ elements from the $h$th stratum via SRS
+* Estimate is $\bar y_{ds} = \sum_{h=1}^H p_h \bar y_h$ for 
+  + $p_h = n_h^\prime / n^\prime$ 
+  + $\bar y_h = n_h^{-1} \sum_{i=1}^{n_h} y_{hi}$
+  
+$$
+\begin{aligned}
+E ( \bar y_{ds} ) &= E ( E ( \bar y_{ds} \mid n_h^\prime ) ) = E \left( \sum_{h=1}^H p_h E ( \bar y_h \mid n_h^\prime ) \right) \\
+&=  \sum_{h=1}^H E \left( p_h \right) \bar Y_h
+\end{aligned}
+$$
