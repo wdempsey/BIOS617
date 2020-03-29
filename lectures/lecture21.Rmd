@@ -73,6 +73,183 @@ sampling to be more efficient that a one-phase design.
 $$
 \begin{aligned}
 E ( \bar y_{ds} ) &= E ( E ( \bar y_{ds} \mid n_h^\prime ) ) = E \left( \sum_{h=1}^H p_h E ( \bar y_h \mid n_h^\prime ) \right) \\
-&=  \sum_{h=1}^H E \left( p_h \right) \bar Y_h
+&=  \sum_{h=1}^H E \left( p_h \right) \bar Y_h = 
+\sum_{h=1}^H \frac{N_h}{N} \bar Y_h = \bar Y
 \end{aligned}
 $$
+
+## Variance
+
+$$
+\begin{aligned}
+V(\bar y_{ds} ) &= \sum_{h=1}^H P_h^2 S_h^2 (1-f_h) / n_h+ b \sum_{h=1}^H P_h (1-P_h) S_h^2 (1-f_h)/n_h + \\
+&+ b \sum_{h=1}^H P_h ( \bar Y_h - \bar Y)^2, \quad 
+b = \frac{N}{N-1} \left( \frac{N-n^\prime}{N} \right) \frac{1}{n^\prime}
+\end{aligned}
+$$
+
+* Proof follows from the law of total variance
+
+$$
+V( \bar y_{ds}) = E ( V( \bar y_{ds} \mid n_h^\prime )) + 
+V( E ( \bar y_{ds} \mid n_h^\prime ))
+$$
+
+## First term:
+
+$$
+V(\bar y_{ps} \mid n_h^\prime ) = \sum_{h=1}^H p_h^2 (1-f_h) \frac{S_h^2}{n_h}
+$$
+
+$$
+\begin{aligned}
+E ( V( \bar y_{ps} \mid n_h^\prime )) &=
+\sum_{h=1}^H E(p_h^2) (1-f_h ) \frac{S_h^2}{n_h} \\
+&= \sum_{h=1}^H \left[ V(p_h) + P_h^2 \right]  (1-f_h ) \frac{S_h^2}{n_h}  \\
+&= \sum_{h=1}^H \left[ b P_h (1-P_h) + P_h^2 \right]  (1-f_h ) \frac{S_h^2}{n_h} 
+\end{aligned}
+$$
+
+## Second term
+
+$$
+E( \bar y_{ds} \mid n_h^\prime ) = \sum_{h=1}^H p_h \bar Y_h
+$$
+
+$$
+\begin{aligned}
+V( E ( \bar y_{ps} \mid n_h^\prime )) &= 
+V \left( \sum_{h=1}^H p_h \bar Y_h \right) \\
+&= \sum_{h=1}^H \bar Y_h^2 V(p_h) + \sum_{h=1}^H \sum_{h^\prime \neq h} \bar Y_h \bar Y_{h^\prime} C(p_h, p_{h^\prime})
+\end{aligned}
+$$
+
+* We have $V(p_h)$ from above; 
+* To determine $C(p_h, p_{h^\prime})$ consider
+
+$$
+\begin{aligned}
+V( p_h + p_{h^\prime} ) &= b (P_h + P_{h^\prime}) (1 - P_h - P_{h^\prime}) \\
+V( p_h + p_{h^\prime} ) &= V (p_h) + V(p_{h^\prime}) + 2 C(p_h, p_{h^\prime})
+\end{aligned}
+$$
+
+## Combining these, we have 
+
+$$
+\begin{aligned}
+b (P_h + P_{h^\prime}) (1 - P_h - P_{h^\prime}) &= b P_h (1-P_h) + b P_{h^\prime} ( 1- P_{h^\prime}) + 2 C(p_h, p_{h^\prime}) \\
+b (P_h + P_{h^\prime}) - (P_h + P_{h^\prime})^2 &= b (P_h + P_{h^\prime}) - b (P_h^2 + P_{h^\prime}^2) + 2 C(p_h, p_{h^\prime}) \\
+C(p_h, p_{h^\prime}) &= - b P_h P_{h^\prime} 
+\end{aligned}
+$$
+
+## Combining yields
+
+$$
+\begin{aligned}
+&b \sum_{h=1}^H \bar Y_h^2 P_h (1-P_h) - b \sum_{h=1}^H \sum_{h^\prime \neq h} \bar Y_h \bar Y_{h^\prime} P_h P_{h^\prime} \\
+&b \left[ \sum_{h=1}^H \bar Y_h^2 P_h  - \sum_{h=1}^H \bar Y_h^2 P_h^2 - \sum_{h=1}^H \sum_{h^\prime \neq h} \bar Y_h \bar Y_{h^\prime} P_h P_{h^\prime} \right] \\
+&b \left[ \sum_{h=1}^H \bar Y_h^2 -  \left( \sum_{h=1}^H P_h \bar Y_h  \right)^2 \right] \\
+&b \sum_{h=1}^H P_h \left( \bar Y_h - \bar Y \right)^2
+\end{aligned}
+$$
+
+## What is the variance formula?
+
+* First term is the stratified random sampling variance.
+* Second and third terms arise from the fact that we are
+estimating $P_h$ from a sample of $n^\prime$ rather than the total population of $N$
+
+## Asymptotics
+
+* For large populations and small sampling fractions:
+$$
+V(\bar y_{ps}) \approx \sum_{h=1}^H P_h^2 S_h^2 / n_h + \sum_{h=1}^H P_h ( \bar Y_h - \bar Y)^2 / n^\prime
+$$
+
+* For $N$ large, $b \approx 1/n^\prime$ which implies
+$$
+b \sum_{h=1}^H P_h (1-P_h) S_h^2 (1-f_h) / n_h \text{ is } 
+o\left( (n^{\prime})^{-1} \right)
+$$
+relative to $\sum_{h=1}^H P_h^2 S_h^2 (1-f_h)/n_h$ and can be ignored
+
+* For proportionate sampling with large $n$, $n_h/n \approx P_h$:
+$$
+V(\bar y_{ds}) \approx \sum_{h=1}^H P_h S_h^2 / n  + \sum_{h=1}^H P_h \left( \bar Y_{h} - \bar Y \right)^2 / n^\prime
+$$
+
+## Estimation
+
+As long as $N$ and $n^\prime$ are reasonably large (greater than 30-50), can replace population quantities with sample values
+$$
+\begin{aligned}
+v(\bar y_{ds}) &= \sum_{h=1}^H p_h^2 s_h^2 (1-f_h)/n_h + b \sum_{h=1}^H p_h (1-p_h) s_h^2 (1-f_h)/n_h \\
+&+ b \sum_{h=1}^H p_h ( \bar y_h - \bar y_{ds} )^2
+\end{aligned}
+$$
+or the simplified version, if samples are large and
+sampling fractions small
+$$
+\begin{aligned}
+v(\bar y_{ds}) &= \sum_{h=1}^H p_h s_h^2/n + 
+\sum_{h=1}^H p_h ( \bar y_h - \bar y_{ds} )^2 / n^{\prime}
+\end{aligned}
+$$
+
+## Estimation (ctd)
+
+See Cochran 12.4 for variance estimation with small
+populations or first-stage samples.
+
+## Optimal Allocation
+
+* Let $c^\prime$ be the cost of a unit for the first stage sample and $c_h$ be the (possibly varying by stratum) cost for unit in the second stage sample.
+  + Assume $c^\prime < c_h$ for all $h$ (and typically $c^\prime \ll c_h$).
+* Total cost is then 
+$$
+C = c^\prime n^\prime + \sum_{h=1}^H c_h n_h 
+= c^\prime n^\prime + \sum_{h=1}^H c_h \nu_h n_h^\prime
+$$
+where $\nu_h = n_h/n_h^\prime$ is the second stage sampling fraction (also possibly varying by stratum)
+
+## Optimal allocation
+
+Since the $n_h$ are random variables, we need to minimize with respect to the expected cost
+$$
+\begin{aligned}
+C^\star &= E \left( c^\prime n^\prime + \sum_h c_h \nu_h n_h^\prime \right) \\
+&= c^\prime n^\prime + \sum_h c_h \nu_h E (n_h^\prime) \\
+&= c^\prime n^\prime + \sum_h c_h \nu_h P_h
+\end{aligned}
+$$
+which is a function of the chosen $n^\prime$ and $\nu_h$.
+
+Ignoring fpc, let
+$$
+\begin{aligned}
+V = V(\bar y_{ds}) &= \sum_h P_h^2 S_h^2 / n_h + \sum_{h=1}^H P_h (\bar Y_h - \bar Y)^2 / n^\prime \\
+&= \sum_{h=1}^H P_h^2 S_h^2/n_h + \frac{1}{n^\prime} \left( S^2 - \sum_h P_h S_h^2 \right)
+\end{aligned}
+$$
+
+## Thus
+
+$$
+\begin{aligned}
+n^\prime V &= \left( S^2 - \sum_h P_h S_h^2 \right) + n^\prime \sum_{h=1}^H P_h^2 S_h^2 / n_h \\
+&= \left( S^2 - \sum_h P_h S_h^2 \right) + \sum_{h=1}^H \frac{P_h^2 S_h^2 n^\prime}{\nu_h n_h^\prime} \\
+&= \left( S^2 - \sum_h P_h S_h^2 \right) + \sum_{h=1}^H \frac{P_h S_h^2}{\nu_h}
+\end{aligned}
+$$
+
+and thus
+
+$$
+C^\star V \approx \left( c^\prime + \sum_h c_h \nu_h P_h \right) \times \left[ \left( S^2 - \sum_h P_h S_h^2 \right) + \sum_{h=1}^H \frac{P_h S_h^2}{\nu_h} \right]
+$$
+
+## Optimal allocation
+
+By Cauchy-Schwarz inequality, 
