@@ -32,11 +32,11 @@ we have this data at the population level
   + Stratification
   + Post-stratification, calibration
   + Ratio, regression estimation
-* It settings where auxiliary variables are
+* In settings where auxiliary variables are
   + Not available
   + Cheap to collect relative to main data of interest
   + Highly predictive of the main data of interest
-then it might be worthwhile to conduct two-phase (double)
+* Then it might be worthwhile to conduct two-phase (double)
 sampling.
 
 ## Examples
@@ -224,7 +224,7 @@ where $\nu_h = n_h/n_h^\prime$ is the second stage sampling fraction (also possi
 
 ## Optimal allocation
 
-Since the $n_h$ are random variables, we need to minimize with respect to the expected cost
+Since the $n_h^\prime$ are random variables, we need to minimize with respect to the expected cost
 $$
 \begin{aligned}
 C^\star &= E \left( c^\prime n^\prime + \sum_h c_h \nu_h n_h^\prime \right) \\
@@ -288,7 +288,7 @@ Plugging
 $$\nu_h = S_h \left[ \frac{c^\prime}{c_h (S^2 - \sum_h P_h S_h^2)} \right]$$ 
 into $C^\star V$, we obtain
 $$
-V \approx \frac{1}{C^\star} \left[ \sum_h P_h S_h sqrt{c_h} +
+V \approx \frac{1}{C^\star} \left[ \sum_h P_h S_h \sqrt{c_h} +
 (S^2 - \sum_h P_h S_h^2 )^{1/2} \sqrt{ c^\prime} \right]
 $$
 
@@ -312,7 +312,7 @@ $$
 So
 
 $$
-V_{ds} < V_0 \Rightarrow \frac{\phi - 1}{\phi +1} > \frac{c^\prime}{c}
+V_{ds} < V_0 \Leftrightarrow \frac{\phi - 1}{\phi +1} > \frac{c^\prime}{c}
 $$
 
 ## Two Phase Ratio Estimation
