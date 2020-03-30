@@ -14,6 +14,19 @@ library(survey)
 library(pps)
 ```
 
+## Announcements:
+
+* I will post HW 4 solutions today/tomorrow
+* I will have HW grades to you by end of week
+* HW 5: Column labels will be posted
+* Grading policy
+
+```{r, out.width = "300px", fig.align='center'}
+include_graphics("./figs/um-grade-policy.png") # place holder
+```
+* Today: 2 phase (not stage!) sampling
+* Tomorrow: Calibration + Big Data paradox discussion 
+
 ## JITT: ``A fundamental identity in statistics'' - X.L. Meng
 
 * Short answer: we cannot estimate $D_I$ from the sample itself!
