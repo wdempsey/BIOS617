@@ -16,6 +16,14 @@ library(pps)
 
 ## JITT: ``A fundamental identity in statistics'' - X.L. Meng
 
+* Short answer: we cannot estimate $D_I$ from the sample itself!
+  + Can estimate "after the fact" (e.g., post-election)
+* Achieve upper bound if a person responds to the survey if and only if the person plans to vote for Trump
+* Achieve lower bound if a person responds if and only if the person does not plan to vote for Trump
+* Design effect (in terms of MSE) is $(N-1)D_I$
+* (Law of large populations) Among studies sharing the same (fixed) average data defect correlation $E_I [\rho_{I,Y} ] \neq 0$, the stochastic error of $\bar y_n$ relative to SRS grows with the population size $N$ at the rate of $\sqrt{N}$
+
+Among studies sharing the same (fixed) average data defect correlation
 
 ## Two Phase Sampling
 
@@ -63,7 +71,7 @@ sampling to be more efficient that a one-phase design.
 
 ## Stratified Two-Phase Sampling
 
-* Take a first phase sampling of $n^\prime$ elements from a populatoin via SRS
+* Take a first phase sampling of $n^\prime$ elements from a population via SRS
 * Allocate the sampled elements to the $h=1,\ldots,H$ strata
 * Sample $n_h \leq n_h^\prime$ elements from the $h$th stratum via SRS
 * Estimate is $\bar y_{ds} = \sum_{h=1}^H p_h \bar y_h$ for 
@@ -252,4 +260,174 @@ $$
 
 ## Optimal allocation
 
-By Cauchy-Schwarz inequality, 
+By Cauchy-Schwarz inequality, this product is minimized when
+$$
+\frac{c_h \nu_h P_h \left( S^2 - \sum_h P_h S_h^2 \right)}{c^\prime \frac{P_h S_h^2}{\nu_h}} = 1
+$$
+or
+
+$$
+\frac{c_h \nu_h^2}{S_h^2} = \frac{c^\prime}{S^2 - \sum_h P_h S_h^2}
+$$
+or 
+$$
+\nu_h = S_h \left[ \frac{c^\prime}{c_h (S^2 - \sum_h P_h S_h^2)} \right]^{1/2}
+$$
+
+## Optimal allocation
+
+If $S_h \equiv S_w$ and $c_h \equiv c$ are constant, this reduces to
+$$
+\nu_h = \left[ \frac{c^\prime}{c} \frac{1}{\phi - 1} \right]^{1/2}
+$$
+where $\phi = S^2/S_w$ is the increase in efficiency due to stratification
+
+## Increase in efficiency due to double sampling
+
+Plugging 
+$$\nu_h = S_h \left[ \frac{c^\prime}{c_h (S^2 - \sum_h P_h S_h^2)} \right]$$ 
+into $C^\star V$, we obtain
+$$
+V \approx \frac{1}{C^\star} \left[ \sum_h P_h S_h sqrt{c_h} +
+(S^2 - \sum_h P_h S_h^2 )^{1/2} \sqrt{ c^\prime} \right]
+$$
+
+## Assumptions
+
+Assuming $S_h \equiv S_w$ and $c_h \equiv c$,
+$$
+\begin{aligned}
+V_{ds} &\approx \frac{1}{C^\star} \left[ S_w \sqrt{c} + (S^2 - S_w^2 )^{1/2} \sqrt{c^\prime} \right]^{2} \\
+&\approx \frac{1}{C^\star} \left[ S_w c + (S^2 - S_w^2 )^{1/2} c^\prime + 2 S_w \sqrt{S^2 - S_w^2} \sqrt{c c^\prime} \right]^{1/2} \\
+\end{aligned}
+$$
+
+Now let us replace $C^\star$ with $C$, the cost for a given $n^\prime$ and $n$.  If we were doing SRS, we could afford a sample $n_0$ where $C = cn_0 \Rightarrow n_0 = n + \frac{c^\prime}{c} n^\prime$.  Thus
+$$
+V_0 = \frac{S^2}{n_0} = \frac{c S^2}{C}
+$$
+
+## Variance comparison
+
+So
+
+$$
+V_{ds} < V_0 \Rightarrow \frac{\phi - 1}{\phi +1} > \frac{c^\prime}{c}
+$$
+
+## Two Phase Ratio Estimation
+
+* If the population $\bar X$ is unknown, we may estimate it from the first phase sample by $\bar x^\prime$
+* The ratio estimator is then $\bar y_r^\prime = \frac{\bar y}{\bar x} \bar x^\prime = r \bar x^\prime$, 
+  + Where $r$ is estimated from the second-stage data
+* To obtain the variance, we use the Taylor Series expansion $\bar y_r^\prime \approx r \bar X + R \bar x^\prime$:
+
+$$
+V(\bar y_r^\prime) \approx \bar X^2 V(r) + R^2 V(\bar x^\prime) + 2 \bar X R C(r, \bar x^\prime)
+$$
+
+## Two Phase Ratio Estimation
+
+If samples are sampled independently at each phase, $C(r, \bar x^\prime) = 0$, and
+$$
+\begin{aligned}
+V(\bar y_r^\prime) &= \bar X^2 V(r) + R^2 V(\bar x^\prime) \\
+&= V(\bar y) + R^2 V(\bar x) - 2 R C(\bar y, \bar x) + R^2 V(\bar x^\prime)
+\end{aligned}
+$$
+
+If we have SRS at both phases, then ignoring fpc
+
+$$
+\begin{aligned}
+V(\bar y_r^\prime) &= \frac{S_y^2 + R^2 S_x^2 - 2 R S_{xy}}{n} + \frac{R^2 S_x^2}{n^\prime} \\
+v(\bar y_r^\prime) &= \frac{s_y^2 + r^2 s_x^2 - 2 r s_{xy}}{n} + \frac{r^2 s_{x}^2}{n^\prime} \\
+\end{aligned}
+$$
+
+## A more efficient alternative
+
+* However, it can be more efficient to treat the second phase
+sample as a subsample of the first phase sample (which it
+is).
+
+* Need to separate out $\bar x$ from $r$ to capture dependence of $\bar x$ and $\bar x^\prime$:
+
+$$
+\begin{aligned}
+\frac{\partial y_r^\prime}{\partial \bar Y} &= \frac{E(\bar x^\prime)}{E(\bar x)} = 1;  \\
+\frac{\partial y_r^\prime}{\partial \bar X} &= - \frac{\bar Y}{\bar X};  \\
+\frac{\partial y_r^\prime}{\partial \bar X^\prime} &= \frac{\bar Y}{\bar X} = R;  \\
+\end{aligned}
+$$
+
+* Thus $V(\bar y_r^\prime) \approx V( \bar y - R \bar x + R \bar x^\prime)$
+
+## Variance under dependence
+
+$$
+\begin{aligned}
+V(\bar y_r^\prime) &= E ( V(\bar y_r^\prime \mid n_h^\prime)) + V( E( \bar y_r^\prime \mid n_h^\prime )) 
+\end{aligned}
+$$
+then the first term is
+$$
+\begin{aligned}
+V(\bar y_r^\prime \mid n_h^\prime) &= V( \bar y - R \bar x \mid n_h^\prime) \\
+&= V( \bar y \mid n_h^\prime)+ R^2 V(\bar x \mid n_h^\prime) - 2 R C(\bar y, \bar x \mid n_h^\prime)\\
+&= \left( 1 - \frac{n}{n^\prime} \right) \frac{(s_y^\prime)^2 + R^2 (s_x^\prime)^2 - 2 R s_{xy}^\prime}{n} \\
+\Rightarrow E(V(\bar y_r^\prime \mid n_h^\prime)) &=
+\left( 1 - \frac{n}{n^\prime} \right) \frac{S_y^2 + R^2 S_x^2 - 2 R S_{xy}}{n}
+\end{aligned}
+$$
+
+## Second term and combined
+
+$$
+\begin{aligned}
+E ( \bar y_r^\prime \mid n_h^\prime ) &= E ( \bar y \mid n^\prime) - R E ( \bar x \mid n^\prime ) + R E( \bar x^\prime \mid n^\prime) \\
+&= \bar y^\prime - R \bar x^\prime + R \bar x^\prime = \bar y^\prime \\
+V( E( \bar y_r^\prime \mid n_h^\prime )) &= V(\bar y^\prime) \\
+&= \left( 1 - \frac{n^\prime}{N} \right) \frac{S_y^2}{n^\prime}
+\end{aligned}
+$$
+
+Thus
+
+$$
+\begin{aligned}
+V( \bar y_r^\prime) &= \frac{S_y^2 + R^2 S_x^2 - 2 R S_{xy}}{n} + \frac{2 R S_{xy} - R^2 S_x^2}{n^\prime} - \frac{S_y^2}{N} \\
+&\approx \frac{S_y^2 + R^2 S_x^2 - 2 R S_{xy}(1-n/n^\prime)}{n} - \frac{R^2 S_x^2}{n^\prime}
+\end{aligned}
+$$
+
+## A butterfly effect: The return of the long-forgotten monster
+
+* We will calculate the effective sample size $n_{eff}$ of a Big Data set by equating the MSE of $\bar y_n$ and the MSE of the SRS estimator with the sample size $n_{eff}$
+* Step 1: Equate the $MSE_I(\bar y_n) = D_I \times D_O \times D_U$ formula and the SRS formula $V_{SRS} (\bar y_n) = \frac{1-f}{n} S_{Y}^2$ to show that 
+
+$$
+D_I D_O = \left( \frac{1}{n_{eff}} - \frac{1}{N} \right) \left(\frac{N}{N-1} \right)
+$$
+
+* Let $n_{eff}^\star = (D_O D_I)^{-1}$; then show
+
+$$
+n_{eff} = \frac{n_{eff}^\star}{1 + (n_{eff}^\star -1) N^{-1}}
+$$
+
+## JITT: Part 2
+
+* Then under $n_{eff}^\star \geq 1$ show that
+
+$$
+n_{eff} \leq n_{eff}^\star = \frac{f}{1-f} \times \frac{1}{D_I} = \frac{n}{1-f} \times \frac{1}{N D_I}
+$$
+
+* Suppose that $E_{I} [ \rho_{I,Y} ] = 0.05$.  Then show $D_I \geq 1/400$ which implies
+
+$$
+n_{eff} \leq 400 \times \frac{f}{1-f}
+$$
+
+* What does this mean if we observed half of the population?  What is the equivalent SRS sample?
