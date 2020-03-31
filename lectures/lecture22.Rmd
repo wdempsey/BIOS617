@@ -1,0 +1,103 @@
+---
+title: "BIOS 617 - Lecture 21"
+author: "Walter Dempsey"
+date: "3/30/2020"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(survey)
+library(pps)
+```
+
+## Announcements:
+
+* HW 4 solutions XX
+* I will have HW grades to you by end of week
+* HW 5: Column labels will be posted
+* Grading policy
+
+```{r, out.width = "300px", fig.align='center'}
+include_graphics("./figs/um-grade-policy.png") # place holder
+```
+* TODAY: Calibration + Big Data paradox discussion 
+
+## A butterfly effect: The return of the long-forgotten monster
+
+* We will calculate the effective sample size $n_{eff}$ of a Big Data set by equating the MSE of $\bar y_n$ and the MSE of the SRS estimator with the sample size $n_{eff}$
+* Step 1: Equate the $MSE_I(\bar y_n) = D_I \times D_O \times D_U$ formula and the SRS formula $V_{SRS} (\bar y_n) = \frac{1-f}{n} S_{Y}^2$ to show that 
+
+$$
+D_I D_O = \left( \frac{1}{n_{eff}} - \frac{1}{N} \right) \left(\frac{N}{N-1} \right)
+$$
+
+* Let $n_{eff}^\star = (D_O D_I)^{-1}$; then show
+
+$$
+n_{eff} = \frac{n_{eff}^\star}{1 + (n_{eff}^\star -1) N^{-1}}
+$$
+
+## JITT: Part 2
+
+* Then under $n_{eff}^\star \geq 1$ show that
+
+$$
+n_{eff} \leq n_{eff}^\star = \frac{f}{1-f} \times \frac{1}{D_I} = \frac{n}{1-f} \times \frac{1}{N D_I}
+$$
+
+* Suppose that $E_{I} [ \rho_{I,Y} ] = 0.05$.  Then show $D_I \geq 1/400$ which implies
+
+$$
+n_{eff} \leq 400 \times \frac{f}{1-f}
+$$
+
+* What does this mean if we observed half of the population?  What is the equivalent SRS sample?
+
+## Calibration
+
+1. Poststratification
+
+2.  Raking
+
+3.  Generalized regression estimation
+
+## Poststratification
+
+* There may be information available about a population that either cannot be accessed in the sampling frame (but is obtainable from the sampled unit), or may be known in the frame but set aside as less important than other variables that will be used for stratification. 
+* We discussed poststratification previously in the context of SRS sampling. In more general setting, the poststratified estimator replaces the unweighted poststratum mean with the weighted postratum mean:
+$$
+\bar y_{ps} = \sum_{h=1}^H P_h \bar y_h = N^{-1} \sum_{h=1}^H N_h \bar y_h
+$$
+for
+$$
+\bar y_{ps} = \frac{\sum_{i=1}^{k_h} \sum_{j=1}^{m_i} d_{hij} y_{hij}}{\sum_{i=1}^{k_h} \sum_{j=1}^{m_i} d_{hij}}
+$$
+where $d_{hij} = \pi_{hij}^{-1}$, $P(I_{ijk} = 1) = \pi_{hij}$ (``design weight'')
+
+## Poststratification 
+
+* Typically this is implemented by adjusting the design weights.
+* Consider the following population and sample distributions:
+
+```{r, out.width = "300px", fig.align='center'}
+include_graphics("./figs/l22_fig1.png") # place holder
+```
+
+## Poststratification
+
+Suppose that after design weighing, the sample gender distribution does not agree with known population totals:
+
+```{r, out.width = "300px", fig.align='center'}
+include_graphics("./figs/l22_fig2.png") # place holder
+```
+
+The final weight is then computed as the product of the design and poststratification weight:
+
+$$
+w_i = \left \{ \begin{array}{c c} 0.9325 \times d_i & \text{ if male } < 60 \end{array} \right .
+$$
+
