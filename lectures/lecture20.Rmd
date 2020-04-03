@@ -383,7 +383,7 @@ Sample limited to 1,250 adults who had full blood draws and mobile health check 
 
 ```{r dioxin, echo = TRUE, eval = TRUE}
 dioxin<-read.table("./data/dioxin2.dat")
-tcdd<-dioxin[,1]
+tcdd<-log(dioxin[,1])
 age<-dioxin[,2]
 wt<-dioxin[,3]
 psu<-dioxin[,4]
