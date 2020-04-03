@@ -313,7 +313,7 @@ $$
 
 We can maximize precision by using the maximum number of replicates $k_h$:
 $$
-E \left( \frac{k_h-1}{C_h} \sum_{i=1}^{k_h} \left( \hat \theta_{(hi)} - \hat \theta \right)^2 \right) = k_h s_{yh}^2 
+E \left( \frac{k_h-1}{k_h} \sum_{i=1}^{k_h} \left( \hat \theta_{(hi)} - \hat \theta \right)^2 \right) = k_h s_{yh}^2 
 $$
 
 ## JRR
