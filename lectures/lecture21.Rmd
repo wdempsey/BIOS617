@@ -298,11 +298,11 @@ where $\phi = S^2/S_w$ is the increase in efficiency due to stratification
 ## Increase in efficiency due to double sampling
 
 Plugging 
-$$\nu_h = S_h \left[ \frac{c^\prime}{c_h (S^2 - \sum_h P_h S_h^2)} \right]$$ 
+$$\nu_h = S_h \left[ \frac{c^\prime}{c_h (S^2 - \sum_h P_h S_h^2)} \right]^{1/2}$$ 
 into $C^\star V$, we obtain
 $$
 V \approx \frac{1}{C^\star} \left[ \sum_h P_h S_h \sqrt{c_h} +
-(S^2 - \sum_h P_h S_h^2 )^{1/2} \sqrt{ c^\prime} \right]
+(S^2 - \sum_h P_h S_h^2 )^{1/2} \sqrt{ c^\prime} \right]^2
 $$
 
 ## Assumptions
