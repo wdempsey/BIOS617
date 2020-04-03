@@ -288,7 +288,7 @@ $$
 
 $$
 \begin{aligned}
-\hat \theta_{(hi)}
+\hat \theta_{(hi)} - \hat \theta
 &= \frac{1}{k_h-1} \sum_{j=1,j\neq i}^{k_h} y_{hj} - y_{hi} = \frac{y_h}{k_h-1} - y_{hi} \left[ 1+ \frac{1}{k_h-1} \right] \\
 &= \frac{k_h}{k_h-1} \left[ y_h / k_h - y_{hi} \right].
 \end{aligned}
