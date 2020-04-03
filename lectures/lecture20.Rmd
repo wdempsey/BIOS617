@@ -278,7 +278,7 @@ $$
 \begin{aligned}
 \hat \theta_{(hi)} &= \sum_{l=1, l \neq h}^H y_l + \frac{k_h}{k_h-1} \sum_{j=1, j\neq i}^{k_h} y_{hj} \\
 \hat \theta_{(hi)} - \hat \theta &= \frac{k_h}{k_h-1} \sum_{j=1, j\neq i}^{k_h} (y_{hj} - y_h) \\
-&= \left( \sum_{j=1,j\neq i}^{k_h} y_{hj} - y_h \sum \right) + \frac{1}{k_h-1} \sum_{j=1,j\neq i}^{k_h} y_{hj} \\
+&= \left( \sum_{j=1,j\neq i}^{k_h} y_{hj} -  y_h \right) + \frac{1}{k_h-1} \sum_{j=1,j\neq i}^{k_h} y_{hj} \\
 &= \frac{1}{k_h-1} \sum_{j=1,j\neq i}^{k_h} y_{hj} - y_{hi} = \frac{y_h}{k_h-1} - y_{hi} \left[ 1+ \frac{1}{k_h-1} \right].
 \end{aligned}
 $$
@@ -303,10 +303,10 @@ $$
 
 Conditioning on the sampled PSUs,
 $$
-\left( \hat \theta_{(hi)} - \hat \theta \right)^2 = \left[ \frac{k_h}{k_h-1} \right]^2 \frac{1}{k_h} \sum_{i=1}^{k_h} \left[ y_{hi} - y_h/k_h \right]^2 = \frac{k_h}{k_h-1} s_{yh}^2
+E \left( \hat \theta_{(hi)} - \hat \theta \right)^2 = \left[ \frac{k_h}{k_h-1} \right]^2 \frac{1}{k_h} \sum_{i=1}^{k_h} \left[ y_{hi} - y_h/k_h \right]^2 = \frac{k_h}{k_h-1} s_{yh}^2
 $$
 
-If we form $C_h$ replicates from stratum $h$, 
+where the expectation is over $i$ uniformly chosen from $1,\ldots, k_h$. If we form $C_h$ replicates from stratum $h$, 
 $$
 E \left( \frac{k_h-1}{C_h} \sum_{c=1}^{C_h} \left( \hat \theta_{(hc)} - \hat \theta \right)^2 \right) = k_h s_{yh}^2 
 $$
@@ -383,7 +383,7 @@ Sample limited to 1,250 adults who had full blood draws and mobile health check 
 
 ```{r dioxin, echo = TRUE, eval = TRUE}
 dioxin<-read.table("./data/dioxin2.dat")
-tcdd<-dioxin[,1]
+tcdd<-log(dioxin[,1])
 age<-dioxin[,2]
 wt<-dioxin[,3]
 psu<-dioxin[,4]
