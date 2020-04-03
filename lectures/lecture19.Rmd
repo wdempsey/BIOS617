@@ -201,7 +201,7 @@ $$
 * Solving $U_w ( b_w) = 0$ yields
 
 $$
-X^\top W Y = X^\top W X b_w \Rightarrow b_w = (X^\top W X)
+X^\top W Y = X^\top W X b_w \Rightarrow b_w = (X^\top W X)^{-1} X^\top W Y
 $$
 
 * Sometimes terms the __pseudo-maximum likelihood estimator__ (PMLE)
