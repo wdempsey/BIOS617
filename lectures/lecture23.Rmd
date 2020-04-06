@@ -63,7 +63,7 @@ two groups, respondents with mean $\bar Y_{R}$ and non-respondents with mean $\b
 * __Stochastic__: assume that each element of the population has a probability of response $P_i$
   + Then $B(\bar y_r) \approx \frac{1}{\bar P} C(Y,P)$
   + $C(Y,P) = \frac{1}{N} \sum_{i=1}^N (Y_i - \bar Y) (P_i - \bar P)$
-  + $\bar P = \frac{1}{N} \sum_{i=1}^N P_i$K
+  + $\bar P = \frac{1}{N} \sum_{i=1}^N P_i$
 
 ## Non-response bias
  
@@ -82,7 +82,7 @@ $$
 \begin{aligned}
 \bar Y &= \sum_h W_h \bar Y_h = \sum_h W_h ( R_h \cdot \bar Y_{Rh} + (1-R_h) \bar Y_{Mh} ) \\
 &= \sum_h W_h ( R_h \cdot \bar Y_{Rh} + (1-R_h) \bar Y_{Mh} ) \\
-&= \sum_h W_h \bar Y_{Rh} - \sum_h W_h (1-R_h) \bar Y_{Rh} + \sum_h (1-R_h) \bar Y_{Mh} \\
+&= \sum_h W_h \bar Y_{Rh} - \sum_h W_h (1-R_h) \bar Y_{Rh} + \sum_h W_h (1-R_h) \bar Y_{Mh} \\
 &= \sum_h W_h \bar Y_{Rh} - \sum_h W_h (1-R_h) (\bar Y_{Rh} - \bar Y_{Mh}) \\
 \end{aligned}
 $$
