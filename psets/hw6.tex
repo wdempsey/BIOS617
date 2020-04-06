@@ -1,0 +1,122 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx,amsmath}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\def\given{\, | \,}
+\newcommand{\code}[1]{\texttt{#1}}
+
+\begin{document}
+
+\title{Homework \# 6, Due April 20, 2020}
+\author{BIOS 617}
+\date{Assigned on: April 6, 2020}
+
+\maketitle
+
+\begin{enumerate}
+\setlength{\itemsep}{15pt}%
+\setlength{\parskip}{15pt}%
+
+\item Consider following SRS sample, tabulated by gender and age:
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 15 & 5 \\
+Male & 26 & 14 \\ \hline
+\end{tabular}
+\end{table}
+
+With the known population data
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 50 & 100 \\
+Male & 250 & 800 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{enumerate}[itemsep=5ex]
+	\item  Fill in the following table with the weights associated with each design {\bf [25 pt]}
+
+	\begin{table}[!th]
+	\centering
+	\begin{tabular}{c | p{1in} | p{1in} | p{1in} |}
+	 & SRS & Poststratified & GREG \\ \hline
+	$F, \leq 25$ & & & \\
+	$F, > 25$ & & & \\
+	$M, \leq 25$ & & & \\
+	$M, > 25$ & & & \\ \hline
+	\end{tabular}
+	\end{table}
+
+	For the GREG estimator, use the total number of females and the total number $\leq 25$ years in the population: that is, $x_i = \left( \begin{array}{c} 1 \\ I(\text{female})_i \\ I(<25)_i \end{array} \right)$, using the notation from class.  (Note that the GREG weights are not constrained to be positive)
+
+	\item Now suppose the within poststratum \underline{means} our outcome of interest are given by
+	\vspace{2cm}
+	\begin{table}[!th]
+	\centering
+	\begin{tabular}{c c c}
+	& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+	Gender & $\leq 25$ years & $> 25$ years \\ \hline
+	Female & 32 & 47 \\
+	Male & 28 & 61 \\ \hline
+	\end{tabular}
+	\end{table}
+
+	Compute the estimates of the population mean using i) the SRS sample alone, ii) the poststratified estimator, and iii) the GREG estimator as defined in (a) {\bf [15 pt]}
+
+	\end{enumerate}
+
+\item
+
+\begin{enumerate}[itemsep=5ex]
+
+\item Using the approximation $E(\bar y_r ) = \frac{E[ \sum_{i=1}^n r_i y_i ]}{ E [ \sum_{i=1}^n r_i]}$, show that $E(\bar y_r) = \frac{1}{N} \frac{\sum_{i=1}^N P_i Y_i}{\bar P}$ where expectation is with respect to both the sample design under SRS and with respect to the response indicator $R_i \sim \text{Bernoulli} (P_i)$ {[5 pt]}
+
+\item Using the result from a) show that $B(\bar y_r) = \frac{C(Y,P)}{P}$ {\bf [5 pt]}
+
+\end{enumerate}
+
+\item Attached is the dataset `bios617\_data\_missing.xlsx', which consists of a proportionally gender stratified sample from our video game and height class population data. The first column is gender, the second column is the average time spent playing video games, and the third column is the height data. Note that two of the women and one of the men have missing height data; gender and video game data are fully observed
+
+\begin{enumerate}[itemsep=5ex]
+\item Compute the mean height and associated standard error using the complete case data {\bf [5 pt]}
+
+\item Compute the mean height and associated standard error using a single imputation hot desk {\bf [5 pt]}
+
+\item Compute the mean height and associated standard error using multiple imputation with 20 imputed datasets. You may do this “by hand” following the algorithm from class, or use on of the software packages for MI. Explain your choice of imputation model. {\bf [15 pt]}
+
+\end{enumerate}
+
+\item A health survey is conducted using obtaining using a stratified, multistage design, where four geographic stratum are formed (northeast, northwest, southeast, southwest) and 3-5 PSUs are sampled in each stratum, with probability proportional to size. Within each PSU and equal number of households are sampled, and households screened so that low-income households are sampled at twice the rate of non-low-income households. Finally one adult is selected at random (based on who has the last birthday). The data have been collected over the web using address-based sampling, so we know the PSU and stratum in which they reside at the time of sampling, but nothing else.
+\vspace{0.5cm}
+
+You are given data in health.dat to analyze that contains the following information: selfreported measure of health (excellent=5, very good=4, good=3, fair=2, poor=1), along with gender, number of adults in the household, an indicator for whether or not the household in low income, the PSU, and the stratum. For the non-responding households, you are given data only on the PSU and stratum of the sampled household. You know the following distribution of the population from Census counts:
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c | c}
+& M & F & \\ \hline
+NE & 0.10 & 0.15 & 0.25 \\
+NW & 0.11 & 0.14 & 0.25 \\
+SE & 0.12 & 0.13 & 0.25 \\
+SW & 0.13 & 0.12 & 0.25 \\ \hline
+& 0.46 & 0.54 & 1 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{enumerate}[itemsep=5ex]
+\item Compute the sampling weights for each individual observation. First, compute a selection weight based on the number of adults in the household and the low-income status of the household. Second, using the data available on respondents and non-respondents, adjust the selection weight to account for non-response. Next, using the non-response-adjusted selection weight, compute a final weight that post-stratified to the known gender-by-region distribution. Finally, scale your weights so that the sample sums to the population of 4,000,000. Briefly describe your computations at each stage and show your distribution of final weights. {\bf [15 pt]}
+
+\item Compute an estimated mean self-reported measure of health along with a 95\% confidence interval, accounting for the complex sample design of the data. You may use your software package of choice, or compute it “by hand” – please show code or computations {\bf [10 pt]}.
+\end{enumerate}
+
+\end{enumerate}
+\end{document}
