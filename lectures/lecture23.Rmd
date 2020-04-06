@@ -17,7 +17,8 @@ library(pps)
 ## Announcements:
 
 * HW 5: Due today (HW solutions posted tomorrow)
-* HW 4 solutions and grades posted
+* HW 6: Posted end of day today (last hw!)
+* HW 4 grades and solutions posted
 * Grading policy
 
 ```{r, out.width = "300px", fig.align='center'}
@@ -62,8 +63,8 @@ two groups, respondents with mean $\bar Y_{R}$ and non-respondents with mean $\b
 * __Stochastic__: assume that each element of the population has a probability of response $P_i$
   + Then $B(\bar y_r) \approx \frac{1}{\bar P} C(Y,P)$
   + $C(Y,P) = \frac{1}{N} \sum_{i=1}^N (Y_i - \bar Y) (P_i - \bar P)$
-  + $\bar P = \frac{1}{N} \sum_{i=1}^N P_i$
-  
+  + $\bar P = \frac{1}{N} \sum_{i=1}^N P_i$K
+
 ## Non-response bias
  
 * Deterministic is a special case of the stochastic where 
@@ -316,3 +317,20 @@ $$
 
 
 ## JITT: Weight, weight, don't tell me
+
+* Let $W_j \geq 0$ be weight we use for $Y_j$ and $\tilde I_j = I_j \cdot W_j$
+* Then the weighted sample average is
+
+$$
+\tilde y_n = \frac{\sum_{j=1}^N I_j W_j Y_j}{\sum_{j=1}^N I_j W_j}
+$$ 
+
+* Show that 
+
+$$
+\tilde y_n - \bar Y = \rho_{\tilde I, Y} \times \sqrt{\frac{1 - f + CV(W)^2}{f}} \times \sigma_Y
+$$
+where $CV(W)$ is the coefficient of variation (std/mean) of $W_J$ given $I_J = 1$
+
+* Compare this to the original formula.  What is the negative impact of weighting?  Where could it help?
+
