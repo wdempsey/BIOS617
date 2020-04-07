@@ -1,0 +1,215 @@
+---
+title: "BIOS 617 - Lecture 23"
+author: "Walter Dempsey"
+date: "4/6/2020"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(survey)
+library(pps)
+```
+
+## Announcements:
+
+* HW 5: Solutions posted today
+* JITT due today
+* TODAY: Example (redo!) + Imputation + FINAL Big Data paradox discussion 
+* Diary due on Monday (extension if doing midterm redo)
+
+## MIDTERM point system
+
+* I have all midterms that were not picked up. 
+* Send me request for screenshots 
+* Submission: 
+  + Send me image of your midterm solution
+  + Send me detailed revision of ENTIRE answer to that subcomponent
+  + If incorrect answer from prior parts, please use correct answers and cite midterm solutions
+  + Max point recovery per componet = 1/2 points loss
+  + Any error in the new solution = max 2/3 points recover
+  + Two errors in new solution = max 1/3 points recover
+  + Three errors in new solution = max 0 points recover
+  + Error 
+
+## Example: 
+
+Suppose our respondents have the following age x gender distribution:
+
+```{r, out.width = "150px", fig.align='center'}
+include_graphics("./figs/l23_fig2.png") # place holder
+```
+
+While the census provides:
+
+```{r, out.width = "150px", fig.align='center'}
+include_graphics("./figs/l23_fig3.png") # place holder
+```
+
+## Poststratification weights:
+
+```{r, out.width = "250px", fig.align='center'}
+include_graphics("./figs/l23_fig4.png") # place holder
+```
+
+All people in the same cell receive the same poststratification weight
+
+## Example: continued
+
+Suppose we only know the marginal age and sex distributions in the population:
+
+```{r, out.width = "200px", fig.align='center'}
+include_graphics("./figs/l23_fig5.png") # place holder
+```
+
+```{r, out.width = "200px", fig.align='center'}
+include_graphics("./figs/l23_fig6.png") # place holder
+```
+
+## Ex: Adjustment for non-response: non-response cells
+
+Suppose that, instead of poststrata, we had the following tables of observed cell counts and a table from the sampled elements, regardless of response:
+
+```{r, out.width = "200px", fig.align='center'}
+include_graphics("./figs/l23_fig7.png") # place holder
+```
+
+```{r, out.width = "200px", fig.align='center'}
+include_graphics("./figs/l23_fig8.png") # place holder
+```
+
+## Ex: Adjustment for non-response: non-response cells
+
+```{r, out.width = "200px", fig.align='center'}
+include_graphics("./figs/l23_fig9.png") # place holder
+```
+
+```{r, out.width = "200px", fig.align='center'}
+include_graphics("./figs/l23_fig10.png") # place holder
+```
+
+## Ex: Adjustment for non-response: logistic regression
+
+Fir a model of the form
+$$
+\begin{aligned}
+\text{logit} \left( P (R_i = 1) \right) =& \beta_0 + \beta_1 I(\text{gender}_i = \text{male}) \\
+&+ \beta_2 \cdot I(\text{age}_i = \text{18-64}) + \beta_3 I(\text{age}_i = \text{65+})
+\end{aligned}
+$$
+with $\hat \beta = (-0.2165, -0.6404, 0.2752, 0.4934)$.
+
+```{r, out.width = "150px", fig.align='center'}
+include_graphics("./figs/l23_fig11.png") # place holder
+```
+
+```{r, out.width = "150px", fig.align='center'}
+include_graphics("./figs/l23_fig12.png") # place holder
+```
+
+## Example: continued
+
+Suppose that our outcome of interest is current smoking behavior, and we observe the following positive replies among out 100 respondents:
+
+```{r, out.width = "150px", fig.align='center'}
+include_graphics("./figs/l23_fig13.png") # place holder
+```
+
+$$
+\begin{aligned}
+\bar y &= 0.2900; \quad \bar y_p = 0.3053 \\
+\bar y_{\text{rake}} &= 0.3069; \quad \bar y_s = 0.3064 \\
+\bar y_{\text{logistic}} &= 3051
+\end{aligned}
+$$
+
+## Imputation 
+
+* Imputation assigns values to replace missing items.
+* Typically assumes MAR, although sensitivity analyses may be conducted under NMAR models (impute based on prefabricated parameters in the model).
+  + Mean imputation
+  + Hot-deck imputation
+  + Regression imputation
+  + Multiple imputation
+  
+## Imputation:
+
+* Advantages of imputation:
+  + Eases analyst’s task.
+  + Analyses are consistent since no cases need to be deleted.
+  + Simplifies presentation of survey results (e.g., no columns and rows needed to display missing data counts).
+  + Retain all available data, possibly obtaining more precise estimates of parameters in multivariate models. 
+* Disadvantages of imputation:
+  + Some forms distort distributions (mean, variance) of items receiving imputation,
+and attentuate associations.
+  + Single imputation leads to underestimation of variance because imputed values
+are treated as valid by standard statistical software.
+  + Difficult to “sell” to analysts.
+      - Prefer not to use deliberately fabricated data . . . but which is better? 
+      - “Fabricating” under complete case analysis (MCAR), or fabricating under carefully developed model?
+      
+## Example: $n=18$
+
+Suppose that the sample was selected with equal probabilities, and gender and education are known for every sample element. There are $n = 14$ respondents who provided family income values.
+
+```{r, out.width = "125px", fig.align='center'}
+include_graphics("./figs/l24_fig1.png") # place holder
+```
+
+## Mean imputation 
+
+* An overall mean imputation would replace the missing valueswith the mean for respondents on the item.
+  + It is equivalent to ignoring the missing values (or complete case analysis) since the overall mean value imputation substitutes the overall mean among respondents for the missing values.  
+  + Thus, above, $y_2 = y_4 = y_{12} = y_{18} = 49.4$.
+* This type of imputation distorts the distribution, producing a "spike" at the overall mean.
+* Ignores information about observed covariates (gender, education) that might help to predict the missing value.
+* Often, with small amounts of missing data, the median or the mode (especially for categorical data) will be substituted instead.
+
+
+## Hot deck imputatoin
+
+* Stochastic techniques provide imputed values with better properties than deterministic ones.
+* The simplest stochastic techniques is random imputation: 
+  + substitute the value obtained from a randomly selected respondent to the item.
+  + This is equivalent to assigning the overall mean with a random residual selected from the empirical distribution of residuals.
+* Sequential “hot deck” accomplishes this by imputing based on the “last” observed values in an ordered data set.
+
+
+## Sequential hot deck
+
+```{r, out.width = "100px", fig.align='center'}
+include_graphics("./figs/l24_fig2.png") # place holder
+```
+
+## Sequential hot deck
+
+* Sorting by observed covariates allows values from similar
+covariates to be imputed.
+* Several problems arise with this technique: multiple donations,
+sort boundaries (e.g., changing from male to female), and weak
+within group correlations.
+* But simple and easy to do, it requires no distributional
+assumptions, and it can be applied to a vector of correlated
+items for a single sort
+
+## JITT: Weight, weight, don't tell me
+
+* Let $W_j \geq 0$ be weight we use for $Y_j$ and $\tilde I_j = I_j \cdot W_j$
+* Then the weighted sample average is
+
+$$
+\tilde y_n = \frac{\sum_{j=1}^N I_j W_j Y_j}{\sum_{j=1}^N I_j W_j}
+$$ 
+
+* Show that 
+
+$$
+\tilde y_n - \bar Y = \rho_{\tilde I, Y} \times \sqrt{\frac{1 - f + CV(W)^2}{f}} \times \sigma_Y
+$$
+where $CV(W)$ is the coefficient of variation (std/mean) of $W_J$ given $I_J = 1$
+
+* Compare this to the original formula.  What is the negative impact of weighting?  Where could it help?
+
