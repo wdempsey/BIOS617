@@ -1,7 +1,7 @@
 ---
-title: "BIOS 617 - Lecture 23"
+title: "BIOS 617 - Lecture 24"
 author: "Walter Dempsey"
-date: "4/6/2020"
+date: "4/8/2020"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -18,22 +18,29 @@ library(pps)
 
 * HW 5: Solutions posted today
 * JITT due today
-* TODAY: Example (redo!) + Imputation + FINAL Big Data paradox discussion 
+* TODAY: Example (redo!) + Imputation + Big Data paradox discussion (Diary assignment)
 * Diary due on Monday (extension if doing midterm redo)
+* Monday: FINAL Big data example + Respondent Driven Sampling
+* Wednesday: Generalizability and self-selection
 
 ## MIDTERM point system
 
-* I have all midterms that were not picked up. 
+* I have all midterms that were not picked up.
+* I will post a midterm-2 in Canvas on Friday.
 * Send me request for screenshots 
 * Submission: 
   + Send me image of your midterm solution
-  + Send me detailed revision of ENTIRE answer to that subcomponent
+  + For any subcomponent you got points off, send me detailed revision of ENTIRE answer to that subcomponent __using midterm-2__
   + If incorrect answer from prior parts, please use correct answers and cite midterm solutions
-  + Max point recovery per componet = 1/2 points loss
+  + Max point recovery per component = 1/2 points loss
   + Any error in the new solution = max 2/3 points recover
   + Two errors in new solution = max 1/3 points recover
   + Three errors in new solution = max 0 points recover
-  + Error 
+  + This is per subcomponent
+* Due by midnight on Monday.  
+  + 1 day late submission = max recover 1/4 points
+  + After that no points can be recovered
+  
 
 ## Example: 
 
@@ -158,8 +165,7 @@ $$
 * Disadvantages of imputation:
   + Some forms distort distributions (mean, variance) of items receiving imputation,
 and attentuate associations.
-  + Single imputation leads to underestimation of variance because imputed values
-are treated as valid by standard statistical software.
+  + Single imputation leads to underestimation of variance because imputed values are treated as valid by standard statistical software.
   + Difficult to “sell” to analysts.
       - Prefer not to use deliberately fabricated data . . . but which is better? 
       - “Fabricating” under complete case analysis (MCAR), or fabricating under carefully developed model?
@@ -174,7 +180,7 @@ include_graphics("./figs/l24_fig1.png") # place holder
 
 ## Mean imputation 
 
-* An overall mean imputation would replace the missing valueswith the mean for respondents on the item.
+* An overall mean imputation would replace the missing values with the mean for respondents on the item.
   + It is equivalent to ignoring the missing values (or complete case analysis) since the overall mean value imputation substitutes the overall mean among respondents for the missing values.  
   + Thus, above, $y_2 = y_4 = y_{12} = y_{18} = 49.4$.
 * This type of imputation distorts the distribution, producing a "spike" at the overall mean.
@@ -193,7 +199,7 @@ include_graphics("./figs/l24_fig1.png") # place holder
 
 ## Sequential hot deck
 
-```{r, out.width = "100px", fig.align='center'}
+```{r, out.width = "150px", fig.align='center'}
 include_graphics("./figs/l24_fig2.png") # place holder
 ```
 
