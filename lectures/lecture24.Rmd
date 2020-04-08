@@ -405,19 +405,39 @@ $$
 
 ## JITT: Weight, weight, don't tell me
 
-* Let $W_j \geq 0$ be weight we use for $Y_j$ and $\tilde I_j = I_j \cdot W_j$
-* Then the weighted sample average is
+* So the design effect is
 
 $$
-\tilde y_n = \frac{\sum_{j=1}^N I_j W_j Y_j}{\sum_{j=1}^N I_j W_j}
-$$ 
-
-* Show that 
-
+(N-1) E_I [  \rho_{\tilde I, Y}^2 ] \left( 1 + (1-f)^{-1} E_{I} (CV (W)^2) \right)
 $$
-\tilde y_n - \bar Y = \rho_{\tilde I, Y} \times \sqrt{\frac{1 - f + CV(W)^2}{f}} \times \sigma_Y
+* The final term is $\geq 1$
+* Hope is to offset by reduction in $E_I[\rho^2_{\tilde I, Y} ]$
+* Rare to see produce be level of $N^{-1}$
+
+## Which do you trust?  
+
+* “Which one should I trust more: a 1%
+survey with 60% response rate or a self-reported administrative dataset covering 80% of the population?”
+* Let $r$ be the response rate. If $f_s = n_s/N$ is the survey fraction, then
 $$
-where $CV(W)$ is the coefficient of variation (std/mean) of $W_J$ given $I_J = 1$
+D_O = (1-r f_s)/(r f_s)
+$$
 
-* Compare this to the original formula.  What is the negative impact of weighting?  Where could it help?
+* The $n_{eff}^{BIG}$ is larger than $n_{eff}$ iff
+$$
+D_I^{BIG} D_O^{BIG} < D_I D_O
+$$
 
+* Let $O$ be $D_O / D_O^{BIG}$; write this in terms of $r$, $f_s$, and $f$
+* Using approximation $D_I \approx \rho^2_{I,Y}$ show that above inequality holds when $| \rho_{I,Y}^{BIG} | \leq \sqrt{O} | \rho_{I,Y} |$
+* Compute $O$ for the question.
+
+## Selection bias
+
+* If selection bias caused by nonresponse mechanism is not nearly as severe as in the Big Data set, then we need to have a reasonable sense of the magnitude of $\rho_{I,Y}$ 
+* US eligible population = $231,557,000$
+* Under SRS, $| \rho_{I,Y}^{(SRS)} | \approx \sqrt{2/\pi} (N-1)^{-1/2} = 5.2 \times 10^{-5}$
+* Suppose non-response increases data defect correlation by factor of $5 \to \rho_{I,Y} \approx 2.6 \times 10^{-4}$
+* What is $\sqrt{O} \times \rho_{I,Y}$?
+* Does this seem large?
+* What about if big data was on 50\% of the population?  Is the answer paradoxical to you?
