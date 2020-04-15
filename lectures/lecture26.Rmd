@@ -26,7 +26,12 @@ library(expm)
 
 ## Final announcement details
 
-* 
+* Exam date and time: Thursday April 23, 1:30-3:30pm
+* Exam will be posted to Canvas under ``Assignments'' at 1:15pm
+* Exam needs to be __uploaded__ (like standard HW) by 3:45pm.
+* I will have my OH [Bluejeans](https://bluejeans.com/863940440) open
+* Please stop in for questions while taking exam
+* E-mail with `BIOS 617` if necessary
 
 ## RDS: Quick review
 
