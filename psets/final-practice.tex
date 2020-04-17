@@ -1,0 +1,130 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx,amsmath}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\def\given{\, | \,}
+\newcommand{\code}[1]{\texttt{#1}}
+
+\begin{document}
+
+\title{Final Practice}
+\author{BIOS 617}
+\date{\today}
+
+\maketitle
+
+\begin{enumerate}
+\setlength{\itemsep}{15pt}%
+\setlength{\parskip}{15pt}%
+
+\item For a population of N = 1000, two strata are formed. The aim is to estimate the mean of a characteristic $Y$, $\bar Y$ . From a previous year, he entire population was examined, yielding the following results:
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c c}
+\hline
+Stratum & $P_h$ & $\bar Y_h$ & $S_h^2$ \\ \hline
+1 & 0.9 & 15 & 16 \\
+2 & 0.1 & 20 & 25 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{enumerate}
+	\item Calculate the variance $S^2$ and for a SRS size $n=100$, the sampling variance of the sample mean $\bar y$
+	\vspace{2in}
+
+	\item For a stratified random sample of size $n=100$ allocated proportionately, what will be the sampling variance of the sample mean?
+\end{enumerate}
+\newpage
+
+\item
+	\begin{enumerate}
+	\item Show that the design-based estimator of a linear regression parameter estimate for the model $E(Y) = X \beta$ under a SRS of size $n$ drawn from a population of size $N$ is given by the usual linear regression parameter estimator $\hat \beta = (X^\top X)^{-1} X^\top Y$
+	\vspace{2.5in}
+
+	\item Show that the design-based estimator of the variance-covariance matrix for $\hat \beta$ in (a) is given by
+	$$
+	v(\hat \beta) = \frac{n}{n-1} \left( X^\top X \right)^{-1} \left( X^\top E E X \right) \left( X^\top X \right)^{-1}
+	$$
+	where $E = \text{diag} (e_i)$ for residuals $e_i =  y_i - \hat y_i = y_i - x_i^\top \hat \beta$. Suppose the model were truly linear, i.e., $y_i = x_i^\top \beta + e_i$ for $e_i \sim N(0,\sigma^2)$.  What is the expectation of $e_i^2$?  Plug this in for $E \cdot E$, and what do you get?
+\end{enumerate}
+\newpage
+\item We considered two descriptions of non-response bias: deterministic, where
+each subject is assumed to have a response indicator $R_i=1$ if the respond and
+$R_i = 0$ if they do not respond, and stochastic, with a probability of response $0 \leq P_i \leq 1$, with the bias of the respondent mean given as follows:
+\begin{itemize}
+	\item Deterministic: $B(\bar y_r) = (1-R) (\bar Y_R - \bar Y_M)$ where $R$ is the proportion of respondents in the population.
+	\item Stochastic: $B( \bar y_r ) = \frac{1}{\bar P} C(Y, P)$ and $\bar P = \frac{1}{N} \sum_{i=1}^N P_i$.
+	\item Show that, in the limiting stochastic case where $P_i = 0$ or $P_i = 1$, the stochastic bias corresponds to the deterministic bias
+	\item In the stochastic setting, suppose that there are $H$ strata and the probability of response depends on strata.  Re-write the bias including terms $P_h$ and $\bar Y_h$.
+\end{itemize}
+\newpage
+\item Consider following SRS sample, tabulated by gender and age:
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 17 & 16 \\
+Male & 40 & 31 \\ \hline
+\end{tabular}
+\end{table}
+
+With the known population data
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 46 & 150 \\
+Male & 200 & 400 \\ \hline
+\end{tabular}
+\end{table}
+
+and means per group:
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 40 & 57 \\
+Male & 29 & 77 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+	\item Construct the postratification mean estimate
+	\item Suppose that the number of respondents per strata was actually
+	\begin{table}[!th]
+	\centering
+	\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 13 & 11 \\
+Male & 30 & 25 \\ \hline
+\end{tabular}
+\end{table}
+
+How would you use postratification weights in this setting? How is this different from first part?
+	\item Suppose you had a different population with data
+
+	\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 100 & 125 \\
+Male & 300 & 200 \\ \hline
+\end{tabular}
+\end{table}
+and would like to transport the effect.  Use poststratification weights to transport the effect under both complete-case and non-response settings.  Under what assumption do these methods work well?
+\end{itemize}
+\newpage
+\item Consider respondent driven sampling in a setting where the network consists of two fully connected components of 100 people and the two components are connected by a single edge (i.e., there is one unit in each component that are linked and that's it).  What is stationary distribution?  Given a seed that is not the unit connected to the other component, what is the distribution of time until switching components?  Suppose that the components split completely so one component has binary 0 outcome 0 and the other has binary outcome 1.  Then the true mean is $50\%$.   Simulate out chains of lengths 10, 50, 100, and 1000.  Compute estimates and confidence intervals.  Use standard ratio variance formula to estimate the variance of the ratio estimator.  Use the Volz-Heckathorn estimator.  Discuss coverage of the confidence interval.
+
+\end{enumerate}
+\end{document}
