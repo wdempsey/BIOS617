@@ -29,7 +29,7 @@ library(expm)
 $$
 \begin{aligned}
 \bar y_n - \bar Y &= \frac{\text{E}_J (I_J \cdot W_J \cdot Y_J)}{E_J (I_J W_J)} - E_J (Y_J) \\
-&= \frac{\text{Cov}_J (\tilde I_J W_J, Y_J)}{E_J (\tilde I_J)} \\
+&= \frac{\text{Cov}_J (I_J W_J, Y_J)}{E_J (\tilde I_J)} \\
 &= \frac{\text{Cov}_J (\tilde I_J, Y_J)}{\sqrt{ V_J (\tilde I_J) V_J(Y_J)}} \frac{\sqrt{ V_J (\tilde I_J)}}{E_J (\tilde I_J)} \sqrt{V_J(Y_J)} \\
 &= \rho_{\tilde I, Y} \times \frac{\sqrt{ V_J (\tilde I_J)}}{E_J (\tilde I_J)} \times \sigma_Y \\
 \end{aligned}
@@ -41,7 +41,7 @@ $$
 \begin{aligned}
 E_J (I_J W_J) &= P(I_J = 1) E_J [W_J \mid I_J = 1] = f \times E_J [W_J \mid I_J = 1] \\
 V_J(I_J W_J) &= E[ I_J W_J^2] - E[I_J W_J]^2 \\
-&= f \cdot \left( E [W_J^2 \mid I_J = 1] - f E[W_J \mid I_J = 1 ] \right) \\
+&= f \cdot \left( E [W_J^2 \mid I_J = 1] - f E[W_J \mid I_J = 1 ]^2 \right) \\
 &= f \cdot \left( E [W_J^2 \mid I_J = 1] \pm E[W_J \mid I_j = 1]^2 - f E[W_J \mid I_J = 1 ]^2 \right) \\
 &= f \cdot \left( V (W_J \mid I_J = 1) + E[W_J \mid I_J = 1]^2 (1-f) \right)
 \end{aligned}
@@ -218,7 +218,7 @@ init = c(1,0,0,0)
 one_step = init%*%P
 two_step = one_step%*%P
 three_step = two_step%*%P
-forty_steps = init%*%(P%^%40)
+forty_steps = init%*%(P%^%10)
 matrix(c(init, one_step, two_step, three_step, forty_steps), ncol = 5)
 ```
 

@@ -224,7 +224,7 @@ present. Reassuringly, most studies have found little evidence for substantial b
   
 ## Simple transportability 
 
-* Two populations: $Y_1^{(i)},\ldots, Y_n^{(i)}$ for $i=1,2$
+* Two populations: $Y_1^{(i)},\ldots, Y_{N_i}^{(i)}$ for $i=1,2$
 * Different population averages, $\bar Y^{(1)} \neq \bar Y^{(2)}$
 * __IDEA__: stratify population
   + Maybe we have $\bar Y^{(1)}_h \approx \bar Y^{(2)}_h$ for $h=1,\ldots, H$
@@ -235,6 +235,7 @@ present. Reassuringly, most studies have found little evidence for substantial b
 $$
 \bar y^{(2)} = \sum_{h=1}^H \frac{N_h^{(2)}}{N^{(2)}} \bar y^{(1)}_h
 $$
+
 * Similar to poststratification but different purpose!
 * Requires equivalence of strata (i.e., conditional) effects!!!
 
