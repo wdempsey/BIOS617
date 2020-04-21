@@ -1,5 +1,5 @@
 ---
-title: "BIOS 617 - Lecture 26"
+title: "BIOS 617 - Lecture 27"
 author: "Walter Dempsey"
 date: "4/14/2020"
 output:
@@ -109,7 +109,7 @@ v(\hat \beta) &= \frac{n}{n-1} (X^\top X)^{-1} (V^\top V) (X^\top X)^{-1} \\
 $$
 since $V = E X$ and $E^\top = E$.
 
-* By the model we have $e_i/\sigma \sim N(0,1)$ and therefore $e_i^2/ \sigma^2 \sim \chi^2_1$ and so $E[e_i^2/\sigma^2] = 1/\sigma^2$.  So this means we replace $E E$ with $\text{diag}(\sigma^2)$ and we recover the model-based variance formula.
+* By the model we have $e_i/\sigma \sim N(0,1)$ and therefore $e_i^2/ \sigma^2 \sim \chi^2_1$ and so $E[e_i^2/\sigma^2] = 1$.  So this means we replace $E E$ with $\text{diag}(\sigma^2)$ and we recover the model-based variance formula.
 
 ## Problem 3:
 
@@ -224,7 +224,7 @@ $$
 * When we adjust for response status, the weight becomes $N_h / N / r_h / r$.
 
 $$
-\frac{\sum_h (N_h/N)/(r_h/r) n_h \bar y_h}{\sum_h (N_h/N)/(r_h/r) n_h } = `r round(sum(psw/response_rate*n*meany)/sum(psw/response_rate*n),2)`
+\frac{\sum_h (N_h/N)/(r_h/r) r_h \bar y_h}{\sum_h (N_h/N)/(r_h/r) r_h } = `r round(sum(psw/response_rate*response*meany)/sum(psw/response_rate*response),2)`
 $$
 
 ## Problem 4
@@ -253,7 +253,7 @@ $$
 * When we adjust for response status, the weight becomes $N_h / N / r_h / r$.
 
 $$
-\frac{\sum_h (N_h/N)/(r_h/r) n_h \bar y_h}{\sum_h (N_h/N)/(r_h/r) n_h } = `r round(sum(psw_2/response_rate*n*meany)/sum(psw_2/response_rate*n),2)`
+\frac{\sum_h (N_h/N)/(r_h/r) r_h \bar y_h}{\sum_h (N_h/N)/(r_h/r) r_h } = `r round(sum(psw_2/response_rate*response*meany)/sum(psw_2/response_rate*response),2)`
 $$
 
 ## Problem 5
@@ -262,8 +262,8 @@ Consider respondent driven sampling in a setting where the network consists of t
 
 ## Problem 5:
 
-* $d_i = 100$ for all $i$ except the bridge which has $d_i = 101$.  Stationary distribution is approximately uniform with weights $100/(198*100 + 2*101) = `r round(100/(198*100 + 2*101), 4)`$ and $100/(198*100 + 2*101) = `r round(101/(198*100 + 2*101), 4)`$
-* Waiting time to get to brige is Geometric with $p=1/100$, and then there is a chance to cross or not cross with probabilty $1/101$.  So let $H_l \sim Geom(1/100)$ and $C_l \sim Bern(1/101)$ be iid for $l=1,\ldots$ then the holding time until crossing is given by
+* $d_i = 100$ for all $i$ except the bridge which has $d_i = 100$.  Stationary distribution is approximately uniform with weights $99/(198*99 + 2*100) = `r round(99/(198*99 + 2*100), 4)`$ and $100/(198*99 + 2*100) = `r round(100/(198*99 + 2*100), 4)`$
+* Waiting time to get to brige is Geometric with $p=1/99$, and then there is a chance to cross or not cross with probabilty $1/100$.  So let $H_l \sim Geom(1/99)$ and $C_l \sim Bern(1/100)$ be iid for $l=1,\ldots$ then the holding time until crossing is given by
 $$
 \begin{aligned}
 Z &= H_1 C_1 + (1-C_1)(H_1 + H_2 C_2) + \cdots \\
@@ -274,7 +274,7 @@ $$
 
 ## Problem 5:
 
-* The expectation of $H_l$ is $100$ and of $C_l$ is $1/101$.
+* The expectation of $H_l$ is $99$ and of $C_l$ is $1/100$.
 * So we have
 
 $$
@@ -282,9 +282,9 @@ $$
 &E[ H_1 ] E[C_1] + (1-E[C_1]) E[H_1] \\
 + &(1-E[C_1]) ( E[C_2] E[H_2] + (1-E[C_2]) E[H_3] +\ldots) \\
 = & E[H_1] + (1-E[C_1]) E[H_2] + (1-E[C_1]) (1-E[C_2]) E[H_3] + \ldots \\ 
-= & 100 \left( 1 + (1-1/101) + (1-1/101)^2 + \ldots \right) \\
-= & 100 \sum_{l=0}^\infty (100/101)^l \\
-= & 100 \times \frac{1}{1-100/101} = 100 \times 101 = 10100
+= & 99 \left( 1 + (1-1/101) + (1-1/101)^2 + \ldots \right) \\
+= & 99 \sum_{l=0}^\infty (99/100)^l \\
+= & 99 \times \frac{1}{1-99/100} = 99 \times 100 = `r 99 * 100`
 \end{aligned}
 $$
 
@@ -428,6 +428,7 @@ $$
 v_c (y) = \sum_{h=1}^H d_h^2 + 2 \sum_{h=k+1}^H \sum_{k=1}^H \left( \sum_{c=1}^C \frac{\xi_{ch} \xi_{ck}}{C} \right) d_h d_k
 \end{aligned}
 $$
+
 ## Method 3: Jackknife repeated replication
 
 Jackknife estimators of variance can be obtained for any of the general forms of sample design, by either letting $H=1$ in the absence of stratification, or by treating each observation as a PSU in the absence of clustering.
