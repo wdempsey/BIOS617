@@ -227,7 +227,7 @@ the simple subdomain mean.
 * Then
 
 $$
-\bar y_s - \bar Y = \frac{1}{m} \sum_{h} \sum_i z_hi
+\bar y_s - \bar Y = \frac{1}{m} \sum_{h} \sum_i z_{hi}
 $$
 
 * Replace $m$ with its expectation $n M / N$ yields
