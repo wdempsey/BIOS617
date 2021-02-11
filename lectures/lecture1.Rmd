@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 1"
 author: "Walter Dempsey"
-date: "1/8/2019"
+date: "1/20/2021"
 output:
   beamer_presentation: default
   ioslides_presentation:
@@ -113,7 +113,7 @@ data %>%  ggplot(aes(ideo_numeric)) +
 ```
 
 ## Example 2: Brexit data
-```{r cars, echo = FALSE, fig.align='center'}
+```{r cars, echo = FALSE, message = FALSE, fig.align='center'}
 # plot of Brexit referendum polling spread between "Remain" and "Leave" over time
 brexit_polls %>%
   ggplot(aes(enddate, spread, color = poll_type)) +
@@ -136,7 +136,7 @@ brexit_polls %>%
 ## Survey sampling notation: population
 
 - Number of elements: $N$
-- Values of variable: $Y_1, \ldots, Y_n$
+- Values of variable: $Y_1, \ldots, Y_N$
 - Population total: $Y = \sum_{i=1}^N Y_i$
 - Population mean: $\bar Y = Y/N$
 - Population variance: $S^2 = (N-1)^{-1} \sum_{i=1}^N (Y_i - \bar Y)^2$

@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 5"
 author: "Walter Dempsey"
-date: "1/27/2019"
+date: "2/1/2021 "
 output:
   beamer_presentation: default
 ---
@@ -206,7 +206,7 @@ $$
 
 ## How to estimate $M_h$?
 
-* Within a stratum, $E \left[ \frac{M_h}{m_h} \right] = \frac{N_h}{n_h}$ if SRS within stratum. So
+* Within a stratum, $E \left[ m_h \right] = \frac{M_h}{N_h} n_h$ if SRS within stratum. So
 
 $$
 \bar y = \frac{ \sum_h (N_h/n_h) m_h \bar y_h}{\sum_h (N_h / n_h) m_h }
@@ -227,7 +227,7 @@ the simple subdomain mean.
 * Then
 
 $$
-\bar y_s - \bar Y = \frac{1}{m} \sum_{h} \sum_i z_hi
+\bar y_s - \bar Y = \frac{1}{m} \sum_{h} \sum_i z_{hi}
 $$
 
 * Replace $m$ with its expectation $n M / N$ yields

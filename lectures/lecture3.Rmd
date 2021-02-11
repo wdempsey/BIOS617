@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 3"
 author: "Walter Dempsey"
-date: "1/15/2019"
+date: "1/27/2021"
 output:
   beamer_presentation: default
   ioslides_presentation:
@@ -210,7 +210,7 @@ is an unbiased for $V(\bar y_{st})$.
 ## Proportionate allocation
 
 - Allocation refers to sample sizes $n_1, \ldots, n_H$ with each of the strata
-- Porportionate allocation sets $n_1, \ldots, n_H$ so that
+- Proportionate allocation sets $n_1, \ldots, n_H$ so that
 $$
 \frac{n_1}{N_1} = \frac{n_2}{N_2} = \ldots \frac{n_H}{N_H} = \frac{n}{N}
 $$
