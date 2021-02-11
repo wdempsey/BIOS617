@@ -72,7 +72,7 @@ $$
 Let's use prior class results on variance directly 
 $$ \small
 \begin{aligned}
-V(\bar y) = &V \left( \frac{1}{n} \sum_{i=1}^n y_i \right) = \frac{1}{n^2} V \left( \sum_{i=1}^n y_i \right) \\
+V(\bar y) = &V \left( n^{-1} \sum_{i=1}^n y_i \right) = \frac{1}{n^2} V \left( \sum_{i=1}^n y_i \right) \\
 &= \frac{1}{n^2} \left[ n \cdot V(y_i) + n \cdot (n-1) \cdot \text{Cov} (y_i, y_j) \right] \\ 
 &= \frac{1}{n^2} \left[ n \cdot \frac{N-1}{N} S^2 + n \cdot (n-1) \left( E[y_i y_j] - \bar Y^2 \right) \right] 
 \end{aligned}
