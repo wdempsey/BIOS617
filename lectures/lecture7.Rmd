@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 7"
 author: "Walter Dempsey"
-date: "1/29/2020"
+date: "2/15/2020"
 output:
   beamer_presentation: default
   ioslides_presentation: default
