@@ -1,11 +1,11 @@
 ## Rstudio ignores
 
 # History files
-.Rhistory
-.Rapp.history
+*.Rhistory
+*.Rapp.history
 
 # Session Data files
-.RData
+*.RData
 
 # User-specific files
 .Ruserdata
@@ -318,6 +318,9 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+
+#PDFs
+*.pdf
 
 # REVTeX puts footnotes in the bibliography by default, unless the nofootinbib
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
