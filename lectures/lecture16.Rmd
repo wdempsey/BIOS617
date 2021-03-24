@@ -326,7 +326,7 @@ where
 
 * $a_{is}^\prime = 0$ unless PSU $i$ is selected
 * $b_{ijs}^\prime = 0$ unless both PSUs $i$ and $j$ are selected
-* $E[a_{is}^\prime] = V(w_{is}^\prime$
+* $E[a_{is}^\prime] = V(w_{is}^\prime)$
 * $E[b_{ijs}^\prime] = C(w_{is}^\prime, w_{js}^\prime)$ 
 
 ## Two-stage design
@@ -361,7 +361,7 @@ $$
 
 ## Unbiased estimators of $V(\tilde y)$
 
-Start with $v(\tilde y_1)$, repalcing unknowns $Y_i$ with their (unbiased) sample estimates $\hat Y_i$:
+Start with $v(\tilde y_1)$, replacing unknowns $Y_i$ with their (unbiased) sample estimates $\hat Y_i$:
 $$
 v^\star (\tilde y) =  \sum_{i=1}^k a_{is} \hat Y_i^2 + \sum_{i=1,i \neq j}^k \sum_{j=1}^k b_{ijs} \hat Y_i \hat Y_j = \sum_{i=1}^K a_{is}^\prime \hat Y_i^2 + \sum_{i=1,i \neq j}^K \sum_{j=1}^k b_{ijs}^\prime \hat Y_i \hat Y_j
 $$
