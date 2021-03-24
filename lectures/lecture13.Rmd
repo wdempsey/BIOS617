@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 13"
 author: "Walter Dempsey"
-date: "2/19/2020"
+date: "3/8/2021"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -238,9 +238,9 @@ $$
 
 * Our focus has been on model-free inference, and none of the results previously obtain have relied on modeling assumptions.
 * Nonetheless we note that there is an implicit linear model
-lurking here: bias goes to 0 as the relationship between Y i
+lurking here: bias goes to 0 as the relationship between $Y_i$
 and X i becomes linear, and variance is reduced as the
-correlation (linear regression slope if Y i and X i are linearly
+correlation (linear regression slope if $Y_i$ and $X_i$ are linearly
 related) goes to 1 or -1.
 * Suppose we make the following modeling assumption: 
 $$ 

@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 14"
 author: "Walter Dempsey"
-date: "2/24/2020"
+date: "3/9/2021"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -37,7 +37,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Key formula:
 
-* $V(\bar y_{SRS}) = (1-f) S^2/n$
+* $\bar y_{SRS} = \sum_{i=1}^n y_i /n$
 * $s^2 = \frac{1}{n-1} \sum_{i=1}^n (y_i - \bar y)^2$
 * $V(\bar y_{SRS}) = (1-f) S^2/n$
 * $\bar y_j = n_j^{-1} \sum_{i=1}^n D_{ij} y_i$
@@ -67,15 +67,6 @@ $$
 $$
 for large $N$ and $N_h$.  Not guaranteed for small sample sizes!
 
-## Practice problem
-
-* Two strata (men, women) with $(N_1,N_2) = (900,1200)$, $(n_1,n_2) = (10,10)$, $(\bar y_1, \bar y_2) = (10,10)$
-  + Estimate the population mean
-  + Let $S_1=4, S_2=2$. Compute the varaince and a 95\% confidence interval
-* What if under proportionate allocation?
-* What is the design effect?
-  + If $(\bar Y_1, \bar Y_2) = (9,11)$
-
 
 ## Topic 4: Optimal allocation
 
@@ -94,11 +85,6 @@ $$
 $$
 \frac{V(\bar y_{prop}) - V(\bar y_N)}{V(\bar y_N)} \approx \frac{\sum_h P_h (S_h - \bar S)^2}{\sum_h P_h S_h^2}
 $$
-
-## Practice problem
-
-* What is the optimal under $c_1 = 2, c_2 = 1$ and neyman allocation?
-* What is the variance under neyman allocation?
 
 ## Topic 5: Poststratification
 

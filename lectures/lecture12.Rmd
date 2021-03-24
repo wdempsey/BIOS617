@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 12"
 author: "Walter Dempsey"
-date: "2/17/2020"
+date: "3/3/2021"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -47,7 +47,7 @@ R = \frac{Y}{X} = \frac{\sum_{i=1}^N Y_i }{\sum_{i=1}^N X_i} =
 $$
 
 * Mean estimation, where sample size (denominator) is random (varies across samples)
-* There is an auxiliary variable X that is highly correlated with main variable of interest $Y$, so that total can be estimated as $\bar Y_{R} = r X$ and mean as $\hat{\bar Y_{R}} = r \bar X$
+* There is an auxiliary variable X that is highly correlated with main variable of interest $Y$, so that total can be estimated as $\bar Y_{R} = r X$ and mean as $\hat{\bar{Y_{R}}} = r \bar X$
 * Ratio estimation is goal in and of itself: proportion of household expenses on food, change from previous year’s expenses, etc.
 
 ## Taylor series expansion to approximate bias and variance
@@ -172,12 +172,12 @@ where $C_x^2 = \frac{S_x^2}{\bar X^2}$, $C_y^2 = \frac{S_y^2}{\bar Y^2}$, $C_{xy
 
 ## Option A or option B?
 
-* (A) Estimate mean via $\hat \bar Y = r \bar X$ versus (B) Standard mean estimator $\bar y$
+* (A) Estimate mean via $\hat{\bar Y} = r \bar X$ versus (B) Standard mean estimator $\bar y$
 * Under SRS, we have
 $$
-V(\hat \bar Y_{R}) \approx \frac{1-f}{n \bar X^2} \left[ S_y^2  + R^2 S_x^2 - 2 R S_{xy} \right]
+V(\hat{\bar Y}_{R}) \approx \frac{1-f}{n \bar X^2} \left[ S_y^2  + R^2 S_x^2 - 2 R S_{xy} \right]
 $$
-* Hence, $V(\bar y ) > V(\hat \bar Y_{R})$ if $2 R S_{xy} - R^2 S_x^2 >0$, i.e., 
+* Hence, $V(\bar y ) > V(\hat{\bar Y}_{R})$ if $2 R S_{xy} - R^2 S_x^2 >0$, i.e., 
 $$
 S_{xy} > \frac{1}{2} R S_x^2
 $$
