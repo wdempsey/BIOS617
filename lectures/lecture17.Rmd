@@ -11,22 +11,6 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Moving to online
-
-* Virtual meetings for remainder of semester
-* Final may be held virtually
-* Midterm: solutions posted
-  + Rather than curve, will give (optional) revised version 
-  + Can make up some missed points (TBD)
-* This week:
-  + Diary due today
-  + JITT due Wed
-* Today:
-  + Finish unequal cluster sampling
-  + No Case study (will try and post at some point)
-  + Probability proportion to size (PPS) sampling designs 
-
-
 ## Topic: Cluster sampling with unequal cluster sizes
 
 * Suppose we have a two-stage sample with $K=10$ clusters and $M_k$ differing between clusters, with $f_1 = 1/2$ and $f_2 = 1/10$:
@@ -266,7 +250,7 @@ E( \bar y_{pps} ) &= E ( E( \bar y \mid i \in s) ) \\
 \end{aligned}
 $$
 
-## Point and variance esitmation for two-stage PPS sampling
+## Point and variance estimation for two-stage PPS sampling
 
 $$ 
 \begin{aligned}

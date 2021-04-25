@@ -1,7 +1,7 @@
 ---
-title: "BIOS 617 - Lecture 27"
+title: "BIOS 617 - Lecture 24"
 author: "Walter Dempsey"
-date: "4/14/2020"
+date: "4/20/2020"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -17,277 +17,17 @@ library(expm)
 
 ## Review day:
 
-* HW 5: Hw solutions posted
-* HW 6: Due today.  Tomorrow at noon solutions will be posted
-* Midterm make-up and all HWs graded by Tuesday evening
+* HW 4 and 5 solutions posted
 * TODAY: Review the practice problems and discuss all topics we've covered in class
 
 ## Final announcement details
 
-* Exam date and time: Thursday April 23, 1:30-3:30pm
+* Exam date and time: Monday April 26, 1:30-3:30pm
 * Exam will be posted to Canvas under ``Assignments'' at 1:15pm
 * Exam needs to be __uploaded__ (like standard HW) by 3:45pm.
-* I will have my OH [Bluejeans](https://bluejeans.com/863940440) open
-* Please stop in for questions while taking exam
+* I will have my Zoom open.  Link will be announced on canvas.
+* Please stop in for questions while taking exam.  
 * E-mail with `BIOS 617` if necessary
-
-## Problem 1
-
-For a population of N = 1000, two strata are formed. The aim is to estimate the mean of a characteristic $Y$, $\bar Y$ . From a previous year, he entire population was examined, yielding the following results:
-
-\begin{table}[!th]
-\centering
-\begin{tabular}{c c c c}
-\hline
-Stratum & $P_h$ & $\bar Y_h$ & $S_h^2$ \\ \hline
-1 & 0.9 & 15 & 16 \\
-2 & 0.1 & 20 & 25 \\ \hline
-\end{tabular}
-\end{table}
-
-## Problem 1a:
-
-* Calculate the variance $S^2$ and for a SRS size $n=100$, the sampling variance of the sample mean $\bar y$
-* $S^2 = \sum_h P_h (S_h^2 + (Y_h - \bar Y)^2 ) = 19.15$
-* $V(\bar y) = \frac{1-f}{n} S^2 = 0.1724$
-
-## Problem 1b:
-
-* For a stratified random sample of size $n=100$ allocated proportionately, what will be the sampling variance of the sample mean?
-
-$$ V(\bar y_{st} ) = \frac{1-f}{n} \sum_h P_h S_h^2 = 0.1521 $$
-
-## Problem 1c:
-
-* What is the optimal (here assuming constant costs, so Neyman) allocation and sampling variance of the sample mean for a sample size $n = 10$?
-* What is the gain in precision relative to SRS from the optimal allocation in above?
-* When will $D^2 (\bar y_{opt}) < D^2 (\bar y_{prop})$?
-
-
-## Problem 2a:
-
-Show that the design-based estimator of a linear regression parameter estimate for the model $E(Y) = X \beta$ under a SRS of size $n$ drawn from a population of size $N$ is given by the usual linear regression parameter estimator $\hat \beta = (X^\top X)^{-1} X^\top Y$
-
-* Since $w_i = \frac{N}{n}$ for all $i$, then $(X^\top W X)^{-1} =\frac{n}{N} \left( X^\top X \right)^{-1}$
-* Then $X^\top W Y = \frac{N}{n} X^\top Y$
-* And thus $\hat \beta = (X^\top W X)^{-1} (X^\top W Y ) = (X^\top X)^{-1} X^\top Y$
-
-## Problem 2b:
-
-Show that the design-based estimator of the variance-covariance matrix for $\hat \beta$ in (a) is given by
-$$
-v(\hat \beta) = \frac{n}{n-1} \left( X^\top X \right)^{-1} \left( X^\top E E X \right) \left( X^\top X \right)^{-1}
-$$
-where $E = \text{diag} (e_i)$ for residuals $e_i =  y_i - \hat y_i = y_i - x_i^\top \hat \beta$. Suppose the model were truly linear, i.e., $y_i = x_i^\top \beta + e_i$ for $e_i \sim N(0,\sigma^2)$.  What is the expectation of $e_i^2$?  Plug this in for $E \cdot E$, and what do you get?
-
-## Problem 2b:
-
-* As above $(X^\top W X)^{-1} = \frac{n}{N} (X^\top X)^{-1}$; then
-$$
-\sum_{i=1}^h \frac{k_i}{k_i-1} \sum_{j=1}^k (z_{ij} - \bar z_i) (z_{ij} - \bar z_i)^\top = 
-\frac{n}{n-1} \sum_{i=1}^n (z_{i} - \bar z) (z_{i} - \bar z)^\top 
-$$
-for $\bar z = \frac{1}{n} \sum_{j=1}^n z_j$.
-
-* Let $v_j = e_j x_j$ so that $Z_j = \frac{N}{n} v_j$; then $\bar z = \frac{N}{n^2} \sum_{j=1}^n v_j= 0$ since $\sum_{j=1}^n v_j = 0$, and
-$$
-\begin{aligned}
-\frac{n}{n-1} \sum_{i=1}^n (z_{i} - \bar z) (z_{i} - \bar z)^\top &= \frac{n}{n-1} \sum_j z_j z_j^\top \\
-&= \frac{n}{n-1} \left( \frac{N}{n} \right)^2 \sum_j v_j v_j^\top \\
-&= \frac{n}{n-1} \left( \frac{N}{n} \right)^2 V^\top V
-\end{aligned}
-$$
-
-## Problem 2b:
-
-Then 
-$$
-\begin{aligned}
-v(\hat \beta) &= \frac{n}{n-1} (X^\top X)^{-1} (V^\top V) (X^\top X)^{-1} \\
-&= \frac{n}{n-1} (X^\top X)^{-1} (X^\top E E X) (X^\top X)^{-1} 
-\end{aligned}
-$$
-since $V = E X$ and $E^\top = E$.
-
-* By the model we have $e_i/\sigma \sim N(0,1)$ and therefore $e_i^2/ \sigma^2 \sim \chi^2_1$ and so $E[e_i^2/\sigma^2] = 1$.  So this means we replace $E E$ with $\text{diag}(\sigma^2)$ and we recover the model-based variance formula.
-
-## Problem 3:
-
-We considered two descriptions of non-response bias: deterministic, where each subject is assumed to have a response indicator $R_i=1$ if the respond and $R_i = 0$ if they do not respond, and stochastic, with a probability of response $0 \leq P_i \leq 1$, with the bias of the respondent mean given as follows:
-
-* Deterministic: $B(\bar y_r) = (1-R) (\bar Y_R - \bar Y_M)$ where $R$ is the proportion of respondents in the population.
-* Stochastic: $B( \bar y_r ) = \frac{1}{\bar P} C(Y, P)$ and $\bar P = \frac{1}{N} \sum_{i=1}^N P_i$.
-* Show that, in the limiting stochastic case where $P_i = 0$ or $P_i = 1$, the stochastic bias corresponds to the deterministic bias
-* In the stochastic setting, suppose that there are $H$ strata and the probability of response depends on strata.  Re-write the bias including terms $P_h$ and $\bar Y_h$.
-
-## Problem 3
-
-$$
-\begin{aligned}
-B(\bar y_r) &= \frac{1}{R} \frac{1}{N} \sum_i (Y_i - \bar Y) (P_i - R) \\
-&=  \frac{1}{R \times N} \sum_i (Y_i - \bar Y) (1 - R) 1[R_i = 1] \\
-&- \frac{1}{R \times N} \sum_i (Y_i - \bar Y) R 1[R_i = 0] \\
-&= (1-R) \bar Y_r - (1-R) \bar Y - (1-R) \bar Y_M + \bar Y (1-R) \\
-&= (\bar Y_r - \bar Y_m) (1-R)
-\end{aligned}
-$$
-
-## Problem 3:
-
-$$
-\begin{aligned}
-B(\bar y_r) &= \frac{1}{\bar P} \frac{1}{N} \sum_i (Y_i - \bar Y) (P_i - \bar P)  \\
-&= \frac{1}{\sum_h \frac{N_h}{N} P_h } \sum_{h=1}^H \frac{N_h}{N} (P_h - \bar P) (\bar Y_h - \bar Y) 
-\end{aligned}
-$$
-	
-## Problem 4
-
- Consider following SRS sample, tabulated by gender and age:
-\begin{table}[!th]
-\centering
-\begin{tabular}{c c c}
-& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
-Gender & $\leq 25$ years & $> 25$ years \\ \hline
-Female & 17 & 16 \\
-Male & 40 & 31 \\ \hline
-\end{tabular}
-\end{table}
-
-With the known population data
-
-\begin{table}[!th]
-\centering
-\begin{tabular}{c c c}
-& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
-Gender & $\leq 25$ years & $> 25$ years \\ \hline
-Female & 46 & 150 \\
-Male & 200 & 400 \\ \hline
-\end{tabular}
-\end{table}
-
-## Problem 4
-
-And means per group:
-
-\begin{table}[!th]
-\centering
-\begin{tabular}{c c c}
-& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
-Gender & $\leq 25$ years & $> 25$ years \\ \hline
-Female & 40 & 57 \\
-Male & 29 & 77 \\ \hline
-\end{tabular}
-\end{table}
-
-* Construct the postratification mean estimate
-* Suppose that the number of respondents per strata was actually
-
-\begin{table}[!th]
-\centering
-\begin{tabular}{c c c}
-& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
-Gender & $\leq 25$ years & $> 25$ years \\ \hline
-Female & 13 & 11 \\
-Male & 30 & 25 \\ \hline
-\end{tabular}
-\end{table}
-
-How would you use postratification weights in this setting? How is this different from first part?
-
-## Problem 4: Simple poststratification
-
-```{r problem4, echo = FALSE, eval = TRUE}
-n = c(17,16,40,31)
-psw = c(46,150,200,400)
-psw_2 = c(100,125,300,200)
-meany = c(40,57,29,77)
-response = c(13,11,30,25)
-response_rate = response/sum(response)
-```
-
-* Poststratification estimate is 
-$$
-\sum_h P_h \bar y_h = \frac{46}{796} \times 40 + \frac{150}{796} \times 57 + \frac{200}{796} \times 29 + \frac{400}{796} \times 77 = `r round(sum(psw*meany)/sum(psw),2)`
-$$
-
-* If we want to write in the weighted method, then $w_h^{PS} = N_h/n_h$ and 
-$$
-\begin{aligned}
-\frac{\sum_h \sum_i w_{hi}^{PS} \cdot y_{hi}}{\sum_h \sum_i w_{hi}^{PS}} 
-&= \frac{\sum_h \frac{N_h}{n_h} n_h \bar y_h }{\sum_h n_h \frac{N_h}{n_h} } \\
-&= \frac{\sum_h N_h \bar y_h }{\sum_h N_h } = \sum_h P_h \bar y_h.
-\end{aligned}
-$$
-
-## Problem 4: Non-response
-* When we adjust for response status, the weight becomes $N_h / N / r_h / r$.
-
-$$
-\frac{\sum_h (N_h/N)/(r_h/r) r_h \bar y_h}{\sum_h (N_h/N)/(r_h/r) r_h } = `r round(sum(psw/response_rate*response*meany)/sum(psw/response_rate*response),2)`
-$$
-
-## Problem 4
-
-Suppose you had a different population with data
-
-\begin{table}[!th]
-\centering
-\begin{tabular}{c c c}
-& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
-Gender & $\leq 25$ years & $> 25$ years \\ \hline
-Female & 100 & 125 \\
-Male & 300 & 200 \\ \hline
-\end{tabular}
-\end{table}
-
-and would like to transport the effect.  Use poststratification weights to transport the effect under both complete-case and non-response settings.  Under what assumption do these methods work well?
-
-## Problem 4: 
-
-* We apply poststratification with weights $N_h/N$ constructed from the new population data
-$$
-\sum_h (N_h/N) \bar y_h =  `r round(sum(psw_2*meany)/sum(psw_2),2)`
-$$
-
-* When we adjust for response status, the weight becomes $N_h / N / r_h / r$.
-
-$$
-\frac{\sum_h (N_h/N)/(r_h/r) r_h \bar y_h}{\sum_h (N_h/N)/(r_h/r) r_h } = `r round(sum(psw_2/response_rate*response*meany)/sum(psw_2/response_rate*response),2)`
-$$
-
-## Problem 5
-
-Consider respondent driven sampling in a setting where the network consists of two fully connected components of 100 people and the two components are connected by a single edge (i.e., there is one unit in each component that are linked and that's it).  What is stationary distribution?  Given a seed that is not the unit connected to the other component, what is the distribution of time until switching components?  Suppose that the components split completely so one component has binary 0 outcome 0 and the other has binary outcome 1.  Then the true mean is $50\%$.   Simulate out chains of lengths 10, 50, 100, and 1000.  Compute estimates and confidence intervals.  Use standard ratio variance formula to estimate the variance of the ratio estimator.  Use the Volz-Heckathorn estimator.  Discuss coverage of the confidence interval.
-
-## Problem 5:
-
-* $d_i = 100$ for all $i$ except the bridge which has $d_i = 100$.  Stationary distribution is approximately uniform with weights $99/(198*99 + 2*100) = `r round(99/(198*99 + 2*100), 4)`$ and $100/(198*99 + 2*100) = `r round(100/(198*99 + 2*100), 4)`$
-* Waiting time to get to brige is Geometric with $p=1/99$, and then there is a chance to cross or not cross with probabilty $1/100$.  So let $H_l \sim Geom(1/99)$ and $C_l \sim Bern(1/100)$ be iid for $l=1,\ldots$ then the holding time until crossing is given by
-$$
-\begin{aligned}
-Z &= H_1 C_1 + (1-C_1)(H_1 + H_2 C_2) + \cdots \\
-&= \sum_{l=1}^\infty \left[ \prod_{j=1}^{l-1} (1-C_j) \right] 
-\left( \sum_{j=1}^{l-1} H_j + H_l C_l \right)
-\end{aligned}
-$$
-
-## Problem 5:
-
-* The expectation of $H_l$ is $99$ and of $C_l$ is $1/100$.
-* So we have
-
-$$
-\begin{aligned}
-&E[ H_1 ] E[C_1] + (1-E[C_1]) E[H_1] \\
-+ &(1-E[C_1]) ( E[C_2] E[H_2] + (1-E[C_2]) E[H_3] +\ldots) \\
-= & E[H_1] + (1-E[C_1]) E[H_2] + (1-E[C_1]) (1-E[C_2]) E[H_3] + \ldots \\ 
-= & 99 \left( 1 + (1-1/101) + (1-1/101)^2 + \ldots \right) \\
-= & 99 \sum_{l=0}^\infty (99/100)^l \\
-= & 99 \times \frac{1}{1-99/100} = 99 \times 100 = `r 99 * 100`
-\end{aligned}
-$$
-
 
 ## Topic 12:  Unequal cluster sizes
 
@@ -536,24 +276,7 @@ $$
 $$ 
 df = (m-1) \left( 1 + \frac{m U}{(m+1) B} \right)^2
 $$
-  
-## Topic 20: Respondent driven sampling
 
-```{r, out.width = "300px", fig.align='center'}
-include_graphics("./figs/l25_fig1.png") # place holder
-```
-
-## Topic 20: Respondent driven sampling
-
-* Point estimation from RDS sample for means uses a Hajeck-type estimator
-$$
-\bar y = \frac{ \sum_{i \in s} y_i / d_i }{\sum_{i \in s} 1/d_i}
-$$
-
-* Variance calculation via _Volz-Heckathorn_:
-$$
-v(p_A) = \frac{1}{n(n-1)} \sum_{i=1}^n (z_i - p_A)^2 + \frac{p_A^2}{n} \left( (1-n) + \frac{2}{n_A} \sum_{i=2}^n \sum_{j=1}^{n-1} (\sigma^{i-j})_{AA} \right)
-$$
 
 ## Topic 1: Overview
 
@@ -753,5 +476,236 @@ $$
 \frac{1-f}{n} \left( S_y^2 - 2 B S_{yx} + B^2 S_x^2 \right)
 \Rightarrow
 \frac{1-f}{n} S_y^2 \left( 1 - \rho^2 \right)
+$$
+
+
+## Practice Problems
+
+- See announcement for link to practice problems
+- The next few slides outline solutions for reference
+
+## Problem 1
+
+For a population of N = 1000, two strata are formed. The aim is to estimate the mean of a characteristic $Y$, $\bar Y$ . From a previous year, he entire population was examined, yielding the following results:
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c c}
+\hline
+Stratum & $P_h$ & $\bar Y_h$ & $S_h^2$ \\ \hline
+1 & 0.9 & 15 & 16 \\
+2 & 0.1 & 20 & 25 \\ \hline
+\end{tabular}
+\end{table}
+
+## Problem 1a:
+
+* Calculate the variance $S^2$ and for a SRS size $n=100$, the sampling variance of the sample mean $\bar y$
+* $S^2 = \sum_h P_h (S_h^2 + (Y_h - \bar Y)^2 ) = 19.15$
+* $V(\bar y) = \frac{1-f}{n} S^2 = 0.1724$
+
+## Problem 1b:
+
+* For a stratified random sample of size $n=100$ allocated proportionately, what will be the sampling variance of the sample mean?
+
+$$ V(\bar y_{st} ) = \frac{1-f}{n} \sum_h P_h S_h^2 = 0.1521 $$
+
+## Problem 1c:
+
+* What is the optimal (here assuming constant costs, so Neyman) allocation and sampling variance of the sample mean for a sample size $n = 10$?
+* What is the gain in precision relative to SRS from the optimal allocation in above?
+* When will $D^2 (\bar y_{opt}) < D^2 (\bar y_{prop})$?
+
+
+## Problem 2a:
+
+Show that the design-based estimator of a linear regression parameter estimate for the model $E(Y) = X \beta$ under a SRS of size $n$ drawn from a population of size $N$ is given by the usual linear regression parameter estimator $\hat \beta = (X^\top X)^{-1} X^\top Y$
+
+* Since $w_i = \frac{N}{n}$ for all $i$, then $(X^\top W X)^{-1} =\frac{n}{N} \left( X^\top X \right)^{-1}$
+* Then $X^\top W Y = \frac{N}{n} X^\top Y$
+* And thus $\hat \beta = (X^\top W X)^{-1} (X^\top W Y ) = (X^\top X)^{-1} X^\top Y$
+
+## Problem 2b:
+
+Show that the design-based estimator of the variance-covariance matrix for $\hat \beta$ in (a) is given by
+$$
+v(\hat \beta) = \frac{n}{n-1} \left( X^\top X \right)^{-1} \left( X^\top E E X \right) \left( X^\top X \right)^{-1}
+$$
+where $E = \text{diag} (e_i)$ for residuals $e_i =  y_i - \hat y_i = y_i - x_i^\top \hat \beta$. Suppose the model were truly linear, i.e., $y_i = x_i^\top \beta + e_i$ for $e_i \sim N(0,\sigma^2)$.  What is the expectation of $e_i^2$?  Plug this in for $E \cdot E$, and what do you get?
+
+## Problem 2b:
+
+* As above $(X^\top W X)^{-1} = \frac{n}{N} (X^\top X)^{-1}$; then
+$$
+\sum_{i=1}^h \frac{k_i}{k_i-1} \sum_{j=1}^k (z_{ij} - \bar z_i) (z_{ij} - \bar z_i)^\top = 
+\frac{n}{n-1} \sum_{i=1}^n (z_{i} - \bar z) (z_{i} - \bar z)^\top 
+$$
+for $\bar z = \frac{1}{n} \sum_{j=1}^n z_j$.
+
+* Let $v_j = e_j x_j$ so that $Z_j = \frac{N}{n} v_j$; then $\bar z = \frac{N}{n^2} \sum_{j=1}^n v_j= 0$ since $\sum_{j=1}^n v_j = 0$, and
+$$
+\begin{aligned}
+\frac{n}{n-1} \sum_{i=1}^n (z_{i} - \bar z) (z_{i} - \bar z)^\top &= \frac{n}{n-1} \sum_j z_j z_j^\top \\
+&= \frac{n}{n-1} \left( \frac{N}{n} \right)^2 \sum_j v_j v_j^\top \\
+&= \frac{n}{n-1} \left( \frac{N}{n} \right)^2 V^\top V
+\end{aligned}
+$$
+
+## Problem 2b:
+
+Then 
+$$
+\begin{aligned}
+v(\hat \beta) &= \frac{n}{n-1} (X^\top X)^{-1} (V^\top V) (X^\top X)^{-1} \\
+&= \frac{n}{n-1} (X^\top X)^{-1} (X^\top E E X) (X^\top X)^{-1} 
+\end{aligned}
+$$
+since $V = E X$ and $E^\top = E$.
+
+* By the model we have $e_i/\sigma \sim N(0,1)$ and therefore $e_i^2/ \sigma^2 \sim \chi^2_1$ and so $E[e_i^2/\sigma^2] = 1$.  So this means we replace $E E$ with $\text{diag}(\sigma^2)$ and we recover the model-based variance formula.
+
+## Problem 3:
+
+We considered two descriptions of non-response bias: deterministic, where each subject is assumed to have a response indicator $R_i=1$ if the respond and $R_i = 0$ if they do not respond, and stochastic, with a probability of response $0 \leq P_i \leq 1$, with the bias of the respondent mean given as follows:
+
+* Deterministic: $B(\bar y_r) = (1-R) (\bar Y_R - \bar Y_M)$ where $R$ is the proportion of respondents in the population.
+* Stochastic: $B( \bar y_r ) = \frac{1}{\bar P} C(Y, P)$ and $\bar P = \frac{1}{N} \sum_{i=1}^N P_i$.
+* Show that, in the limiting stochastic case where $P_i = 0$ or $P_i = 1$, the stochastic bias corresponds to the deterministic bias
+* In the stochastic setting, suppose that there are $H$ strata and the probability of response depends on strata.  Re-write the bias including terms $P_h$ and $\bar Y_h$.
+
+## Problem 3
+
+$$
+\begin{aligned}
+B(\bar y_r) &= \frac{1}{R} \frac{1}{N} \sum_i (Y_i - \bar Y) (P_i - R) \\
+&=  \frac{1}{R \times N} \sum_i (Y_i - \bar Y) (1 - R) 1[R_i = 1] \\
+&- \frac{1}{R \times N} \sum_i (Y_i - \bar Y) R 1[R_i = 0] \\
+&= (1-R) \bar Y_r - (1-R) \bar Y - (1-R) \bar Y_M + \bar Y (1-R) \\
+&= (\bar Y_r - \bar Y_m) (1-R)
+\end{aligned}
+$$
+
+## Problem 3:
+
+$$
+\begin{aligned}
+B(\bar y_r) &= \frac{1}{\bar P} \frac{1}{N} \sum_i (Y_i - \bar Y) (P_i - \bar P)  \\
+&= \frac{1}{\sum_h \frac{N_h}{N} P_h } \sum_{h=1}^H \frac{N_h}{N} (P_h - \bar P) (\bar Y_h - \bar Y) 
+\end{aligned}
+$$
+	
+## Problem 4
+
+ Consider following SRS sample, tabulated by gender and age:
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 17 & 16 \\
+Male & 40 & 31 \\ \hline
+\end{tabular}
+\end{table}
+
+With the known population data
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 46 & 150 \\
+Male & 200 & 400 \\ \hline
+\end{tabular}
+\end{table}
+
+## Problem 4
+
+And means per group:
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 40 & 57 \\
+Male & 29 & 77 \\ \hline
+\end{tabular}
+\end{table}
+
+* Construct the postratification mean estimate
+* Suppose that the number of respondents per strata was actually
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 13 & 11 \\
+Male & 30 & 25 \\ \hline
+\end{tabular}
+\end{table}
+
+How would you use postratification weights in this setting? How is this different from first part?
+
+## Problem 4: Simple poststratification
+
+```{r problem4, echo = FALSE, eval = TRUE}
+n = c(17,16,40,31)
+psw = c(46,150,200,400)
+psw_2 = c(100,125,300,200)
+meany = c(40,57,29,77)
+response = c(13,11,30,25)
+response_rate = response/sum(response)
+```
+
+* Poststratification estimate is 
+$$
+\sum_h P_h \bar y_h = \frac{46}{796} \times 40 + \frac{150}{796} \times 57 + \frac{200}{796} \times 29 + \frac{400}{796} \times 77 = `r round(sum(psw*meany)/sum(psw),2)`
+$$
+
+* If we want to write in the weighted method, then $w_h^{PS} = N_h/n_h$ and 
+$$
+\begin{aligned}
+\frac{\sum_h \sum_i w_{hi}^{PS} \cdot y_{hi}}{\sum_h \sum_i w_{hi}^{PS}} 
+&= \frac{\sum_h \frac{N_h}{n_h} n_h \bar y_h }{\sum_h n_h \frac{N_h}{n_h} } \\
+&= \frac{\sum_h N_h \bar y_h }{\sum_h N_h } = \sum_h P_h \bar y_h.
+\end{aligned}
+$$
+
+## Problem 4: Non-response
+* When we adjust for response status, the weight becomes $N_h / N / r_h / r$.
+
+$$
+\frac{\sum_h (N_h/N)/(r_h/r) r_h \bar y_h}{\sum_h (N_h/N)/(r_h/r) r_h } = `r round(sum(psw/response_rate*response*meany)/sum(psw/response_rate*response),2)`
+$$
+
+## Problem 4
+
+Suppose you had a different population with data
+
+\begin{table}[!th]
+\centering
+\begin{tabular}{c c c}
+& \multicolumn{2}{c}{Age Group} \\ \cline{2-3}
+Gender & $\leq 25$ years & $> 25$ years \\ \hline
+Female & 100 & 125 \\
+Male & 300 & 200 \\ \hline
+\end{tabular}
+\end{table}
+
+and would like to transport the effect.  Use poststratification weights to transport the effect under both complete-case and non-response settings.  Under what assumption do these methods work well?
+
+## Problem 4: 
+
+* We apply poststratification with weights $N_h/N$ constructed from the new population data
+$$
+\sum_h (N_h/N) \bar y_h =  `r round(sum(psw_2*meany)/sum(psw_2),2)`
+$$
+
+* When we adjust for response status, the weight becomes $N_h / N / r_h / r$.
+
+$$
+\frac{\sum_h (N_h/N)/(r_h/r) r_h \bar y_h}{\sum_h (N_h/N)/(r_h/r) r_h } = `r round(sum(psw_2/response_rate*response*meany)/sum(psw_2/response_rate*response),2)`
 $$
 

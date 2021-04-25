@@ -14,34 +14,6 @@ library(survey)
 library(pps)
 ```
 
-## Announcements:
-
-* HW 5: Solutions posted today
-* JITT due today
-* TODAY: Example (redo!) + Imputation + Big Data paradox discussion (Diary assignment)
-* Diary due on Monday (extension if doing midterm redo)
-* Monday: FINAL Big data example + Respondent Driven Sampling
-* Wednesday: Generalizability and self-selection
-
-## MIDTERM point system
-
-* I have all midterms that were not picked up.
-* I will post a midterm-2 in Canvas on Friday.
-* Send me request for screenshots 
-* Submission: 
-  + Send me image of your midterm solution
-  + For any subcomponent you got points off, send me detailed revision of ENTIRE answer to that subcomponent __using midterm-2__
-  + If incorrect answer from prior parts, please use correct answers and cite midterm solutions
-  + Max point recovery per component = 1/2 points loss
-  + Any error in the new solution = max 2/3 points recover
-  + Two errors in new solution = max 1/3 points recover
-  + Three errors in new solution = max 0 points recover
-  + This is per subcomponent
-* Due by midnight on Monday.  
-  + 1 day late submission = max recover 1/4 points
-  + After that no points can be recovered
-  
-
 ## Example: 
 
 Suppose our respondents have the following age x gender distribution:

@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 23"
 author: "Walter Dempsey"
-date: "4/6/2020"
+date: "4/14/2020"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -13,18 +13,6 @@ library(knitr)
 library(survey)
 library(pps)
 ```
-
-## Announcements:
-
-* HW 5: Due today (HW solutions posted tomorrow)
-* HW 6: Posted end of day today (last hw!)
-* HW 4 grades and solutions posted
-* Grading policy
-
-```{r, out.width = "300px", fig.align='center'}
-include_graphics("./figs/um-grade-policy.png") # place holder
-```
-* TODAY: Non-sampling error + more Big Data paradox discussion 
 
 ## Non-sampling error
 
@@ -92,7 +80,8 @@ $$
 $$
 \begin{aligned}
 B(\bar y_{R}) &= \bar Y_R - \bar Y \\
-&= R^{-1} \sum_{h} R_h W_h \bar Y_{Rh} - \left[ \sum_h W_h \bar Y_{Rh} - \sum_h W_h (1-R_h) (\bar Y_{Rh} - \bar Y_{Mh})  \right]  \\
+&= R^{-1} \sum_{h} R_h W_h \bar Y_{Rh} - \bigg[ \sum_h W_h \bar Y_{Rh} \\
+&\quad- \sum_h W_h (1-R_h) (\bar Y_{Rh} - \bar Y_{Mh})  \bigg]  \\
 &= \sum_h W_h \bar Y_{Rh} \left( \frac{R_h}{R} -1 \right) + \sum_h W_h (1-R_h) (\bar Y_{Rh} - \bar Y_{Mh}) \\
 &= \underbrace{\sum_h W_h \bar Y_{Rh} \left( \frac{R_h - R}{R} \right)}_{=A} + \underbrace{\sum_h W_h (1-R_h) (\bar Y_{Rh} - \bar Y_{Mh})}_{=B}
 \end{aligned}
@@ -279,16 +268,8 @@ include_graphics("./figs/l23_fig9.png") # place holder
 include_graphics("./figs/l23_fig10.png") # place holder
 ```
 
-## Ex: Adjustment for non-response: logistic regression
+## Ex: Adjustment for non-response
 
-Fir a model of the form
-$$
-\begin{aligned}
-\text{logit} \left( P (R_i = 1) \right) =& \beta_0 + \beta_1 I(\text{gender}_i = \text{male}) \\
-&+ \beta_2 \cdot I(\text{age}_i = \text{18-64}) + \beta_3 I(\text{age}_i = \text{65+})
-\end{aligned}
-$$
-with $\hat \beta = (-0.2165, -0.6404, 0.2752, 0.4934)$.
 
 ```{r, out.width = "150px", fig.align='center'}
 include_graphics("./figs/l23_fig11.png") # place holder
@@ -298,39 +279,59 @@ include_graphics("./figs/l23_fig11.png") # place holder
 include_graphics("./figs/l23_fig12.png") # place holder
 ```
 
+## Ex: Adjustment for non-response: logistic regression
+
+Fit a model of the form
+$$
+\begin{aligned}
+\text{logit} \left( P (R_i = 1) \right) =& \beta_0 + \beta_1 I(\text{gender}_i = \text{male}) \\
+&+ \beta_2 \cdot I(\text{age}_i = \text{18-64}) + \beta_3 I(\text{age}_i = \text{65+})
+\end{aligned}
+$$
+with $\hat \beta = (-0.2165, -0.6404, 0.2752, 0.4934)$.
+
+
+```{r, out.width = "150px", fig.align='center'}
+include_graphics("./figs/l23_fig13.png") # place holder
+```
+
+```{r, out.width = "150px", fig.align='center'}
+include_graphics("./figs/l23_fig14.png") # place holder
+```
+
 ## Example: continued
 
 Suppose that our outcome of interest is current smoking behavior, and we observe the following positive replies among out 100 respondents:
 
 ```{r, out.width = "150px", fig.align='center'}
-include_graphics("./figs/l23_fig13.png") # place holder
+include_graphics("./figs/l23_fig15.png") # place holder
 ```
 
 $$
 \begin{aligned}
 \bar y &= 0.2900; \quad \bar y_p = 0.3053 \\
 \bar y_{\text{rake}} &= 0.3069; \quad \bar y_s = 0.3064 \\
-\bar y_{\text{logistic}} &= 3051
+\bar y_{\text{logistic}} &= 0.3051
 \end{aligned}
 $$
 
 
 
-## JITT: Weight, weight, don't tell me
+<!-- ## JITT: Weight, weight, don't tell me -->
 
-* Let $W_j \geq 0$ be weight we use for $Y_j$ and $\tilde I_j = I_j \cdot W_j$
-* Then the weighted sample average is
+<!-- * Let $W_j \geq 0$ be weight we use for $Y_j$ and $\tilde I_j = I_j \cdot W_j$ -->
+<!-- * Then the weighted sample average is -->
 
-$$
-\tilde y_n = \frac{\sum_{j=1}^N I_j W_j Y_j}{\sum_{j=1}^N I_j W_j}
-$$ 
+<!-- $$ -->
+<!-- \tilde y_n = \frac{\sum_{j=1}^N I_j W_j Y_j}{\sum_{j=1}^N I_j W_j} -->
+<!-- $$ -->
 
-* Show that 
+<!-- * Show that -->
 
-$$
-\tilde y_n - \bar Y = \rho_{\tilde I, Y} \times \sqrt{\frac{1 - f + CV(W)^2}{f}} \times \sigma_Y
-$$
-where $CV(W)$ is the coefficient of variation (std/mean) of $W_J$ given $I_J = 1$
+<!-- $$ -->
+<!-- \tilde y_n - \bar Y = \rho_{\tilde I, Y} \times \sqrt{\frac{1 - f + CV(W)^2}{f}} \times \sigma_Y -->
+<!-- $$ -->
+<!-- where $CV(W)$ is the coefficient of variation (std/mean) of $W_J$ given $I_J = 1$ -->
 
-* Compare this to the original formula.  What is the negative impact of weighting?  Where could it help?
+<!-- * Compare this to the original formula.  What is the negative impact of weighting?  Where could it help? -->
 

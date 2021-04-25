@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 20"
 author: "Walter Dempsey"
-date: "3/25/2020"
+date: "4/5/2020"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -277,7 +277,7 @@ For illustration, consider $\theta = Y$, the population total, and a stratified 
 $$
 \begin{aligned}
 \hat \theta_{(hi)} &= \sum_{l=1, l \neq h}^H y_l + \frac{k_h}{k_h-1} \sum_{j=1, j\neq i}^{k_h} y_{hj} \\
-\hat \theta_{(hi)} - \hat \theta &= \frac{k_h}{k_h-1} \sum_{j=1, j\neq i}^{k_h} (y_{hj} - y_h) \\
+\hat \theta_{(hi)} - \hat \theta &= \frac{k_h}{k_h-1} \sum_{j=1, j\neq i}^{k_h} y_{hj} - y_h \\
 &= \left( \sum_{j=1,j\neq i}^{k_h} y_{hj} -  y_h \right) + \frac{1}{k_h-1} \sum_{j=1,j\neq i}^{k_h} y_{hj} \\
 &= \frac{1}{k_h-1} \sum_{j=1,j\neq i}^{k_h} y_{hj} - y_{hi} = \frac{y_h}{k_h-1} - y_{hi} \left[ 1+ \frac{1}{k_h-1} \right].
 \end{aligned}

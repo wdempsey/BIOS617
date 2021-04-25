@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 22"
 author: "Walter Dempsey"
-date: "3/30/2020"
+date: "4/12/2020"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -13,57 +13,6 @@ library(knitr)
 library(survey)
 library(pps)
 ```
-
-## Announcements:
-
-* JITT 9 is posted
-* HW 4 solutions posted later today
-* I will have HW grades to you by end of week
-* HW 5: Column labels posted
-* Grading policy
-
-```{r, out.width = "300px", fig.align='center'}
-include_graphics("./figs/um-grade-policy.png") # place holder
-```
-* TODAY: Calibration + Big Data paradox discussion 
-
-## A butterfly effect: The return of the long-forgotten monster
-
-* We know that $D_U = \sigma_Y^2 = \frac{N-1}{N} S_Y^2$; setting
-
-$$
-\begin{aligned}
-D_I \times D_O \times \frac{N-1}{N} S_Y^2 &= \frac{1-f}{n_{eff}} S_Y^2 \\
-\frac{1}{n_{eff}^\star} &= \left( \frac{1}{n_{eff}} - \frac{1}{N} \right) \left(\frac{N}{N-1} \right) \\
-\frac{1}{n_{eff}^\star} \left[ 1-\frac{1}{N} + \frac{n_{eff}^\star}{N} \right] &= \frac{1}{n_{eff}} \\
-n_{eff}^\star \left[ 1-\frac{1}{N} + \frac{n_{eff}^\star}{N} \right]^{-1} &= n_{eff} \\
-\frac{n_{eff}^\star}{1 + (n_{eff}^\star -1) N^{-1}} &= n_{eff} \\
-\end{aligned}
-$$
-
-## JITT: Part 2
-
-* Then under $n_{eff}^\star \geq 1$ show that
-
-$$
-n_{eff} \leq n_{eff}^\star = \frac{f}{1-f} \times \frac{1}{D_I} = \frac{n}{1-f} \times \frac{1}{N D_I}
-$$
-
-* $D_I = E_{I} [ \rho_{I,Y}^2 ] \geq E_I [\rho_{I,Y}]^2 = 0.05^2 = 1/400$.  Then $D_I^{-1} \leq 400$ which implies
-
-$$
-n_{eff} \leq 400 \times \frac{f}{1-f}
-$$
-
-* If we observed half of the population, then $f = 1/2$ and $n_{eff} \leq 400$.
-
-## Big data effective sample size
-
-```{r, out.width = "300px", fig.align='center'}
-include_graphics("./figs/l22_neff.png") # place holder
-```
-
-
 ## Calibration
 
 1. Poststratification
@@ -152,7 +101,7 @@ $$
 w_i = \left \{ \begin{array}{c c} 39.95/39.83 = 1.002 \times d_i & \text{ if male } < 60  \\
 34.73/34.85 = 0.997 \times d_i & \text{ if female } < 60 \\
 8.48/8.44 = 1.005 \times d_i & \text{ if male } \geq 60 \\
-16.84/16.88 0.998 \times d_i & \text{ if female } \geq 60 \\
+16.84/16.88 = 0.998 \times d_i & \text{ if female } \geq 60 \\
 \end{array} \right .
 $$
 
@@ -409,33 +358,83 @@ coef(svymean(~inj,dgreg))
 SE(svymean(~inj,dgreg))
 ```
 
-## Big data paradox: example
+<!-- ## Big data paradox: example -->
 
-* Consider the case of estimating voting preference during the 2016 US presidential election
-* Imagine a researcher has access to self-reported voting preference from 1\% of US eligible voter population, whose size is $N \approx 231,557,000$
-* Let $\hat p$ be the sample average from the $n \approx 2,315,570$ observations. 
-* Suppose that the uninformed researcher adopts a normal approximation to form a confidence interval for the corresponding population p based on the usual Z-score:
+<!-- * Consider the case of estimating voting preference during the 2016 US presidential election -->
+<!-- * Imagine a researcher has access to self-reported voting preference from 1\% of US eligible voter population, whose size is $N \approx 231,557,000$ -->
+<!-- * Let $\hat p$ be the sample average from the $n \approx 2,315,570$ observations.  -->
+<!-- * Suppose that the uninformed researcher adopts a normal approximation to form a confidence interval for the corresponding population p based on the usual Z-score: -->
 
-$$ \small
-Z_n = \frac{\hat p - p}{\sqrt{\hat p (1-\hat p) / n }} \sim N(0,1)
-$$
+<!-- $$ \small -->
+<!-- Z_n = \frac{\hat p - p}{\sqrt{\hat p (1-\hat p) / n }} \sim N(0,1) -->
+<!-- $$ -->
 
 
-## Big data paradox: example
+<!-- ## Big data paradox: example -->
 
-* Suppose that the uninformed researcher adopts a normal approximation to form a confidence interval for the corresponding population p based on the usual Z-score:
+<!-- * Suppose that the uninformed researcher adopts a normal approximation to form a confidence interval for the corresponding population p based on the usual Z-score: -->
 
-$$ \small
-Z_n = \frac{\hat p - p}{\sqrt{\hat p (1-\hat p) / n }} = \frac{\sqrt{n} \sqrt{D_O} \rho_{I,Y}}{
-\sqrt{1 - D_O \rho_{I,Y}^2 - \sqrt{D_O} \times \rho_{I,Y} \times \left( \sqrt{\frac{p}{1-p}} - \sqrt{\frac{1-p}{p}} \right)}}
-$$
+<!-- $$ \small -->
+<!-- Z_n = \frac{\hat p - p}{\sqrt{\hat p (1-\hat p) / n }} = \frac{\sqrt{n} \sqrt{D_O} \rho_{I,Y}}{ -->
+<!-- \sqrt{1 - D_O \rho_{I,Y}^2 - \sqrt{D_O} \times \rho_{I,Y} \times \left( \sqrt{\frac{p}{1-p}} - \sqrt{\frac{1-p}{p}} \right)}} -->
+<!-- $$ -->
 
-* The uninformed researcher would compare $Z_n$ to the $N(0, 1)$
-* ISSUE: the mean of $Z_n$ is far away from 0. 
-* Consider the case $p = 1/2$ and $\rho_{I,Y} = 0.005$ then
+<!-- * The uninformed researcher would compare $Z_n$ to the $N(0, 1)$ -->
+<!-- * ISSUE: the mean of $Z_n$ is far away from 0.  -->
+<!-- * Consider the case $p = 1/2$ and $\rho_{I,Y} = 0.005$ then -->
 
-$$
-Z_n = \sqrt{2,315,570} \sqrt{\frac{99 \times 0.005^2}{1 - 99 \times 0.005^2}} = 75.80
-$$
+<!-- $$ -->
+<!-- Z_n = \sqrt{2,315,570} \sqrt{\frac{99 \times 0.005^2}{1 - 99 \times 0.005^2}} = 75.80 -->
+<!-- $$ -->
 
-* __Big Data Paradox__: The bigger the data, the surer we fool ourselves
+<!-- * __Big Data Paradox__: The bigger the data, the surer we fool ourselves -->
+
+
+<!-- ## Announcements: -->
+
+<!-- * JITT 9 is posted -->
+<!-- * HW 4 solutions posted later today -->
+<!-- * I will have HW grades to you by end of week -->
+<!-- * HW 5: Column labels posted -->
+<!-- * Grading policy -->
+
+<!-- ```{r, out.width = "300px", fig.align='center'} -->
+<!-- include_graphics("./figs/um-grade-policy.png") # place holder -->
+<!-- ``` -->
+<!-- * TODAY: Calibration + Big Data paradox discussion  -->
+
+<!-- ## A butterfly effect: The return of the long-forgotten monster -->
+
+<!-- * We know that $D_U = \sigma_Y^2 = \frac{N-1}{N} S_Y^2$; setting -->
+
+<!-- $$ -->
+<!-- \begin{aligned} -->
+<!-- D_I \times D_O \times \frac{N-1}{N} S_Y^2 &= \frac{1-f}{n_{eff}} S_Y^2 \\ -->
+<!-- \frac{1}{n_{eff}^\star} &= \left( \frac{1}{n_{eff}} - \frac{1}{N} \right) \left(\frac{N}{N-1} \right) \\ -->
+<!-- \frac{1}{n_{eff}^\star} \left[ 1-\frac{1}{N} + \frac{n_{eff}^\star}{N} \right] &= \frac{1}{n_{eff}} \\ -->
+<!-- n_{eff}^\star \left[ 1-\frac{1}{N} + \frac{n_{eff}^\star}{N} \right]^{-1} &= n_{eff} \\ -->
+<!-- \frac{n_{eff}^\star}{1 + (n_{eff}^\star -1) N^{-1}} &= n_{eff} \\ -->
+<!-- \end{aligned} -->
+<!-- $$ -->
+
+<!-- ## JITT: Part 2 -->
+
+<!-- * Then under $n_{eff}^\star \geq 1$ show that -->
+
+<!-- $$ -->
+<!-- n_{eff} \leq n_{eff}^\star = \frac{f}{1-f} \times \frac{1}{D_I} = \frac{n}{1-f} \times \frac{1}{N D_I} -->
+<!-- $$ -->
+
+<!-- * $D_I = E_{I} [ \rho_{I,Y}^2 ] \geq E_I [\rho_{I,Y}]^2 = 0.05^2 = 1/400$.  Then $D_I^{-1} \leq 400$ which implies -->
+
+<!-- $$ -->
+<!-- n_{eff} \leq 400 \times \frac{f}{1-f} -->
+<!-- $$ -->
+
+<!-- * If we observed half of the population, then $f = 1/2$ and $n_{eff} \leq 400$. -->
+
+<!-- ## Big data effective sample size -->
+
+<!-- ```{r, out.width = "300px", fig.align='center'} -->
+<!-- include_graphics("./figs/l22_neff.png") # place holder -->
+<!-- ``` -->

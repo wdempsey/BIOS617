@@ -1,7 +1,7 @@
 ---
-title: "BIOS 617 - Lecture 17"
+title: "BIOS 617 - Lecture 18"
 author: "Walter Dempsey"
-date: "3/16/2020"
+date: "3/29/2021"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -13,15 +13,12 @@ library(survey)
 library(pps)
 ```
 
-## Moving to online
+## Today's class
 
-* Getting a camera for next week.  Will improve these lectures (fingers crossed)
-* HW due on Monday
-* Today:
-  + Probability proportion to size (PPS) sampling designs
-  + Probability proportion to size (PPS) sampling designs 
-  + Issues in PPS/PPeS sampling 
-  + Simulation study
+- Probability proportion to size (PPS) sampling designs
+- Probability proportion to estimated size (PPeS) sampling designs 
+- Issues in PPS/PPeS sampling 
+- Simulation study
 
 ## (Two-stage) Probability Proportional to Size (PPS) sampling
 
@@ -75,7 +72,7 @@ include_graphics("./figs/l17_fig1.png") # place holder
 ## PP sampling with first-stage systematic sampling
 
 1. Select a random start $R$ between $1$ and $N/k$
-2. Find first cluster with cumulative sume exceeding $R$
+2. Find first cluster with cumulative sum exceeding $R$
 3. Sample $m$ units from first cluster
 4. Find second cluster with cumulative sum exceeding $R + N/k$
 5. Sample $m$ units from second cluster
@@ -413,7 +410,7 @@ include_graphics("./figs/syssam_5.png") # place holder
   + Check for errors.
   + Consider “small sample” properties of asymptotic approximation. 
   + Gain insight into statistical properties.
-* Back on p. 274 of the notes it was stated that we could estimate the variance of the two-stage epsem PPS estimator by the standard 1-stage epsem cluster variance estimator:
+* We could estimate the variance of the two-stage epsem PPS estimator by the standard 1-stage epsem cluster variance estimator:
   $$
   v(\bar y_{pps} ) = \frac{\sum_{i=1}^{k} (\bar y_i - \bar y)^2}{k (k-1)}
   $$
@@ -470,7 +467,7 @@ holdmean<-rep(0,SIM); holdse<-rep(0,SIM)
 
 ## Generate samples
 
-```{r sim3, echo = TRUE, eval = TRUE}
+```{r sim3, echo = TRUE, eval = TRUE, cache = TRUE}
 ###Generate the samples##
 set.seed(1357)
 for(sim in 1:SIM){

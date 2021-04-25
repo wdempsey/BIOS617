@@ -1,7 +1,7 @@
 ---
-title: "BIOS 617 - Lecture 17"
+title: "BIOS 617 - Lecture 19"
 author: "Walter Dempsey"
-date: "3/22/2020"
+date: "3/31/2021"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -14,15 +14,17 @@ library(survey)
 library(pps)
 ```
 
-## This week
+## Midterm Grade Ranges
 
-* Attempt to use camera
-  + If not good, then will get a tablet to assist in 
-* JITT:
-  + Rederive results from recent paper over next week
-  + Nonprobability sampling (e.g., online) versus SRS
-* Today and tomorrow:
-  + General methods for variance estimation 
+* Raw Score Range to Letter Score
+* 40 - 50: C
+* 50 - 60: C+
+* 60 - 70 : B-
+* 70 - 80: B
+* 80 - 85: B+
+* 85 - 90: A-
+* 90 - 95: A
+* 95 - 100: A+
 
 ## General methods for variance estimation
 
@@ -31,7 +33,7 @@ library(pps)
 * It is also a convenient way to discuss some of the key issues of design, since point and variance estimation can be obtained, at least approximately, in closed form.
   + Increasing efficiency through stratification
     + Optimal allocation
-  + Within-cluster correlation: roh, design effects
+  + Within-cluster correlation: rho, design effects
   + Ratio and regression estimation as introduction to calibration.
   
 ## General methods for variance estimation

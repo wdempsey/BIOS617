@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 21"
 author: "Walter Dempsey"
-date: "3/30/2020"
+date: "4/7/2021"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -13,30 +13,6 @@ library(knitr)
 library(survey)
 library(pps)
 ```
-
-## Announcements:
-
-* I will post HW 4 solutions today/tomorrow
-* I will have HW grades to you by end of week
-* HW 5: Column labels will be posted
-* Grading policy
-
-```{r, out.width = "300px", fig.align='center'}
-include_graphics("./figs/um-grade-policy.png") # place holder
-```
-* Today: 2 phase (not stage!) sampling
-* Tomorrow: Calibration + Big Data paradox discussion 
-
-## JITT: ``A fundamental identity in statistics'' - X.L. Meng
-
-* Short answer: we cannot estimate $D_I$ from the sample itself!
-  + Can estimate "after the fact" (e.g., post-election)
-* Achieve upper bound if a person responds to the survey if and only if the person plans to vote for Trump
-* Achieve lower bound if a person responds if and only if the person does not plan to vote for Trump
-* Design effect (in terms of MSE) is $(N-1)D_I$
-* (Law of large populations) Among studies sharing the same (fixed) average data defect correlation $E_I [\rho_{I,Y} ] \neq 0$, the stochastic error of $\bar y_n$ relative to SRS grows with the population size $N$ at the rate of $\sqrt{N}$
-
-Among studies sharing the same (fixed) average data defect correlation
 
 ## Two Phase Sampling
 
@@ -414,33 +390,45 @@ V( \bar y_r^\prime) &= \frac{S_y^2 + R^2 S_x^2 - 2 R S_{xy}}{n} + \frac{2 R S_{x
 \end{aligned}
 $$
 
-## A butterfly effect: The return of the long-forgotten monster
+<!-- ## A butterfly effect: The return of the long-forgotten monster -->
 
-* We will calculate the effective sample size $n_{eff}$ of a Big Data set by equating the MSE of $\bar y_n$ and the MSE of the SRS estimator with the sample size $n_{eff}$
-* Step 1: Equate the $MSE_I(\bar y_n) = D_I \times D_O \times D_U$ formula and the SRS formula $V_{SRS} (\bar y_n) = \frac{1-f}{n} S_{Y}^2$ to show that 
+<!-- * We will calculate the effective sample size $n_{eff}$ of a Big Data set by equating the MSE of $\bar y_n$ and the MSE of the SRS estimator with the sample size $n_{eff}$ -->
+<!-- * Step 1: Equate the $MSE_I(\bar y_n) = D_I \times D_O \times D_U$ formula and the SRS formula $V_{SRS} (\bar y_n) = \frac{1-f}{n} S_{Y}^2$ to show that -->
 
-$$
-D_I D_O = \left( \frac{1}{n_{eff}} - \frac{1}{N} \right) \left(\frac{N}{N-1} \right)
-$$
+<!-- $$ -->
+<!-- D_I D_O = \left( \frac{1}{n_{eff}} - \frac{1}{N} \right) \left(\frac{N}{N-1} \right) -->
+<!-- $$ -->
 
-* Let $n_{eff}^\star = (D_O D_I)^{-1}$; then show
+<!-- * Let $n_{eff}^\star = (D_O D_I)^{-1}$; then show -->
 
-$$
-n_{eff} = \frac{n_{eff}^\star}{1 + (n_{eff}^\star -1) N^{-1}}
-$$
+<!-- $$ -->
+<!-- n_{eff} = \frac{n_{eff}^\star}{1 + (n_{eff}^\star -1) N^{-1}} -->
+<!-- $$ -->
 
-## JITT: Part 2
+<!-- ## JITT: Part 2 -->
 
-* Then under $n_{eff}^\star \geq 1$ show that
+<!-- * Then under $n_{eff}^\star \geq 1$ show that -->
 
-$$
-n_{eff} \leq n_{eff}^\star = \frac{f}{1-f} \times \frac{1}{D_I} = \frac{n}{1-f} \times \frac{1}{N D_I}
-$$
+<!-- $$ -->
+<!-- n_{eff} \leq n_{eff}^\star = \frac{f}{1-f} \times \frac{1}{D_I} = \frac{n}{1-f} \times \frac{1}{N D_I} -->
+<!-- $$ -->
 
-* Suppose that $E_{I} [ \rho_{I,Y} ] = 0.05$.  Then show $D_I \geq 1/400$ which implies
+<!-- * Suppose that $E_{I} [ \rho_{I,Y} ] = 0.05$.  Then show $D_I \geq 1/400$ which implies -->
 
-$$
-n_{eff} \leq 400 \times \frac{f}{1-f}
-$$
+<!-- $$ -->
+<!-- n_{eff} \leq 400 \times \frac{f}{1-f} -->
+<!-- $$ -->
 
-* What does this mean if we observed half of the population?  What is the equivalent SRS sample?
+<!-- * What does this mean if we observed half of the population?  What is the equivalent SRS sample? -->
+
+
+<!-- ## JITT: ``A fundamental identity in statistics'' - X.L. Meng -->
+
+<!-- * Short answer: we cannot estimate $D_I$ from the sample itself! -->
+<!--   + Can estimate "after the fact" (e.g., post-election) -->
+<!-- * Achieve upper bound if a person responds to the survey if and only if the person plans to vote for Trump -->
+<!-- * Achieve lower bound if a person responds if and only if the person does not plan to vote for Trump -->
+<!-- * Design effect (in terms of MSE) is $(N-1)D_I$ -->
+<!-- * (Law of large populations) Among studies sharing the same (fixed) average data defect correlation $E_I [\rho_{I,Y} ] \neq 0$, the stochastic error of $\bar y_n$ relative to SRS grows with the population size $N$ at the rate of $\sqrt{N}$ -->
+
+<!-- Among studies sharing the same (fixed) average data defect correlation -->
