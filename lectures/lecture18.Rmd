@@ -189,7 +189,7 @@ $$
   \begin{aligned}
   v(y_w) &= \frac{k}{k-1} \sum_{i=1}^k (w_i \bar y_i - y_w / k )^2 \\
   v(w) &= \frac{k}{k-1} \sum_{i=1}^k (w_i - w / k )^2 \\
-  c(y_w, w) &= \frac{k}{k-1} \sum_{i=1}^k (w_i -w_k) (\bar y_i - y_w / k )
+  c(y_w, w) &= \frac{k}{k-1} \sum_{i=1}^k (w_i -w_k) (w_i \bar y_i - y_w / k )
   \end{aligned}
   $$
 
