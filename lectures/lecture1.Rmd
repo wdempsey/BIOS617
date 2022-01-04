@@ -1,11 +1,12 @@
 ---
 title: "BIOS 617 - Lecture 1"
 author: "Walter Dempsey"
-date: "1/20/2021"
+date: "1/5/2022"
 output:
   beamer_presentation: default
   ioslides_presentation:
     css: styles.css
+urlcolor: blue
 ---
 
 ```{r setup, include=FALSE}
@@ -18,7 +19,12 @@ All course slides will be written as R Markdown presentations. Markdown is a sim
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. This lets me share slides and code all in one document making all lecture content reproducible!
 
-PDF copies are available on **[canvas](https://umich.instructure.com/courses/340115)** while the RMD files and data will be available at <https://github.com/wdempsey/BIOS617>.
+PDF copies are available on **[canvas](https://umich.instructure.com/courses/494883/modules)** while the RMD files and data will be available on [github](https://github.com/wdempsey/BIOS617).
+
+## A quick survey while we go over syllabus
+
+- [Syllabus](https://umich.instructure.com/courses/494883/pages/course-syllabus)
+- [Quick survey](https://forms.gle/DnoCjZ897s24QKKu7)
 
 ## Why surveys? 
 
@@ -312,7 +318,7 @@ $$
 E[t_s] = \sum_s P_s t_s = (1/n) \times \sum_j \frac{n}{N} Y_j = \bar Y
 $$
 
-## Your first JITT 
+## Your first JITT (first 10-minutes of next class, discuss in small) 
 
 - Download the Pew poll data from Canvas
 - Read Pew poll data into R using the ```library(foreign)```
@@ -321,7 +327,8 @@ $$
 - Take ideology and code (-2= very liberal, -1 = liberal, 0 = moderate, 1 = conservative, 2 = very conservative).
 - Fit linear regression of ideology ```lm()``` given sex, age, and marital status.
 - Use ```display()``` function to display the results.
-- Write a short paragraph to describe the results.
+- Be ready to describe the results.
+
 
 
 
