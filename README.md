@@ -1,6 +1,6 @@
 # BIOS617
 
-Course materials for BIOS617.  Note this is a work in progress!  Please bare with me as I build out this repository for the course.
+Course materials for BIOS617.
 
 ## Submit typos
 
