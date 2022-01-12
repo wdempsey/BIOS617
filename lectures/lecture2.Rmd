@@ -175,18 +175,32 @@ $$ \small
 \begin{aligned}
 E \left( s^2 \right) &= E \left( \frac{1}{n-1} \sum_{i=1}^n (y_i - \bar y)^2 \right) \\
 &= E \left( \frac{1}{n-1} \sum_{i=1}^n ( (y_i - \bar Y) - (\bar y - \bar Y))^2 \right) \\
+&= E \left( \frac{1}{n-1} \sum_{i=1}^n \left[ (y_i - \bar Y)^2 - 2(y_i - \bar Y)(\bar y - \bar Y) + (\bar y - \bar Y)^2 \right] \right) \\
 \end{aligned}
 $$
-- The cross-term is zero because
+
+## Unbiased estimation of $S^2$
+
+- The cross-term is equal to
 $$ \small
-\sum_{i=1}^n (y_i - \bar y) (\bar y - \bar Y) =  (\bar y - \bar Y) \sum_{i=1}^n (y_i - \bar y) = 0
+\begin{aligned}
+\sum_{i=1}^n (y_i - \bar Y) (\bar y - \bar Y) &=  (\bar y - \bar Y) \sum_{i=1}^n (y_i - \bar Y) \\
+&= (\bar y - \bar Y)  (n \bar y - n \bar Y) \\
+&= n (\bar y - \bar Y)^2 \\
+&= \sum_{i=1}^n (\bar y - \bar Y)^2.
+\end{aligned}
+$$
+
+So the final two terms combine to 
+$$
+- 2 \sum_{i=1}^n (y_i - \bar Y)(\bar y - \bar Y) + \sum_{i=1}^n (\bar y - \bar Y)^2 = -\sum_{i=1}^n (\bar y - \bar Y)^2 
 $$
 
 ## Unbiased estimation of $S^2$
 
 $$ \small
 \begin{aligned}
-&E \left( \frac{1}{n-1} \sum_{i=1}^n ( (y_i - \bar Y)^2 - (\bar y - \bar Y)^2 \right) \\
+&E \left( \frac{1}{n-1} \sum_{i=1}^n (y_i - \bar Y)^2 - (\bar y - \bar Y)^2 \right) \\
 =& \frac{n}{n-1} \times \frac{N-1}{N} S^2 - \frac{n}{n-1} \frac{1}{n} S^2 (1-f) \\
 =& \frac{S^2}{n-1} \left( n \frac{N-1}{N} - \left(1-\frac{n}{N} \right) \right) \\
 =& \frac{S^2}{n-1} \left( \frac{n \cdot(N-1)-(N-n)}{N} \right) \\
