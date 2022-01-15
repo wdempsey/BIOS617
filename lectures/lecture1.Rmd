@@ -35,7 +35,7 @@ PDF copies are available on **[canvas](https://umich.instructure.com/courses/494
     + ``Assess public opinion on Remain/Leave debate'' 
 - **Pew 2008 US election**:
     + ``Assess public opinion on the national election candidates''
-- **National survey for family growth** (NSFG)
+- **National survey of family growth** (NSFG)
     + ``Gathers information on US family life, marriage and divorce, pregnancy, infertility, use of contraception, and general and reproductive health''
     
 ## Historical perspective: Why probability sampling?
@@ -57,7 +57,7 @@ PDF copies are available on **[canvas](https://umich.instructure.com/courses/494
 - *Population* denotes the aggregate from which the sample is chosen
   + US adults 18+
   + Family practice physicians licensed in Michigan
-  + All currently Ann Arbor residents
+  + All current Ann Arbor residents
 - **Superpopulation** denotes hypothetical infinite population from which the population is drawn
 - *Sampled* population should coincide with the *target* population
 
@@ -212,7 +212,7 @@ $$
 \begin{aligned}
 E[ X + Y ] &= \int \int (x+y) f_{xy} (x,y) dx dy \\
 &= \int \int x f_{xy} (x,y) dx dy + \int \int y f_{xy} (x,y) dx dy \\
-&= \int x \left[ \int f_{xy} (x,y) dy \right] dx + \int y \left[ \int f_{xy} (x,y) dy \right] dx
+&= \int x \left[ \int f_{xy} (x,y) dy \right] dx + \int y \left[ \int f_{xy} (x,y) dx \right] dy
 \end{aligned}
 $$
 
