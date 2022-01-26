@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 6"
 author: "Walter Dempsey"
-date: "2/8/2021"
+date: "1/26/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -11,83 +11,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r brexit, echo = FALSE, include = FALSE}
-# install packages
-if(!require('dslabs')){install.packages('dslabs')}
-if(!require('tidyverse')){install.packages('tidyverse', dependencies = TRUE)}
-if(!require('ggrepel')){install.packages('ggrepel')}
-if(!require('matrixStats')){install.packages('matrixStats')}
-
-# load libraries
-library(dslabs)
-library(tidyverse)
-library(ggrepel)
-library(matrixStats)
-```
-
-## JITT: Pew 2008 opinion poll 
-
-```{r pew, echo = FALSE}
-library(foreign)
-data <- read.dta("../pew_research_center_june_elect_wknd_data.dta")
-data <- data[!is.na(data$ideo ),]
-data <- data[!is.element(data$ideo, c("missing/not asked", "dk/refused")),]
-data$ideo_numeric = (data$ideo == 'very conservative')*2 + (data$ideo == 'conservative')*1 + (data$ideo == 'moderate')*0 + (data$ideo == 'liberal')*(-1) + (data$ideo == 'very liberal')*(-2)
-
-data %>%  ggplot(aes(ideo_numeric)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), data=subset(data,survey == 'sept08forpoli'), fill = "blue", alpha = 0.2) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), data=subset(data,survey == 'electwkend08'), fill = "red", alpha = 0.2) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), data=subset(data,survey == 'june08voter'), fill = "green", alpha = 0.2) +
-  xlab("Ideological buckets") +
-  ylab("Frequency") +
-  labs(color = "Ideology type") +
-  ggtitle("Ideology response from 3 Pew 2008 surveys")
-```
-
-## JITT: SRS estimator
-
-```{r srspew, echo = FALSE}
-
-total_USpop = 329450000
-frac_eighteenplus = 0.77
-N = total_USpop * frac_eighteenplus
-bary = mean(data$ideo_numeric)
-n = length(data$ideo_numeric)
-f = n/N
-s.sq = var(data$ideo_numeric)
-var.srs = (1-f)*s.sq/n
-
-datafracs = summary(data$sex)/length(data$sex)
-
-census_female = 0.52
-
-bary_male=mean(data$ideo_numeric[data$sex == 'male'])
-s.sq_male=var(data$ideo_numeric[data$sex == 'male'])
-bary_female=mean(data$ideo_numeric[data$sex == 'female'])
-s.sq_female=var(data$ideo_numeric[data$sex == 'female'])
-
-psbary = bary_male * (1-census_female) + bary_female*census_female
-
-strvar = (census_female * s.sq_female) / n + ((1-census_female) * s.sq_male) / n  
-adjfac = (1-f)* (s.sq_female*(1-census_female)/n^2+s.sq_male*(census_female)/n^2)
-ps_var = strvar+adjfac
-deff = (var.srs-ps_var)/ps_var
-```
-
-* Mean under SRS: `r round(bary,3)`
-* Variance under SRS: `r round(var.srs,7)`
-* US Census: 52\% female
-* Mean under PS: $0.52 \cdot `r round(bary_female,3)` + 0.48 \cdot `r round(bary_male,3)` = `r round(psbary,3)`$
-* Variance under PS: $`r round(strvar,7)` + `r round(adjfac,11)` = `r round(ps_var,7)`$
-
-$$
-V(\bar y_{ps} ) \approx \sum_h \frac{P_h^2 S_h^2}{nP_h} \left[ 1 +\frac{(1-f)(1-P_h)}{nP_h} \right] - \sum_h P_h S_h^2 / N
-$$
-
-* deff: `r deff`
-* Benefit is quite small!
-
-## Subdomain estimation 
+ Subdomain estimation 
 
 * Stratified sample: know $N$, $N_h$ for $h=1,\ldots, H$
 * We are interested in a subdomain analysis using the stratified sample.
@@ -404,16 +328,4 @@ $$
 $$
 n = [1+(M-1)\rho] n_{SRS}
 $$
-
-
-## JITT
-
-* Take a look at latest polls 2 Iowa polls
-* Try and understand the methodology. Discuss in diary
-* If $f$ is small, the proportions variance is bounded above by $0.5/\sqrt{n}$
-* Emerson sample size $n= 207 \to 0.5/\sqrt{207} = 3.5\%$ but report is $\pm 6.2 \%$, why?
-```{r, out.width = "250px", fig.align='center'}
-library(knitr)
-include_graphics("./figs/l6_jitt.png") # place holder
-```
 

@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 5"
 author: "Walter Dempsey"
-date: "2/1/2021 "
+date: "1/24/2022 "
 output:
   beamer_presentation: default
 ---
@@ -14,15 +14,34 @@ options(tinytex.verbose = TRUE)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Recap on sampling designs
+## Recap
 
 * Simple random sampling
-  + Subdomain estimation ($n_j = \sum_{i=1}^n D_{ij}$ is random)
 * Stratified sampling ($(n_1,\ldots, n_H)$ fixed)
   + SRS within strata
   + Proportional allocation
   + Optimal allocation
   + Neyman allocation (Optimal with equal costs)
+  
+## Announcements
+
+- Midterm is 2/23
+- Homework posted on 1/21 and due 2/4 __at 5pm__
+- Class will be online this week. 
+- We will switch back to in-person class on 1/31 (fingers crossed)
+
+## Plan per class
+
+- 1/24: Poststratification 
+- 1/26: Equal Size Cluster Sampling
+- 1/31: Systematic Sampling
+- 2/2: 2-stage sampling
+- 2/7: 3-stage sampling
+- 2/9: Optimal Cluster size
+- 2/14: Ratio estimation
+- 2/16: Regression Estimation
+- 2/21: Review
+- 2/23: Midterm
 
 ## Neyman vs proportionate allocation
 
@@ -111,7 +130,7 @@ $$
 ## Poststratification
 
 $$
-y_{ps}  = \sum_{h=1}^H P_h \bar y = N^{-1} \sum_{h=1}^H N_h \bar y_h 
+\bar y_{ps}  = \sum_{h=1}^H P_h \bar y_h = N^{-1} \sum_{h=1}^H N_h \bar y_h 
 \quad \text{ for } \quad
 \bar y_h = n_h^{-1} \sum_{i=1}^{n_h} y_{hi}
 $$
@@ -393,13 +412,3 @@ $$
 \end{aligned}
 $$
 
-
-
-## JITT
-
-* Poststratification analysis of the ideology
-* Define strata by 
-  + Gender
-  + Marriage status
-  + Joint
-* Estimate mean ideology and variance under poststratification and the SRS

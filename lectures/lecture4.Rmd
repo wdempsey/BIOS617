@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 4"
 author: "Walter Dempsey"
-date: "1/22/2019"
+date: "1/19/2022"
 output:
   beamer_presentation: default
   ioslides_presentation:
@@ -11,89 +11,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
-## JITT #3
-
-- Show $\bar y_{h}$ under SRS from the strata is unbiased 
-- Show population estimate $\bar y_{st}$ is unbiased
-- What is the difference between stratification sampling and subdomain estimation?
-
-## Unbiasedness
-
-* What is the probability of sampling individual $j$ from strata $h$?
-$$\small
-\begin{aligned}
-P(I_{jh} = 1) &= 1 - P(I_{jh} \neq 1) \\
-&= 1 - \frac{N_h-1}{N_h} \times \frac{N_h-2}{N_h-1} \times \cdots \times \frac{N_h-n}{N_h-(n_h-1)} \\
-&= 1 - \frac{N_h-n_h}{N_h} = \frac{n_h}{N_h}
-\end{aligned}
-$$
-* Then by linearity of expectations
-$$\small 
-\begin{aligned}
-E [ \bar y_h ] &= E \left[ \frac{1}{n_h} \sum_j I_{jh} Y_{jh} \right] = \frac{1}{n} \sum_j E [ I_{jh}  ] Y_{jh} \\
-&= \frac{1}{n_h} \sum_j \frac{n_h}{N_h} Y_{jh} = \bar Y_h
-\end{aligned}
-$$ 
-
-## Unbiasedness
-
-* Linearity of expectations
-$$\small 
-\begin{aligned}
-E [ \bar y ] &= E \left[ \sum_h P_h \bar y_h \right] \\
-&= \sum_h P_h \bar Y_h \\
-&= \sum_h \left[ \frac{N_h}{N} \times \left[ \frac{1}{N_h} \sum_j Y_{jh} \right] \right] \\
-&= \frac{1}{N} \sum_{j,h} Y_{jh} = \bar Y
-\end{aligned}
-$$ 
-
-## Subdomain estimation vs stratified sampling
-
-- Subdomain estimation: cannot ascertain whether an element in the population is a member of the subdomain *until* we
-sample it.
-- Stratified sampling: we know whether an element in the population is a member of the strata *before* we sample it.
-- The sample estimator $\bar y_j = n_j^{-1} \sum_{i=1}^n D_{ij} y_i$ with $n_{j} = \sum_{i=1}^n D_{ij}$
-is unbiased for the population subdomain $\bar Y_j = N_j^{-1} \sum_{i=1}^N D_{ij} Y_i$ for $N_j = \sum_{i=1}^N D_{ij}$
-- The sample estimator $\bar y_h = n_h^{-1} \sum_{i=1}^{n_h} y_{ih}$ is unbiased for strata population mean $\bar Y_h$
-- Where's the difference?
-
-
-## Your second JITT:  3rd proof of variance
-- We know $V (\bar y) = V\left( \frac{1}{n} \sum_{i=1}^n I_i Y_i \right)$ 
-- Hint 1: $V(I_i) = f (1-f)$ and $\text{Cov}(I_i, I_j) = f \left( \frac{n-1}{N-1} - f \right)$
-- Step 1: Use hint 1 to show the variance is equivalent to
-$$ \small
-\frac{f (1-f)}{n^2} \left[ \sum_{i=1}^N Y_i^2 - \frac{1}{N-1} \sum_{j=1}^N \sum_{i\neq j} Y_i Y_j\right]
-$$
-- Hint 2:
-$$ \small
-\sum_{j=1}^N \sum_{i \neq j} Y_i Y_j = \left( \sum_{i=1}^N Y_i \right)^2 - \sum_{i=1}^N Y_i^2
-$$
-- Step 2: Combine hint and variance formula to show result
-
-## JITT #2: Calculation
-
-$$\small 
-\begin{aligned}
-V(\bar y) &= V\left( \frac{1}{n} \sum_{i=1}^N I_j Y_j \right) = \frac{1}{n^2} \left[ \sum_{i=1}^N V(I_j) Y_j^2 + \sum_{i \neq j} \text{Cov} (I_i, I_j) Y_i Y_j \right] \\
-&= \frac{1}{n^2} \left[ f(1-f) \sum_{i=1}^N Y_j^2 + f \left ( \frac{n-1}{N-1} - f \right) \sum_{i \neq j} Y_i Y_j \right] \\
-&= \frac{f(1-f)}{n^2} \left[ \sum_{i=1}^N Y_j^2 + \frac{\left ( \frac{n-1}{N-1} - f \right)}{1-f} \sum_{i \neq j} Y_i Y_j \right] \\
-&= \frac{f(1-f)}{n^2} \left[ \sum_{i=1}^N Y_j^2 -\frac{1}{N-1} \sum_{i \neq j} Y_i Y_j \right] \\
-\end{aligned}
-$$ 
-
-## JITT #2: Calculation (ctd.)
-$$\small 
-\begin{aligned}
-V(\bar y) &= \frac{f(1-f)}{n^2} \left[ \sum_{i=1}^N Y_j^2 -\frac{1}{N-1} \sum_{i \neq j} Y_i Y_j \right] \\
-&= \frac{f(1-f)}{n^2} \left[ \sum_{i=1}^N Y_j^2 -\frac{1}{N-1} \left( \left( \sum_{i=1}^N Y_i \right)^2 - \sum_{i=1}^N Y_i^2 \right) \right] \\
-&= \frac{f(1-f)}{n^2} \left[ \frac{N}{N-1} \sum_{i=1}^N Y_j^2 -\frac{1}{N-1} \left( \sum_{i=1}^N Y_i \right)^2 \right] \\
-&= \frac{f(1-f)}{n^2} \frac{N}{N-1} \left[ \sum_{i=1}^N Y_j^2 -\frac{1}{N} \left( \sum_{i=1}^N Y_i \right)^2 \right] \\
-&= \frac{f(1-f)}{n^2} \frac{N}{N-1} \left[ \sum_{i=1}^N Y_j^2 - N \bar Y^2 \right] \\
-&= \frac{f(1-f)}{n^2} N S^2 = (1-f)\frac{S^2}{n}\\
-\end{aligned}
-$$ 
 
 ## Optimal allocation (i.e., today's topic)
 
@@ -372,39 +289,3 @@ $$
 \bar V = \frac{2}{H} \sum_h \frac{S_h^2}{n_h}
 $$
 * Optimization yields $n_h \propto S_h / \sqrt{c_h}$
-
-## Poststratification
-
-- Often, there may be available information about certain characteristics in a population that cannot be accessed in a sampling frame.
-  + A sampling frame of telephone numbers may not have information about the age and gender of the respondents, but age and gender distribution in the population is available from the Census.
-* Or there may be some variables that are known in the frame, but set aside as less important for stratification.
-* Similar to proportional allocation in estimation, except now the sample size $n_h$ in each poststratum is no longer fixed, but random.
-
-## Poststratification
-
-$$
-y_{ps}  = \sum_{h=1}^H P_h \bar y = N^{-1} \sum_{h=1}^H N_h \bar y_h 
-\quad \text{ for } \quad
-\bar y_h = n_h^{-1} \sum_{i=1}^{n_h} y_{hi}
-$$
-
-* Example: We have a sample of 70 women and 30 men obtained from a survey of 50 households (we’ll ignore the clustering for the moment). Of the women, 5 indicated they did not have health insurance, versus 6 of the men.
-* The Census indicated that 52% of the adult population is female. 
-* Thus $\bar y_{ps} = .52 \times (5 / 70) + .48 \times (6 / 30) = .133$, versus $\bar y = .110$.
-
-## Unbiasedness and variance
-
-$$
-\begin{aligned}
-E[\bar y_{ps}] &= E [ E [ \bar y_{ps} \, | \, (n_1, \ldots, n_H) ] ] \\
-&= E \left[ \sum_h P_h E \left [ \bar y_{h} \, | \, (n_1, \ldots, n_H) \right] \right] \\
-&= E \left [ \sum_h P_h \bar Y_{h} \right] = E[\bar Y] = \bar Y
-\end{aligned}
-$$
-
-## JITT #4 and next class
-
-- Next class we will study the variance of PS and use it for subclass/domain estimation
-- Then we will move onto equal size cluster sampling
-- JITT: Do your HW
-- Next week JITTs will return to data and think about model-based alternatives.
