@@ -191,7 +191,7 @@ Possion (count) data – variances are a function of the means, which are often 
 
 For binary variables,
 $$
-S_h = \frac{N_h p_h q_h}{N_h -1}\approx \sqrt{p_h q_h} \Rightarrow n_h \propto P_h \sqrt{p_h q_h} 
+S_h = \sqrt{\frac{N_h p_h q_h}{N_h -1}} \approx \sqrt{p_h q_h} \Rightarrow n_h \propto P_h \sqrt{p_h q_h} 
 $$
 For $0.2 \leq p_h \leq 0.8$, $\sqrt{p_h q_h}$ is fairly stable:
 ```{r pq, echo = FALSE, fig.width=3,fig.height=2, fig.align='center'}
