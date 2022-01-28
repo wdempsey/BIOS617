@@ -159,8 +159,8 @@ df %>%  ggplot(aes(S.sq)) +
 $$
 \begin{aligned}
 V(\bar y_{st}) - V(\bar y_N) &= \sum_h P_h^2 S_h^2/n_h - \bar S^2/n \\
-&= \sum_h \left( \frac{n_h^\prime \bar S}{n \cdot n_h} \right)^2 - \bar S^2/n \\
-&= \frac{\bar S^2}{n^2} \sum_h \left[ \frac{(n_h^\prime)^2}{n_h} - n \right] \\
+&= \sum_h \left( \frac{n_h^\prime \bar S}{n} \right)^2 \frac{1}{n_h} - \bar S^2/n \\
+&= \frac{\bar S^2}{n^2}  \left[ \sum_h \frac{(n_h^\prime)^2}{n_h} - n \right] \\
 \end{aligned}
 $$
 
