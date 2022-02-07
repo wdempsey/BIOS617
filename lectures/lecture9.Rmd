@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 9"
 author: "Walter Dempsey"
-date: "2/10/2020"
+date: "2/7/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -10,67 +10,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
-```{r brexit, echo = FALSE, include = FALSE}
-# install packages
-if(!require('dslabs')){install.packages('dslabs')}
-if(!require('tidyverse')){install.packages('tidyverse', dependencies = TRUE)}
-if(!require('ggrepel')){install.packages('ggrepel')}
-if(!require('matrixStats')){install.packages('matrixStats')}
-
-# load libraries
-library(dslabs)
-library(tidyverse)
-library(ggrepel)
-library(matrixStats)
-```
-
-## JITT 1: Pew 2008 opinion poll 
-
-```{r pew, echo = FALSE}
-library(foreign)
-data <- read.dta("../pew_research_center_june_elect_wknd_data.dta")
-data <- data[!is.na(data$ideo ),]
-data <- data[!is.element(data$ideo, c("missing/not asked", "dk/refused")),]
-data$ideo_numeric = (data$ideo == 'very conservative')*2 + (data$ideo == 'conservative')*1 + (data$ideo == 'moderate')*0 + (data$ideo == 'liberal')*(-1) + (data$ideo == 'very liberal')*(-2)
-celldata = subset(data, sample=="cell")
-landlinedata = subset(data, sample=="landline")
-
-celldata %>%  ggplot(aes(ideo_numeric)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), data=subset(data,sample == 'cell'), fill = "blue", alpha = 0.2) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), data=subset(data,sample == 'landline'), fill = "green", alpha = 0.2) +
-  xlab("Ideological buckets") +
-  ylab("Frequency") +
-  labs(color = "Ideology type") +
-  ggtitle("Ideology response from 3 Pew 2008 surveys")
-```
-
-## JITT:
-
-```{r pew2, echo = FALSE, eval = TRUE}
-cellstrata1 = celldata$age>=18 & celldata$age <= 24
-cellstrata2 = celldata$age>=25 & celldata$age <= 44
-cellstrata3 = celldata$age >= 45
-
-llstrata1 = landlinedata$age>=18 & landlinedata$age < 24
-llstrata2 = landlinedata$age>=25 & landlinedata$age < 44
-llstrata3 = landlinedata$age >= 45
-
-P1 = 9.6/(1-0.258)
-P2 = 30.2/(1-0.258)
-P3 = (22+12.4)/(1-0.258)
-
-cellest = mean(celldata$ideo_numeric[cellstrata1])*P1/100 + mean(celldata$ideo_numeric[cellstrata2])*P2/100 + mean(celldata$ideo_numeric[cellstrata3])*P3/100
-llest = mean(landlinedata$ideo_numeric[llstrata1])*P1/100 + mean(landlinedata$ideo_numeric[llstrata2])*P2/100 + mean(landlinedata$ideo_numeric[llstrata3])*P3/100
-```
-
-* The mean age in all the data is `r round(mean(data$age),2)`, in just the cell surveys is `r round(mean(celldata$age),2)`, and in just the landlines is `r round(mean(data$age[data$sample=="landline"]),2)`.
-* Split cell data into strata of 18-24 ($P_1 = `r round(P1,3)`$\%), 25-44 ($P_2 = `r round(P2,3)`$\%), and 45+ ($P_3 = `r round(P3,3)`$\%)
-* The mean ideology is `r round(mean(celldata$ideo_numeric[cellstrata1]),3)`, `r round(mean(celldata$ideo_numeric[cellstrata2]),3)`, and `r round(mean(celldata$ideo_numeric[cellstrata3]),3)` respectively in __cell__ data.
-* The mean ideology is `r round(mean(landlinedata$ideo_numeric[llstrata1]),3)`, `r round(mean(landlinedata$ideo_numeric[llstrata2]),3)` and `r round(mean(landlinedata$ideo_numeric[llstrata3]),3)` respectively in __landline__ data.
-* PS estimates are `r round(cellest,2)` for cell only data and `r round(llest,2)` for landline only data
-* Overall estimate was `r round(mean(data$ideo_numeric),2)`
-
 
 ## NEW MATERIAL: Multi-stage sampling
 
@@ -437,9 +376,3 @@ $$
 * Sometimes termed ultimate cluster design, since all of the lower levels are
 aggregated into the highest level (“ultimate”) cluster and treated as if they
 came from a one-stage design with a census in each cluster.
-
-## JITT
-
-* Find more recent Pew poll data (or make some assumptions in the Pew 2008 example)
-* What if we were more interested in the result of the election than the current poll?
-* How would you convert the current poll results into an estimate of the election outcome? 
