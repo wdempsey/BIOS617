@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 10"
 author: "Walter Dempsey"
-date: "2/12/2020"
+date: "2/9/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -10,83 +10,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
-```{r brexit, echo = FALSE, include = FALSE}
-# install packages
-if(!require('dslabs')){install.packages('dslabs')}
-if(!require('tidyverse')){install.packages('tidyverse', dependencies = TRUE)}
-if(!require('ggrepel')){install.packages('ggrepel')}
-if(!require('matrixStats')){install.packages('matrixStats')}
-
-# load libraries
-library(dslabs)
-library(tidyverse)
-library(ggrepel)
-library(matrixStats)
-
-library(foreign)
-data = read.spss("data/june16pew.sav")
-clintonq10b = data$q10b[data$q10 == levels(data$q10)[1]]
-trumpq10b = data$q10b[data$q10 == levels(data$q10)[2]]
-```
-
-## We will use Pew data from June 2016
-
-* Total number of respondants: `r length(data$reg)`
-* __ASK ALL__: (REG) Which of these statements best describes you? 
-  + Are you ABSOLUTELY CERTAIN that you are registered to vote at your current address: `r as.numeric(table(data$reg)[1])`
-  + Are you PROBABLY registered, but there is a chance your registration has lapsed: `r as.numeric(table(data$reg)[2])`
-  + Are you NOT registered to vote at your current address: `r as.numeric(table(data$reg)[3])`
-  + [VOL. DO NOT READ] Don’t know/Refused: `r as.numeric(table(data$reg)[4])`
-
-## Pew 2016: Questions of interest
-
-* __ASK ALL__: (Q.10) Suppose there were only two major candidates for president and you had to choose between
-[READ AND RANDOMIZE; RANDOMIZE TRUMP/CLINTON IN SAME ORDER AS Q.9/Q.9a] who would you vote for?
-  + Hillary Clinton, the Democrat: `r table(data$q10)[1]` (`r round(table(data$q10)[1]/sum(table(data$q10)),2)`)
-  + Donald Trump, the Republican: `r table(data$q10)[2]` (`r round(table(data$q10)[2]/sum(table(data$q10)),2)`)
-  + [VOL. DO NOT READ] Other candidate: `r table(data$q10)[3]`
-  + [VOL. DO NOT READ] Don’t know/Refused: `r table(data$q10)[4]`
-  
-## Pew 2016: Motivation to vote question
-* __ASK REGISTERED VOTERS WHO CHOOSE TRUMP OR CLINTON__: (Q.10b) Do you support [INSERT LAST NAME OF CANDIDATE CHOSEN IN Q.10] strongly or only moderately?
-  + Strongly
-    + Clinton: `r round(table(clintonq10b)[1],0)`
-    + Trump: `r round(table(trumpq10b)[1],0)`
-  + Only moderately
-    + Clinton: `r round(table(clintonq10b)[2],0)`
-    + Trump: `r round(table(trumpq10b)[2],0)`
-  + Don't know/Refused (VOL.)
-    + Clinton: `r round(table(clintonq10b)[3],0)`
-    + Trump: `r round(table(trumpq10b)[3],0)`
-    
-## ``Analysis phase''
-
-```{r pew2, eval = TRUE, echo = FALSE}
-clinton_weights = (clintonq10b == levels(clintonq10b)[1])*1.0 + (clintonq10b == levels(clintonq10b)[2])*0.6
-trump_weights1 = (trumpq10b == levels(trumpq10b)[1])*1.0 + (trumpq10b == levels(trumpq10b)[2])*0.6
-trump_weights2 = (trumpq10b == levels(trumpq10b)[1])*1.0 + (trumpq10b == levels(trumpq10b)[2])*1.0
-clinton_weights[is.na(clinton_weights)] = 0.0
-trump_weights1[is.na(trump_weights1)] = 0.0
-trump_weights2[is.na(trump_weights2)] = 0.0
-```
-
-* Suppose only registered individuals vote
-* $P(\text{Vote} \mid \text{Strongly}) = 1.0$ and $P(\text{Vote} \mid \text{Only Moderately}) = 1.0$
-$$
-\frac{\sum_{i=1}^n y_i}{n} = \frac{`r length(clinton_weights)`}{`r length(clinton_weights)` + `r length(trump_weights1)`} = `r round(length(clinton_weights)/(length(clinton_weights)+length(trump_weights1)),4)`
-$$
-* $P(\text{Vote} \mid \text{Strongly}) = 1.0$ and $P(\text{Vote} \mid \text{Only Moderately}) = 0.6$
-* Then
-$$
-\frac{\sum_{i=1}^n w_i \times y_i}{\sum_{i=1}^n w_i} = \frac{`r sum(clinton_weights)`}{`r sum(clinton_weights)` + `r sum(trump_weights1)`} = `r round(sum(clinton_weights)/(sum(clinton_weights)+sum(trump_weights1)),4)`
-$$
-* What if the ``Only Moderate'' for Trump has support at 100\%?
-$$
-\frac{\sum_{i=1}^n w_i \times y_i}{\sum_{i=1}^n w_i} = \frac{`r sum(clinton_weights)`}{`r sum(clinton_weights)` + `r sum(trump_weights2)`} = `r round(sum(clinton_weights)/(sum(clinton_weights)+sum(trump_weights2)),4)`
-$$
-
-
 ## Mutli-stage sampling
 
 ```{r, out.width = "250px", fig.align='center'}
@@ -500,6 +423,3 @@ C &= k c_1 + k m c_2 + k m r c_3\\
 \end{aligned}
 $$
 
-## JITT
-
-* Diary entries: review NH surveys compared to actual outcome.  
