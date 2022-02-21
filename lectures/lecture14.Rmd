@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 14"
 author: "Walter Dempsey"
-date: "3/9/2021"
+date: "2/21/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -21,9 +21,9 @@ knitr::opts_chunk$set(echo = FALSE)
 * Population notation
 * Sample notation
 
-## Practice problem:
+<!-- ## Practice problem: -->
 
-* What is the population and sampling frame for Pew's US polls? 
+<!-- * What is the population and sampling frame for Pew's US polls?  -->
 
 ## Topic 2: SRS 
 
@@ -31,23 +31,23 @@ knitr::opts_chunk$set(echo = FALSE)
 * Variance $V(\bar y)$ has a simple formula
 * Estimator $s^2$ of population variance $S^2$ is unbiased 
 * Estimating proportions has simpler formula since $s^2 = n p (1-p)$
-* Subdomain estimation: issue is $n_j$ is random.
-  + If we ignore then all formulas are the same as SRS
-  + We can improve by using Taylor series (later lecture)
+<!-- * Subdomain estimation: issue is $n_j$ is random. -->
+<!--   + If we ignore then all formulas are the same as SRS -->
+<!--   + We can improve by using Taylor series (later lecture) -->
 
 ## Key formula:
 
 * $\bar y_{SRS} = \sum_{i=1}^n y_i /n$
 * $s^2 = \frac{1}{n-1} \sum_{i=1}^n (y_i - \bar y)^2$
 * $V(\bar y_{SRS}) = (1-f) S^2/n$
-* $\bar y_j = n_j^{-1} \sum_{i=1}^n D_{ij} y_i$
+<!-- * $\bar y_j = n_j^{-1} \sum_{i=1}^n D_{ij} y_i$ -->
 
-## Practice problem:
+<!-- ## Practice problem: -->
 
-* Prove SRS without replacement yields an unbiased estimator
-* If I sample one individual at random, what is the variance of that estimator?
-  + Can I construct an estimator of the population variance?
-* Is $s$ an unbiased estimator of $S$?
+<!-- * Prove SRS without replacement yields an unbiased estimator -->
+<!-- * If I sample one individual at random, what is the variance of that estimator? -->
+<!--   + Can I construct an estimator of the population variance? -->
+<!-- * Is $s$ an unbiased estimator of $S$? -->
 
 ## Lecture 2: Stratified sampling
 
@@ -91,8 +91,8 @@ $$
 * Use auxiliary information $\bar y_{ps} = \sum_h P_h \bar y_h$
 * The denominator is now random!
 * Impacts the variance (larger) when compared to stratified sampling
-* Subdomain estimation with a stratified sample
-  + Use the taylor series arguments again
+<!-- * Subdomain estimation with a stratified sample -->
+<!--   + Use the taylor series arguments again -->
 
 ## Key formula
 
@@ -104,7 +104,7 @@ $$
 
 * Mean is an unbiased estimate
 * $V(\bar y) = \frac{K-k}{K} \frac{1}{k} \frac{1}{K-1} \sum_i (\bar Y_i - \bar Y)^2$
-* We can approximetly express as
+* We can approximately express as
 $$
 V(\bar y_c) = V(\bar y_{SRS}) [1+(M-1)\rho]
 $$
@@ -182,7 +182,8 @@ $$
 S_{xy} > \frac{1}{2} R S_x^2 \quad \text{ or } \quad
 \rho > \frac{1}{2} \frac{cv(\bar x)}{cv(\bar y)}
 $$
-where $cv(\bar x) = S_x / \bar X$
+where $cv(\bar x) = S_x / \bar X$.  
+* Variance is a good approximation when $cv(\bar x)$ is less than the $0.01 -- 0.02$ range.
 
 ## Topic 11: Regression estimator
 
