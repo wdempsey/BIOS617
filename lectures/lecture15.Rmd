@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 15"
 author: "Walter Dempsey"
-date: "3/17/2021"
+date: "3/7/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -10,13 +10,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
-## JITT and Diary:
-
-* JITTs will focus on three types of readings (focused on re-deriving some of their results)
-  + Series on Survey Sampling in __``Statistical Science''__
-  + Two papers on generalizability (Kieding and Lewis) and non-random samples (Xiao-Li Meng)
-  + Recent model-based approaches using MRP (Multilevel regression + Poststratification)
 
 ## Topic: Cluster sampling with unequal cluster sizes
 
@@ -402,7 +395,7 @@ $$
 
 * Note that computation of this variance requires not only the probability of selection $\pi_i$ for all sampled elements, but also the __joint probabilities of selection__ for all pairs of sampled elements $\pi_{ij}$
 
-## JITT
+## Potential Diary Options:
 
 * How would you respond to this question?
 ```{r, out.width = "150px", fig.align='center'}

@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 16"
 author: "Walter Dempsey"
-date: "3/21/2021"
+date: "3/14/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -11,21 +11,11 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-* How would you respond to this question?
-```{r, out.width = "150px", fig.align='center'}
-library(knitr)
-include_graphics("./figs/l15_jitt.png") # place holder
-```
-
 ## Midterm
 
-- Average: 74.26
-- 25% Quartile: 62
-- Median: 88
-- 75% Quartile: 94
-- Max: 100
 - Given the current semester, I will not assign extra credit.
-- There will be a curve on the midterm.  Exact curve will be announced soon.
+
+- Homework will be graded as best 5 out of 6 submitted homeworks.
 
 ## Topic: Cluster sampling with unequal cluster sizes
 
