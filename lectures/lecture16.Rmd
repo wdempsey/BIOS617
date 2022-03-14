@@ -11,12 +11,6 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Midterm
-
-- Given the current semester, I will not assign extra credit.
-
-- Homework will be graded as best 5 out of 6 submitted homeworks.
-
 ## Topic: Cluster sampling with unequal cluster sizes
 
 * Previous work with cluster samples assumed equal cluster sizes:
