@@ -11,6 +11,19 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Midterm
+
+- Based on current midterm grading, there will be an opportunity to improve the midterm score.
+- Rather than curve, you will be able to re-submit your midterm as an assignment
+- Due date: 4/13/2022
+- Submit your assignment and your midterm submission.
+- Suppose score is $X$. 
+- Maximum number of points is $(100-X)/2 + X$ plus the Bonus Question
+- So a score of $50,60,70$, and $80$ on the midterm have maximum scores of $75, 80, 85$, and $90$ plus $10$ bonus points.
+  + I will grade independent of the midterm so you must submit the full assignment.
+- To reduce the burden: homework will be graded as best 5 out of 6 submitted homework assignments.
+
+
 ## Topic: Cluster sampling with unequal cluster sizes
 
 * Suppose we have a two-stage sample with $K=10$ clusters and $M_k$ differing between clusters, with $f_1 = 1/2$ and $f_2 = 1/10$:
