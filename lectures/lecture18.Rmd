@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 18"
 author: "Walter Dempsey"
-date: "3/29/2021"
+date: "3/16/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -12,6 +12,17 @@ knitr::opts_chunk$set(echo = FALSE)
 library(survey)
 library(pps)
 ```
+
+## Midterm
+
+- 25th: 59
+- 50th (Median): 63
+- Average: 64
+- 75th: 71
+- Grading: Resubmission of exam as a take-home assignment.  Will be graded out of 100 (+ 10 bonus points).  I will grade as a separate assignment.  Then I will combine with your midterm score as follows: if $X$ is your midterm score and $Y$, then score is $X + max(Y - X, 0)/2$.
+- Example: $X = 60$ and $Y = 100$ then $60+40/2 = 80$.  Then 10 bonus points lead to a maximum score of $90$.
+- Scores $> 100$ will lead to those extra points being used to improve homework scores.
+- Today we will start with a midterm review to help you in this take-home assignment.
 
 ## Today's class
 
