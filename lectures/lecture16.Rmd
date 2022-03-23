@@ -117,7 +117,7 @@ $$
 
 ## Various sampling plans
 
-Consider three differing sampling plans for unequal size clusters:
+Consider three different sampling plans for unequal size clusters:
 
 * SRS of k clusters from a population of K clusters for first stage, with all elements in selected clusters being chosen.
 * SRS of k clusters from a population of K clusters for first stage, with equal fraction $m/M$ elements in selected clusters being chosen.
