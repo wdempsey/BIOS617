@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 19"
 author: "Walter Dempsey"
-date: "3/31/2021"
+date: "3/23/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -13,18 +13,6 @@ library(knitr)
 library(survey)
 library(pps)
 ```
-
-## Midterm Grade Ranges
-
-* Raw Score Range to Letter Score
-* 40 - 50: C
-* 50 - 60: C+
-* 60 - 70 : B-
-* 70 - 80: B
-* 80 - 85: B+
-* 85 - 90: A-
-* 90 - 95: A
-* 95 - 100: A+
 
 ## General methods for variance estimation
 
@@ -195,7 +183,7 @@ $$
 - \frac{1}{\sigma^2} X_n^\top W_n ( Y_n - X_n \beta)
 $$
 
-* For SRS, $w_i = \frac{1}{f} \Rightarrow$ 
+* For SRS, $w_i = \frac{1}{f} \Rightarrow \beta = (X^\top X)^{-1} X^\top Y$
 * In general $w_i = \pi_i^{-1}$ and so will be different from simple LS
 
 ## Solving weighted LS
@@ -274,45 +262,7 @@ $$
 (X^\prime W X)^{-1} \left( \sum_{i=1}^h \frac{k_i}{k_i-1} \sum_{j=1}^{k_i} (z_{ij} - \bar z_i) (z_{ij} - \bar z_i)^\top \right) (X^\prime W X)^{-1}
 $$
 
-
-## JITT: ``A fundamental identity in statistics'' - X.L. Meng
-
-* Consider $\bar y_n = \frac{1}{n} \sum_{i=1}^n y_i = \frac{\sum_{i=1}^N I_j Y_j}{\sum_{j=1}^N I_j }$
-* For any set of numbers $\{ Y_1, \ldots, Y_N \}$. let $J$ be a random index defined on $\{1,\ldots, N\}$. For example, if $J$ is uniformly distributed then $E_J ( Y_J ) = \sum_{j=1}^N Y_j / N$
-if $J$ is uniformly distributed.
-* Use this to show $\bar y_n - \bar Y = \frac{\text{Cov}_J (I_J, Y_J)}{E_J (I_J)}$
-* Let $\rho_{I,Y} = \text{Corr}_{J} (I_J, Y_J)$, then show 
-$$
-\bar y_n - \bar Y = \rho_{I,Y} \times \sqrt{\frac{1-f}{f}} \times \sigma_{Y}
-$$
-where $f = n/N = E_J [I_J]$, $\sigma_Y = \sqrt{V_J (Y_j)}$
-* What do these 3 factors represent?
-  
-## JITT: applied to SRS
-
-* Let $\text{MSE}_{{\bf I}} ( \bar y_n) = E_{{\bf I}} \left[ (\bar y_n - \bar Y)^2 \right]$ 
-where $E_{{\bf I}}$ denotes the expectation with respect to any chosen distribution of ${\bf I}$ but conditioning on sample size $\sum_{j=1}^N I_j = n$.
-* Show (explain why) above implies
-
-$$
-\text{MSE}_{{\bf I}} ( \bar y_n) = E_{{\bf I}} \left[ \rho_{I,Y}^2 \right] \times \left( \frac{1-f}{f} \right) \times \sigma_{Y}^2
-$$
-
-* Under SRS, we had
-
-$$
-V_{SRS} ( \bar y_n )  = \frac{1-f}{n} S^2, \quad 
-\text{with} \quad
-S^2 = \frac{N}{N-1} \sigma_Y^2 = \frac{1}{N-1} \sum_{j=1}^N (Y_j - \bar Y)^2
-$$
-
-* Show this implies 
-
-$$
-E_{SRS} \left[ \rho_{I,Y}^2 \right] = \frac{1}{N-1}
-$$
-
-## JITT:  For Monday's Diary
+## For next diary
 
 * What's the implicit assumption in the following from the NYT:
   + _As we reach more people, our poll will become more stable and the margin of sampling error will shrink_
