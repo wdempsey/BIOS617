@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 20"
 author: "Walter Dempsey"
-date: "4/5/2020"
+date: "3/28/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -13,61 +13,6 @@ library(knitr)
 library(survey)
 library(pps)
 ```
-
-## JITT: ``A fundamental identity in statistics'' - X.L. Meng
-
-$$
-\begin{aligned}
-\bar y_n - \bar Y &= \frac{\text{E}_J (I_J \cdot Y_J)}{E_J (I_J)} - E_J (Y_J) \\
-&= \frac{\text{E}_J (I_J \cdot Y_J) - E_J (Y_J) E_J (I_J)}{E_J (I_J)} \\
-&= \frac{\text{Cov}_J (I_J, Y_J)}{E_J (I_J)} \\
-&= \frac{\text{Cov}_J (I_J, Y_J)}{\sqrt{ V_J (I_J) V_J(Y_J)}} \frac{\sqrt{ V_J (I_J)}}{E_J (I_J)} \sqrt{V_J(Y_J)} \\
-&= \rho_{I, Y} \times \sqrt{ \frac{1-f}{f} } \times \sigma_Y \\
-\end{aligned}
-$$
-
-## What do these factors represent
-
-$$
-\underbrace{\rho_{I, Y}}_{\text{Data Quality}} \times \underbrace{\sqrt{ \frac{1-f}{f} }}_{\text{Data Quantity}}\times \underbrace{\sigma_Y}_{\text{Problem Difficulty}} = D_I \times D_O \times D_U
-$$
-
-* _Data quantity_ : how much of the population have we observed
-* _Problem difficulty_: If $Y$ is a constant across population then $\sigma_Y = 0$ and the problem is super simple.  The overall variation in the population tells you how much data is needed 
-* _Data quality_: Most challenging to assess yet most critical!
-  + Measures sign and degree of selection bias caused by the selection mechanism 
-  + Absence of selection bias (e.g., probabilistic sampling) then $\rho_{I, Y} \approx 0$
-  + If larger values of $Y$ have higher/lower chances to be recorded, then $\bar y_n$ overestimates/underestimates $\bar Y$. Sign and degree of $\rho_{I,Y}$ measure direction and magnitude of these effects respectively.
-
-## Applied to SRS
-
-
-$$
-\text{MSE}_{{\bf I}} ( \bar y_n) = E_{{\bf I}} \left[ \rho_{I,Y}^2 \right] \times \left( \frac{1-f}{f} \right) \times \sigma_{G}^2
-$$
-
-* Under SRS, we had
-
-$$
-V_{SRS} ( \bar y_n )  = \frac{1-f}{n} \frac{N}{N-1} \sigma_Y^2 = \frac{1}{N - 1} \frac{1-f}{f} \sigma_Y^2
-$$
-
-* For SRS, since there's no bias, we have MSE is the variance and so
-
-$$
-E_{SRS} \left[ \rho_{I,Y}^2 \right] = \frac{1}{N-1}
-$$
-
-## JITT:  For Monday's Diary
-
-* What's the implicit assumption in the following from the NYT:
-  + _As we reach more people, our poll will become more stable and the margin of sampling error will shrink_
-
-```{r, out.width = "200px", fig.align='center'}
-include_graphics("./figs/l19_fig2.png") # place holder
-```
-
-
 ## Replication methods for variance estimation
 
 An alternative to linearization is replication or resampling: elements of the sample are dropped, a new estimator is computed using the remaining elements of the sample, and the resulting estimates resulting from repeated applications of this process are used to compute a variance estimator.
@@ -413,19 +358,3 @@ d2 <- coef(summary(myreg2))
 knitr::kable(d2)
 ```
 
-## JITT: Derivation continued
-
-* Can we estimate $E_{I} \left[ \rho_{I, Y}^2 \right]$ for non-probabilistic data?
-* For binary data, we can show Hoeffding-Frechet bounds
-
-$$
-- \min \left\{ \sqrt{\frac{D_O}{O_Y}}, \sqrt{\frac{O_Y}{D_O}} \right\} \leq \rho_{I, Y} \leq \min \left\{ \sqrt{O_Y D_O}, \frac{1}{\sqrt{O_Y D_O}} \right\}
-$$
-
-where $O_Y = p_Y/ (1-p_Y)$ is the odds ratio. Can you think about instances where the lower and upper bound are achieved?
-
-*  Combine prior work to show that,
-$$
-\frac{\bar y_n - \bar Y}{\sqrt{V_{SRS} (\bar y_n)}} = \sqrt{N-1} \rho_{I,Y}
-$$
-What is the design effect in terms of $N$ and $D_I$?
