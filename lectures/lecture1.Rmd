@@ -133,12 +133,6 @@ brexit_polls %>%
   ggtitle("Spread of Brexit referendum online and telephone polls")
 ```
 
-## Discussion
-
-- What is the population for the Brexit survey? 
-- What is the sampling frame?
-- What are potential practical issues with defining the frame?
-
 ## Survey sampling notation: population
 
 - Number of elements: $N$
@@ -158,6 +152,8 @@ brexit_polls %>%
 - Sample variance: $s^2 = (n-1)^{-1} \sum_{i=1}^n (y_i - \bar y)^2$
 - Sampling fraction: $f = n/N$
 - When $n = N$ , sample = population
+
+## Time for your first survey
 
 ## Design-based inference
 
