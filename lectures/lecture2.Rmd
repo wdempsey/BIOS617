@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 2"
 author: "Walter Dempsey"
-date: "1/25/2021"
+date: "1/9/2023"
 output:
   beamer_presentation: default
   ioslides_presentation:
@@ -11,8 +11,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
-## JITT Review/Discussion 
 
 ## Simple random sampling (SRS) without replacement
 
@@ -50,6 +48,14 @@ E[ \bar y ] &= \sum_{s=1}^S P_s \bar y_s = \sum_{s=1}^S {N \choose n}^{(-1)} \fr
  &= \frac{1}{N} \sum_{j=1}^N Y_j \\
 \end{aligned}
 $$
+
+## Empirically demonstrate unbiasedness
+
+- Use $N=12$ population data from the candy guess exercise in Lecture 1
+- Generate all potential samples of size $n=4$ from the $N=12$
+- Demonstrate $\bar y$ is unbiased
+- Can you calculate the variance $V(\bar y)$?
+- Does it equal $S^2/n$?
 
 ## Variance of $\bar y$
 
@@ -286,17 +292,3 @@ $$\small
 \tilde s^2 = (n-1)^{-1} \sum_{i=1}^n D_{ij} (y_i - \bar{\tilde y}_j)^2
 $$
 where $\bar{\tilde y}_j = n^{-1} \sum_{i=1}^n D_{ij} y_i$
-
-## Your second JITT:  3rd proof of variance
-- We know $V (\bar y) = V\left( \frac{1}{n} \sum_{i=1}^n I_i Y_i \right)$ 
-- Hint 1: $V(I_i) = f (1-f)$ and $\text{Cov}(I_i, I_j) = f \left( \frac{n-1}{N-1} - f \right)$
-- Step 1: Use hint 1 to show the variance is equivalent to
-$$ \small
-\frac{f (1-f)}{n^2} \left[ \sum_{i=1}^N Y_i^2 - \frac{1}{N-1} \sum_{j=1}^N \sum_{i\neq j} Y_i Y_j\right]
-$$
-- Hint 2:
-$$ \small
-\sum_{j=1}^N \sum_{i=1}^N Y_i Y_j = \left( \sum_{i=1}^N Y_i \right)^2 - \sum_{i=1}^N Y_i^2
-$$
-
-- Step 2: Combine hint and variance formula to show result
