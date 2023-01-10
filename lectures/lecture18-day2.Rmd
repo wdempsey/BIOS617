@@ -1,0 +1,401 @@
+---
+title: "BIOS 617 - Lecture 18"
+author: "Walter Dempsey"
+date: "3/22/2023"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(survey)
+library(pps)
+```
+
+## Today's class
+
+- Probability proportion to estimated size (PPeS) sampling designs 
+- Issues in PPS/PPeS sampling 
+- Simulation study
+
+## Probability Proportional to Estimated Size (PPeS) sampling
+
+* In many practical cases, true cluster sizes $M_i$ are not available
+  + An approximation may be available instead $\tilde M_i$
+* In employee example, the current employment counts might not be available, but the past year employment counts are
+* Here we assume:
+  + $\tilde M_i$ available at sampling, __but__
+  + $M_i$ not available until analysis
+
+## Example
+
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l18_fig1.png") # place holder
+```
+
+## Sampling probability
+
+* Assume second stage sampling with constant sample size 
+* Joint sampling probability
+$$
+\pi_{ij} = \frac{k \tilde M_i}{N} \times \frac{m}{M_i} = \frac{n \tilde M_i}{N M_i} = w_{ij}^{-1}
+$$
+
+* Weights must now be used to obtain unbiased estimators of means and totals:
+$$
+\bar y_{ppes} = \frac{\sum_{i=1}^k \sum_{j=1}^m w_{ij} y_{ij} }{\sum_{i=1}^k \sum_{j=1}^m w_{ij}} = 
+\frac{\sum_{i=1}^k \frac{M_i}{\tilde M_i} \sum_{j=1}^m y_{ij} }{\sum_{i=1}^k \frac{M_i}{\tilde M_i}  \cdot m} =
+\frac{\sum_{i=1}^k w_i \bar y_i}{\sum_{i=1}^k w_i}
+$$
+where $w_i = \frac{M_i}{\tilde M_i}$.
+
+## Ratio estimator
+
+* Denominator is now a random variable, so we return to ratio estimator to obtain variance
+* $w = \sum_{i=1}^k w_i$; $y_w = \sum_{i=1}^k w_i \bar y_i$
+* Sampling with replacement at first stage
+
+$$
+v(\bar y_{ppes} ) \approx \frac{1}{w^2} \left[ v(y_w) + \bar y_{ppes}^2 v(w) - 2 \bar y_{ppes} c(y_w, w) \right]
+$$
+
+* Sampling without replacement at first stage
+
+$$
+v(\bar y_{ppes} ) \approx \frac{1-k/K}{w^2} \left[ v(y_w) + \bar y_{ppes}^2 v(w) - 2 \bar y_{ppes} c(y_w, w) \right]
+$$
+
+## Ratio estimator
+
+* Use usual estimators of variance
+  $$
+  \begin{aligned}
+  v(y_w) &= \frac{k}{k-1} \sum_{i=1}^k (w_i \bar y_i - y_w / k )^2 \\
+  v(w) &= \frac{k}{k-1} \sum_{i=1}^k (w_i - w / k )^2 \\
+  c(y_w, w) &= \frac{k}{k-1} \sum_{i=1}^k (w_i -w_k) (w_i \bar y_i - y_w / k )
+  \end{aligned}
+  $$
+
+## Simple case
+
+* If $\tilde M_i = M_i$, then 
+  + $w_i \equiv 1$
+  + $v(w) = 0)$
+  + $c(y_w, w) = 0$
+* So
+$$
+\begin{aligned}
+v(\bar y_{ppes}) 
+&\approx \frac{k}{k^2} \left[ \frac{1}{k-1} \sum_{i=1}^k (\bar y_i - y_w / k)^2 \right] \\
+&= \frac{1}{k (k-1)} \sum_{i=1}^k (\bar y_i - y_w / k)^2 \\
+&= \frac{1}{k (k-1)} \sum_{i=1}^k (\bar y_i - \bar y)^2 = v(\bar y_{pps})
+\end{aligned}
+$$
+since $y_w / k = \sum_{i=1}^k \bar y_i / k = \sum_{i=1}^k \sum_{j=1}^k y_{ij} / km = \bar y$
+
+## Stratified PPS/PPeS
+
+* When we stratify before conducting PPS, we often must adjust the sampling rates, since the strata population sizes typically don’t precisely match those needed for the stratification.
+* Go back to employer example: assume a paired selection design for $H=2$ strata
+  + So $k=4$ and $m = 18$ gives a sample size $72$ 
+  + Overall sampling fraction of $f = 72/2160 = 1/30$.
+* Assume two strata are given by units $1--4$ and $5--10$
+
+## Example
+
+```{r, out.width = "200px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l18_fig2.png") # place holder
+```
+
+## Sampling fractions
+
+* In first stratum:
+$$
+f_1 = \frac{2 M_i}{\sum_{i=1}^4 M_i } \times \frac{18}{M_i} = \frac{36}{1286} = \frac{0.84}{30} \neq \frac{1}{30}
+$$
+* In first stratum:
+$$
+f_1 = \frac{2 M_i}{\sum_{i=1}^4 M_i } \times \frac{18}{M_i} = \frac{36}{1286} = \frac{0.84}{30} \neq \frac{1}{30}
+$$
+* Vary second stage sampling fractions by strat so that $f_1 = f_2$:
+$$
+f_h = \frac{2M_i}{\sum_{i=1}^4 M_i } \times \frac{m_h}{M_i} = f 
+\Rightarrow m_h = \frac{f \sum_{i \in h} M_i }{2}
+$$
+
+## Employee example:
+
+$$
+m_1 = \frac{1286}{60} = 21.41; 
+\quad \text{and} \quad
+m_2 = \frac{876}{60} = 14.57.
+$$
+
+* Can approximate stratified epsem design by sampling 21 from each of the 1st strata clusters and 15 from each of the second sample clusters.
+  + Improved approximation: sample 22 from one of first stratum clusters and 21 from other, and 14 from one of second stratum clusters and 15 from other.
+
+## Employee example 
+
+Consider sampling with replacement in 1st stage
+
+* $R_{11} = 832$, $R_{12} = 945$: 
+  + Sample 43 = (21+22) elements from unit 4
+* $R_{21} = 155$, $R_{22} = 709$: 
+  + sample 14 elements from unit 6 and 15 elements from unit 9
+  
+## Point estimation for stratified PPS/PPeS
+
+For PPeS, use stratified ratio estimator:
+$$
+\bar y_{ppes} = \frac{\sum_{h=1}^H \sum_{i=1}^{k_h} w_{hi} \bar y_{hi}}{\sum_{h=1}^H \sum_{i=1}^{k_h} w_{hi}}
+$$
+where now the $w_{hi}$ are weighted to account for both the stratification and the unequal probability of selection induces by errors in the measure of size: 
+$$
+w_{hi} = \frac{k K_h M_i}{k_h K \tilde M_i}
+$$
+
+## If PPS
+
+Then 
+$$
+w_{hi} \equiv w_h = \frac{k K_h}{k_h K}
+$$
+and
+$$
+\begin{aligned}
+\sum_{h=1}^H \sum_{i=1}^{k_h} w_{hi} 
+&= \sum_{h=1}^H k_h \times \frac{k K_h}{k_h K} \\
+&= k \sum_{h=1}^H \frac{K_h}{K} = k \\
+\end{aligned}
+$$
+implying
+$$
+\bar y_{pps}= \frac{k\sum_{h=1}^H \frac{K_h}{K} \frac{1}{k_h} \sum_{j=1}^{k_h} \bar y_{hi}}{k} = \sum_{h=1}^H \frac{K_h}{K} \bar y_h
+$$
+
+## Variance estimation for stratified PPS/PPeS
+
+$$
+\begin{aligned}
+v( \bar y_{ppes} ) &\approx \frac{1}{w^2} \sum_{h=1}^H \left[ v( y_{wh}) + \bar y^2_{ppes} v ( w_h ) - 2 \bar y_{ppes} c(y_{wh}, w_h ) \right] \\
+w_h &= \sum_{i=1}^{k_h} w_{hi}, \quad \text{ and } \quad
+y_{wh} = \sum_{i=1}^{k_h} w_{hi} \bar y_{hi} \\
+v(y_{wh}) &= \frac{k_h}{k_h-1} \sum_{i=1}^{k_h} (w_{hi} \bar y_{hi} - y_{wh} / k )^2 \\
+  v(w_h) &= \frac{k_h}{k_h-1} \sum_{i=1}^{k_h} (w_{hi} - w_h / k )^2 \\
+  c(y_{wh}, w_h) &= \frac{k_h}{k_h-1} \sum_{i=1}^{k_h} (w_{hi} - w_h / k) ( w_{hi} \bar y_{hi} - y_{wh} / k )
+\end{aligned}
+$$
+
+## Variance under PPS
+
+* $w_{hi} \equiv w_{h} = \frac{k K_h}{k_h K}$ and we obtain $v(w_h) = v(k_h) = 0$, $c(y_{wh}, w_h) = 0$, and
+$$
+\begin{aligned}
+v(\bar y_{pps} ) &\approx \frac{1}{k^2} \sum_{h=1}^H v(y_{wh}) \\
+&= \frac{1}{k^2} \sum_{h=1}^H v \left( \sum_{i=1}^{k_h} \frac{k K_h}{k_h K} \bar y_{hi} \right)
+&= \frac{1}{k^2} \sum_{h=1}^H k^2 \left( \frac{K_h}{K} \right)^2 v \left( \bar y_{h} \right) \\
+&= \sum_{h=1}^H \left( \frac{K_h}{K} \right)^2 v \left( \bar y_{h} \right)
+\end{aligned}
+$$
+where $v(\bar y_h) = \frac{1}{k_h - 1} \sum_{i=1}^{k_h} ( \bar y_{hi} - \bar y_{i} )^2$.
+
+## Issues in PPS/PPeS sampling
+
+1. In practice, PPS/PPeS is often carried out by without replacement systematic sampling from cumulative totals, but analyzed as if sampled with replacement
+  + Leads to overestimation of variance and conservative inference (trivial if number of first-stage units is large).
+  
+## Issues in PPS/PPeS sampling
+
+2. Oversized PSUs
+  + If there is a great deal of variability among the cluster sizes and/or a limited number of clusters in the population, it is quite possible that
+  + Can't have a probability of selection exceed $1$
+  
+## Example
+
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/l18_fig3.png") # place holder
+```
+
+* Let $k=2$, $m=50$, and $f = n/N = 1/16$
+* Applying standard rules for 1st stage selection yields
+$$
+P( \delta_D = 1) = \frac{2 \times 900}{1600} = 1\frac{1}{8}
+$$
+
+## Solution
+
+* Set aside PSUs with probability of selection  $\geq 1$ into a ``self-representing'' stratum:
+  + Apply overall sampling fraction to PSUs in this stratum.
+  + Compute proportional fraction for the remaining sample and draw via PPS from remaining PSUs 
+* In example:
+  + Sample $900 \times \frac{1}{16} \approx 56$ elements from PSU D
+  + Sample a second PSU from from A,B,C,E,F using PPS and draw $100-56=44$ elements from it
+ 
+## Issues in PPS/PPeS sampling
+
+3. Undersized PSUs
+  + If $M_i$ is small, $m/M_i$ can exceed $1$
+  + In example, if PSU B is chosen from the non-self-representing stratum, then $44/30 > 1$
+
+* Solution:
+  + Collapse PSUs before selection.
+  + Collapse PSUs after selection (must be careful to avoid bias).
+  
+## Collapsing __after__ selection (via systematic sampling)
+
+* At each draw, identify the selected unit. If it and the next unit on the list are of minimum size m, stop.
+* If selected unit or the following are not of minimum size
+  + Move forward on the list until the first unit of minimum size is encountered.
+  + Cumulate units backwards until a collapsed unit of sufficient size is created.
+  + Continue until a selected unit is collapsed together.
+  
+  
+## Example
+
+```{r, out.width = "75px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/syssam_1.png") # place holder
+```
+
+## Example
+
+```{r, out.width = "200px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/syssam_2.png") # place holder
+```
+
+## Example
+
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/syssam_3.png") # place holder
+```
+
+## Example
+
+```{r, out.width = "150px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/syssam_4.png") # place holder
+```
+
+## Example
+
+```{r, out.width = "200px", fig.align='center'}
+library(knitr)
+include_graphics("./figs/syssam_5.png") # place holder
+```
+
+## Simulation study to verify PPS results
+
+* It is often useful and important to verify the results ofderivation using a simulation study.
+  + Check for errors.
+  + Consider “small sample” properties of asymptotic approximation. 
+  + Gain insight into statistical properties.
+* We could estimate the variance of the two-stage epsem PPS estimator by the standard 1-stage epsem cluster variance estimator:
+  $$
+  v(\bar y_{pps} ) = \frac{\sum_{i=1}^{k} (\bar y_i - \bar y)^2}{k (k-1)}
+  $$
+* Let's find out how well that works
+
+## Simulation setup
+
+* Population:
+  + $K= 1,000$ first-stage clusters
+  + $M_i = 20 + U_i$ where $U_i \sim \text{Geometric}(1/100)$
+  + $\mu_i \sim N( M_i / 10, 10)$
+  + $Y_{ij} \sim N(\mu_i, 10)$
+* Sample:
+  + $k=100$ first stage units with probability proportional to $M_i$
+  + Sample $m= 10$ unites from each sampled cluster with equal probability
+
+## Simulation setup
+
+1. Generate population (once)
+2. Draw sample 
+3. Compute mean as 
+$$\frac{1}{100} \sum_{i=1}^{100} \bar y_i = \frac{1}{1000}\sum_{i=1}^{100} \sum_{j=1}^{10} y_{ij}$$
+
+4. Compute variance as 
+$$
+\frac{\sum_{i=1}^{k} (\bar y_i - \bar y)^2}{k (k-1)}
+$$
+
+5. Repeat steps 2-4 $1000$ times with independent samples each time
+  + Save estimate of mean and variance each time
+
+## Generate population
+
+```{r sim1, echo = TRUE, eval = TRUE}
+#Generate the population###
+set.seed(7531)
+K<-1000
+M<-20+rgeom(K,.01)
+N<-sum(M)
+muk<-rnorm(K,M/10,10)
+Y<-rep(muk,M)+rnorm(N,0,10)
+kid<-rep(c(1:K),M)
+```
+
+## Generate samples
+
+```{r sim2, echo = TRUE, eval = TRUE}
+###Generate the samples##
+k<-100; m<-10
+myid<-c(t(matrix(rep(c(1:100),10),100,10)))
+SIM<-1000
+holdmean<-rep(0,SIM); holdse<-rep(0,SIM)
+```
+
+## Generate samples
+
+```{r sim3, echo = TRUE, eval = TRUE, cache = TRUE}
+###Generate the samples##
+set.seed(1357)
+for(sim in 1:SIM){
+sampk<-ppss(M,k); y<-NULL
+for(i in 1:k){ ty<-sample(Y[sampk[i]==kid],size=m); y<-c(y,ty) }
+###Estimate the mean and variance###
+mydata<-list(myid,y)
+designn<-svydesign(id=~myid,data=mydata,variables=y~1,probs = 1)
+kmean<-svymean(~y,designn)
+###Save mean and variance###
+holdmean[sim]<-ftable(kmean)[1]; holdse[sim]<-ftable(kmean)[2] }
+```
+
+## Using simulation
+
+* Consider bias in the mean estimator:
+$$
+B^{-1} \sum_{b=1}^B \bar y^{(b)} - \frac{1}{N} \sum_{i=1}^K \sum_{j=1}^{M_i} Y_{ij} = `r round(mean(holdmean) - mean(Y),5)`
+$$
+
+* Relative error: `r (mean(holdmean)/mean(Y)-1)*100`
+* Simulation error:
+$$
+B^{-1} \left( \frac{\sum_{b=1}^B ( \bar y^{(b)} - B^{-1} \sum_{b=1}^B \bar y^{(b)} )^2 }{B-1} \right) = `r var(holdmean)/SIM`
+$$
+
+## Confidence intervals
+
+* Consider true coverage of nominal confidence intervals
+* What fraction of the intervals
+
+$$
+\bar y^{(b)} \pm 1.96 \times \sqrt{ v(\bar y^{(b)})}
+$$
+
+* Coverage is: `r sum(((holdmean-1.96*holdse)<mean(Y)& ((holdmean+1.96*holdse)>mean(Y))))/SIM`
+* That is conservative – the CIs for `r sum(((holdmean-1.96*holdse)<mean(Y)& ((holdmean+1.96*holdse)>mean(Y))))` out of `r SIM` simulations included the population mean, when we want only `r SIM*0.95` out of `r SIM`.
+* Did we do something wrong?
+
+## CI with FPC
+
+* We neglected finite population correction
+* Coverage with fpc is: `r sum(((holdmean-1.96*sqrt(0.9)*holdse)<mean(Y)& ((holdmean+1.96*sqrt(0.9)*holdse)>mean(Y))))/SIM`
+* Better, but still appears conservative
+* Simulation error? 
+  + 95\% of draws of binomial distribution with $n=1000$ and $p=0.95$ will lie in 936 to 963.

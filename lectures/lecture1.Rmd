@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 1"
 author: "Walter Dempsey"
-date: "1/5/2022"
+date: "1/4/2023"
 output:
   beamer_presentation: default
   ioslides_presentation:
@@ -133,12 +133,6 @@ brexit_polls %>%
   ggtitle("Spread of Brexit referendum online and telephone polls")
 ```
 
-## Discussion
-
-- What is the population for the Brexit survey? 
-- What is the sampling frame?
-- What are potential practical issues with defining the frame?
-
 ## Survey sampling notation: population
 
 - Number of elements: $N$
@@ -158,6 +152,8 @@ brexit_polls %>%
 - Sample variance: $s^2 = (n-1)^{-1} \sum_{i=1}^n (y_i - \bar y)^2$
 - Sampling fraction: $f = n/N$
 - When $n = N$ , sample = population
+
+## Time for your first survey
 
 ## Design-based inference
 
@@ -317,18 +313,6 @@ The probability that $I_j = 1$ can be shown equal to $n/N$. Then
 $$
 E[t_s] = \sum_s P_s t_s = (1/n) \times \sum_j \frac{n}{N} Y_j = \bar Y
 $$
-
-## Your first JITT (first 10-minutes of next class, discuss in small) 
-
-- Download the Pew poll data from Canvas
-- Read Pew poll data into R using the ```library(foreign)```
-- What is the population, sampling frame of the Pew poll?
-- Name at least 2 objectives of such an opinion poll?
-- Take ideology and code (-2= very liberal, -1 = liberal, 0 = moderate, 1 = conservative, 2 = very conservative).
-- Fit linear regression of ideology ```lm()``` given sex, age, and marital status.
-- Use ```display()``` function to display the results.
-- Be ready to describe the results.
-
 
 
 

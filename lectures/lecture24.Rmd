@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 24"
 author: "Walter Dempsey"
-date: "4/8/2020"
+date: "4/13/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -13,110 +13,6 @@ library(knitr)
 library(survey)
 library(pps)
 ```
-
-## Example: 
-
-Suppose our respondents have the following age x gender distribution:
-
-```{r, out.width = "150px", fig.align='center'}
-include_graphics("./figs/l23_fig2.png") # place holder
-```
-
-While the census provides:
-
-```{r, out.width = "150px", fig.align='center'}
-include_graphics("./figs/l23_fig3.png") # place holder
-```
-
-## Poststratification weights:
-
-```{r, out.width = "250px", fig.align='center'}
-include_graphics("./figs/l23_fig4.png") # place holder
-```
-
-All people in the same cell receive the same poststratification weight
-
-## Example: continued
-
-Suppose we only know the marginal age and sex distributions in the population:
-
-```{r, out.width = "200px", fig.align='center'}
-include_graphics("./figs/l23_fig5.png") # place holder
-```
-
-```{r, out.width = "200px", fig.align='center'}
-include_graphics("./figs/l23_fig6.png") # place holder
-```
-
-## Ex: Raking procedure
-
-```{r, out.width = "200px", fig.align='center'}
-include_graphics("./figs/l23_fig7.png") # place holder
-```
-
-Raking weights are then given by: 
-```{r, out.width = "200px", fig.align='center'}
-include_graphics("./figs/l23_fig8.png") # place holder
-```
-
-## Ex: Adjustment for non-response: non-response cells
-
-Suppose that, instead of poststrata, we had the following
-tables of observed cell counts and a table from the sampled
-elements, regardless of response:
-
-```{r, out.width = "150px", fig.align='center'}
-include_graphics("./figs/l23_fig9.png") # place holder
-```
-
-```{r, out.width = "150px", fig.align='center'}
-include_graphics("./figs/l23_fig10.png") # place holder
-```
-
-## Adjustment for non-response: non-response cells
-
-```{r, out.width = "150px", fig.align='center'}
-include_graphics("./figs/l23_fig11.png") # place holder
-```
-
-```{r, out.width = "150px", fig.align='center'}
-include_graphics("./figs/l23_fig12.png") # place holder
-```
-
-## Ex: Adjustment for non-response: logistic regression
-
-Fir a model of the form
-$$
-\begin{aligned}
-\text{logit} \left( P (R_i = 1) \right) =& \beta_0 + \beta_1 I(\text{gender}_i = \text{male}) \\
-&+ \beta_2 \cdot I(\text{age}_i = \text{18-64}) + \beta_3 I(\text{age}_i = \text{65+})
-\end{aligned}
-$$
-with $\hat \beta = (-0.2165, -0.6404, 0.2752, 0.4934)$.
-
-```{r, out.width = "100px", fig.align='center'}
-include_graphics("./figs/l23_fig13.png") # place holder
-```
-
-```{r, out.width = "100px", fig.align='center'}
-include_graphics("./figs/l23_fig14.png") # place holder
-```
-
-## Example: continued
-
-Suppose that our outcome of interest is current smoking behavior, and we observe the following positive replies among out 100 respondents:
-
-```{r, out.width = "100px", fig.align='center'}
-include_graphics("./figs/l23_fig15.png") # place holder
-```
-
-$$
-\begin{aligned}
-\bar y &= 0.2900; \quad \bar y_p = 0.3053 \\
-\bar y_{\text{rake}} &= 0.3069; \quad \bar y_s = 0.3064 \\
-\bar y_{\text{logistic}} &= 3051
-\end{aligned}
-$$
 
 ## Imputation 
 
@@ -370,52 +266,52 @@ Let’s work through an example where $p=2$: $y_1$ continuous and normally distr
 8. Repeat and store every 20th iteration 
   
 
-## JITT: Weight, weight, don't tell me
+<!-- ## JITT: Weight, weight, don't tell me -->
 
-$$
-\begin{aligned}
-\bar y_n - \bar Y &= \frac{\text{E}_J (I_J \cdot W_J \cdot Y_J)}{E_J (I_J W_J)} - E_J (Y_J) \\
-&= \frac{\text{Cov}_J (\tilde I_J W_J, Y_J)}{E_J (\tilde I_J)} \\
-&= \frac{\text{Cov}_J (\tilde I_J, Y_J)}{\sqrt{ V_J (\tilde I_J) V_J(Y_J)}} \frac{\sqrt{ V_J (\tilde I_J)}}{E_J (\tilde I_J)} \sqrt{V_J(Y_J)} \\
-&= \rho_{\tilde I, Y} \times \sqrt{ \frac{1-f}{f} } \times \sigma_Y \\
-\end{aligned}
-$$
+<!-- $$ -->
+<!-- \begin{aligned} -->
+<!-- \bar y_n - \bar Y &= \frac{\text{E}_J (I_J \cdot W_J \cdot Y_J)}{E_J (I_J W_J)} - E_J (Y_J) \\ -->
+<!-- &= \frac{\text{Cov}_J (\tilde I_J W_J, Y_J)}{E_J (\tilde I_J)} \\ -->
+<!-- &= \frac{\text{Cov}_J (\tilde I_J, Y_J)}{\sqrt{ V_J (\tilde I_J) V_J(Y_J)}} \frac{\sqrt{ V_J (\tilde I_J)}}{E_J (\tilde I_J)} \sqrt{V_J(Y_J)} \\ -->
+<!-- &= \rho_{\tilde I, Y} \times \sqrt{ \frac{1-f}{f} } \times \sigma_Y \\ -->
+<!-- \end{aligned} -->
+<!-- $$ -->
 
-## JITT: Weight, weight, don't tell me
+<!-- ## JITT: Weight, weight, don't tell me -->
 
-* So the design effect is
+<!-- * So the design effect is -->
 
-$$
-(N-1) E_I [  \rho_{\tilde I, Y}^2 ] \left( 1 + (1-f)^{-1} E_{I} (CV (W)^2) \right)
-$$
-* The final term is $\geq 1$
-* Hope is to offset by reduction in $E_I[\rho^2_{\tilde I, Y} ]$
-* Rare to see produce be level of $N^{-1}$
+<!-- $$ -->
+<!-- (N-1) E_I [  \rho_{\tilde I, Y}^2 ] \left( 1 + (1-f)^{-1} E_{I} (CV (W)^2) \right) -->
+<!-- $$ -->
+<!-- * The final term is $\geq 1$ -->
+<!-- * Hope is to offset by reduction in $E_I[\rho^2_{\tilde I, Y} ]$ -->
+<!-- * Rare to see produce be level of $N^{-1}$ -->
 
-## Which do you trust?  
+<!-- ## Which do you trust?   -->
 
-* “Which one should I trust more: a 1%
-survey with 60% response rate or a self-reported administrative dataset covering 80% of the population?”
-* Let $r$ be the response rate. If $f_s = n_s/N$ is the survey fraction, then
-$$
-D_O = (1-r f_s)/(r f_s)
-$$
+<!-- * “Which one should I trust more: a 1% -->
+<!-- survey with 60% response rate or a self-reported administrative dataset covering 80% of the population?” -->
+<!-- * Let $r$ be the response rate. If $f_s = n_s/N$ is the survey fraction, then -->
+<!-- $$ -->
+<!-- D_O = (1-r f_s)/(r f_s) -->
+<!-- $$ -->
 
-* The $n_{eff}^{BIG}$ is larger than $n_{eff}$ iff
-$$
-D_I^{BIG} D_O^{BIG} < D_I D_O
-$$
+<!-- * The $n_{eff}^{BIG}$ is larger than $n_{eff}$ iff -->
+<!-- $$ -->
+<!-- D_I^{BIG} D_O^{BIG} < D_I D_O -->
+<!-- $$ -->
 
-* Let $O$ be $D_O / D_O^{BIG}$; write this in terms of $r$, $f_s$, and $f$
-* Using approximation $D_I \approx \rho^2_{I,Y}$ show that above inequality holds when $| \rho_{I,Y}^{BIG} | \leq \sqrt{O} | \rho_{I,Y} |$
-* Compute $O$ for the question.
+<!-- * Let $O$ be $D_O / D_O^{BIG}$; write this in terms of $r$, $f_s$, and $f$ -->
+<!-- * Using approximation $D_I \approx \rho^2_{I,Y}$ show that above inequality holds when $| \rho_{I,Y}^{BIG} | \leq \sqrt{O} | \rho_{I,Y} |$ -->
+<!-- * Compute $O$ for the question. -->
 
-## Selection bias
+<!-- ## Selection bias -->
 
-* If selection bias caused by nonresponse mechanism is not nearly as severe as in the Big Data set, then we need to have a reasonable sense of the magnitude of $\rho_{I,Y}$ 
-* US eligible population = $231,557,000$
-* Under SRS, $| \rho_{I,Y}^{(SRS)} | \approx \sqrt{2/\pi} (N-1)^{-1/2} = 5.2 \times 10^{-5}$
-* Suppose non-response increases data defect correlation by factor of $5 \to \rho_{I,Y} \approx 2.6 \times 10^{-4}$
-* What is $\sqrt{O} \times \rho_{I,Y}$?
-* Does this seem large?
-* What about if big data was on 50\% of the population?  Is the answer paradoxical to you?
+<!-- * If selection bias caused by nonresponse mechanism is not nearly as severe as in the Big Data set, then we need to have a reasonable sense of the magnitude of $\rho_{I,Y}$  -->
+<!-- * US eligible population = $231,557,000$ -->
+<!-- * Under SRS, $| \rho_{I,Y}^{(SRS)} | \approx \sqrt{2/\pi} (N-1)^{-1/2} = 5.2 \times 10^{-5}$ -->
+<!-- * Suppose non-response increases data defect correlation by factor of $5 \to \rho_{I,Y} \approx 2.6 \times 10^{-4}$ -->
+<!-- * What is $\sqrt{O} \times \rho_{I,Y}$? -->
+<!-- * Does this seem large? -->
+<!-- * What about if big data was on 50\% of the population?  Is the answer paradoxical to you? -->

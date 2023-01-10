@@ -45,7 +45,7 @@ where $X$ consists of the stacked vectors of the intercept and the sampled age a
 \item Show that, for a proportionally stratified sample with a paired selection design, the jackknife estimator of the population mean given by $v_{JRR2} (\hat \theta) = \frac{1}{4} \sum_{h=1}^H ( \bar y_{(h1)} - \bar y_{(h2)})^2$ is equivalent to $v_{JRR} (\hat \theta) = \frac{1}{2} \sum_{h=1}^H \sum_{i=1}^2 \left( \bar y_{(hi)} - \bar y \right)^2$. {\bf [10 pt]}
 \item Prove the result from class notes that plugging in $v_h$ into $C^\star V$ definition yields
 $$
-V \approx \frac{1}{C^\star} \left[ \sum_h P_h S_h \sqrt{c_h} + \left(S^2 - \sum_h P_h S_h^2 \right)^2 \sqrt{c^\prime} \right].
+V \approx \frac{1}{C^\star} \left[ \sum_h P_h S_h \sqrt{c_h} + \left(S^2 - \sum_h P_h S_h^2 \right)^{1/2} \sqrt{c^\prime} \right]^2.
 $$
 {\bf [15 pt]}
 \item Cochran 12.1 (to answer the question ``does double sampling produce a gain in precision over single sampling'', compute the design effect for a double sampling estimator compared with an SRS design of sample size $n$.) {\bf [20 pt]}
