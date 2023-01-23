@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 3"
 author: "Walter Dempsey"
-date: "1/27/2021"
+date: "1/11/2023"
 output:
   beamer_presentation: default
   ioslides_presentation:
@@ -301,11 +301,3 @@ $$
 values, not random variables. But it does give intuition that stratified
 sampling for efficiency requires differential stratum means that reduce
 overall sampling variance to a meaningful degree.
-
-## JITT #3
-
-- Show $\bar y_{h}$ under SRS from the strata is unbiased
-- Show population estimate $\bar y_{st}$ is unbiased
-- What is the difference between stratification sampling and subdomain estimation?
-
-
