@@ -168,7 +168,7 @@ E(r-R)^2 &\approx V(r) \left( 1 + \frac{3 C_x^2}{n} + \frac{n (C_y^2 + C_x^2 - 2
 \end{aligned}
 $$
 where $C_x^2 = \frac{S_x^2}{\bar X^2}$, $C_y^2 = \frac{S_y^2}{\bar Y^2}$, $C_{xy} = \frac{S_{xy}}{\bar X \bar Y}$.
-* Thus $V(r)$ is a good approximation when $C_x^2/n = \left( \frac{S_x/\sqrt{n}}{\bar X} \right)^2 = cv(\bar x)$ is small
+* Thus $V(r)$ is a good approximation when $C_x^2/n = \left( \frac{S_x/\sqrt{n}}{\bar X} \right)^2 = cv(\bar x)^2$ is small (below the $0.01-0.02$ range)
 
 ## Option A or option B?
 

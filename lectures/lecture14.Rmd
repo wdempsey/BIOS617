@@ -175,15 +175,15 @@ $$
 * Biggest issue is $\bar x$ is random!
 * Variance is approximately given by
 $$
-\frac{1-f}{n \bar X^2} \left[ S_y^2 - R^2 S_x^2 - 2 R S_{xy} \right]
+\frac{1-f}{n \bar X^2} \left[ S_y^2 + R^2 S_x^2 - 2 R S_{xy} \right]
 $$
 * Good option when 
 $$
 S_{xy} > \frac{1}{2} R S_x^2 \quad \text{ or } \quad
 \rho > \frac{1}{2} \frac{cv(\bar x)}{cv(\bar y)}
 $$
-where $cv(\bar x) = S_x / \bar X$.  
-* Variance is a good approximation when $cv(\bar x)$ is less than the $0.01 -- 0.02$ range.
+where $cv(\bar x) = S_x/\sqrt{n} / \bar X$.  
+  * Variance is a good approximation when $cv(\bar x)^2$ is below the $0.01-0.02$ range
 
 ## Topic 11: Regression estimator
 
@@ -197,3 +197,4 @@ $$
 \Rightarrow
 \frac{1-f}{n} S_y^2 \left( 1 - \rho^2 \right)
 $$
+
