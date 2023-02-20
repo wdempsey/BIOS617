@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 12"
 author: "Walter Dempsey"
-date: "2/14/2022"
+date: "2/13/2023"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -302,7 +302,7 @@ $(`r round(ratio - qt(0.975, df = n-1)*sqrt(varr),3)`, `r round(ratio + qt(0.975
 ```{r pred, eval = TRUE, echo = TRUE}
 P75total = sum(MU284$P75)
 designn<-svydesign(ids=c(1:20),strata=NULL,
-                   weights=rep(1,20))
+                     weights=rep(1,20))
 myrat<-svyratio(numerator=~subsample_df$P85,
                 denominator=~subsample_df$P75,
                 design=designn)

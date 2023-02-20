@@ -1,5 +1,5 @@
 ---
-title: "BIOS 617 - Lecture 24"
+title: "BIOS 617 - Final Lecture"
 author: "Walter Dempsey"
 date: "4/20/2020"
 output:
@@ -15,18 +15,16 @@ library(pps)
 library(expm)
 ```
 
-## Review day:
-
-* HW 4 and 5 solutions posted
-* TODAY: Review the practice problems and discuss all topics we've covered in class
+# Review day
 
 ## Final announcement details
 
-* Exam date and time: Monday April 26, 1:30-3:30pm
-* Exam will be posted to Canvas under ``Assignments'' at 1:15pm
-* Exam needs to be __uploaded__ (like standard HW) by 3:45pm.
-* I will have my Zoom open.  Link will be announced on canvas.
-* Please stop in for questions while taking exam.  
+* Exam date and time: Monday April 25, 1:30-3:30pm
+* Exam will be posted to Canvas under ``Assignments'' at 1:20pm
+* Exam needs to be __uploaded__ (like standard HW) by 3:40pm.
+* I will be in class have my Zoom open.  Link will be announced on canvas.
+* Please feel free to ask me questions while taking exam.  
+* Basic R allowed but no packages.
 * E-mail with `BIOS 617` if necessary
 
 ## Topic 12:  Unequal cluster sizes

@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 6"
 author: "Walter Dempsey"
-date: "1/26/2022"
+date: "1/30/2022"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -298,8 +298,8 @@ $$
 deff = \frac{V(\bar y_c)}{ V(\bar y_{SRS})} \approx \frac{V(\bar y_{SRS})(1+(M-1)\rho)}{V(\bar y_{SRS})} = [1+(M-1)\rho]
 $$
 
-* $deff < 1$ when $\rho < 0$ (ex: gender in a household)
-* $deff > 1$ when $\rho > 0$ (ex: race in a household)
+* $deff < 1$ when $\rho < 0$
+* $deff > 1$ when $\rho > 0$
 * Minimized when $1+ (M-1) \rho = 0$ which is equivalent to $\rho = - \frac{1}{M-1}$
 * Maximized when $\rho = 1$: $deff = M$
 
@@ -329,3 +329,5 @@ $$
 n = [1+(M-1)\rho] n_{SRS}
 $$
 
+
+* If you can compute $\hat V(\bar y_c)$ then use the estimated variance rather than the approximate variance.
