@@ -1,7 +1,7 @@
 ---
 title: "BIOS 617 - Lecture 15"
 author: "Walter Dempsey"
-date: "3/7/2022"
+date: "3/6/2023"
 output:
   beamer_presentation: default
   ioslides_presentation: default
@@ -395,16 +395,10 @@ $$
 
 * Note that computation of this variance requires not only the probability of selection $\pi_i$ for all sampled elements, but also the __joint probabilities of selection__ for all pairs of sampled elements $\pi_{ij}$
 
-## Potential Diary Options:
+## Potential Diary Option:
 
 * How would you respond to this question?
 ```{r, out.width = "150px", fig.align='center'}
 library(knitr)
 include_graphics("./figs/l15_jitt.png") # place holder
 ```
-* Read the following survey.
-```{r, out.width = "150px", fig.align='center'}
-library(knitr)
-include_graphics("./figs/l15_jitt2.png") # place holder
-```
-  + Name 1 way how the model-based perspective is helpful for design-based methods?
